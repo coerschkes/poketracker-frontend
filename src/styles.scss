@@ -3,28 +3,36 @@
 @use 'sass:map';
 @use './app/core/auth/component/auth.component-theme' as auth-component;
 
-//@include mat.core();
+@include mat.core();
 
-$light-theme: matx.define-theme();
-$m3-custom: (
+$m3-custom-light: (
+  color: (
+    theme-type: light,
+    primary: matx.$m3-cyan-palette,
+    tertiary: matx.$m3-orange-palette,
+  )
+);
+$m3-custom-dark: (
   color: (
     theme-type: dark,
     primary: matx.$m3-cyan-palette,
     tertiary: matx.$m3-orange-palette,
   )
 );
-$dark-theme: matx.define-theme($m3-custom);
+$dark-theme: matx.define-theme($m3-custom-dark);
+$dark-theme-default-text: #e0e3e2;
+$light-theme: matx.define-theme($m3-custom-light);
+
 @include auth-component.theme($dark-theme);
 
 html {
   @include mat.all-component-themes($dark-theme);
   background: mat.get-theme-color($dark-theme, surface);
-  //background: mat.get-theme-color(mat.$dark-theme-background-palette, mat.$dark-theme-background-palette, "background");
 }
 
 html, body {
   height: 100%;
-  //@include mat.all-component-colors($dark-theme);
+  color: $dark-theme-default-text;
 }
 
 .accent-btn {

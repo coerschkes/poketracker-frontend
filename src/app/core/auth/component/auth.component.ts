@@ -59,9 +59,11 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 //todo: style
 export class AuthComponent {
+  protected readonly MIN_PASSWORD_LENGTH = 6;
   private readonly authService: AuthService
   private readonly authComponentStateService: AuthComponentStateService
   private readonly router: Router
+
   matcher = new MyErrorStateMatcher();
 
   constructor(authService: AuthService, authComponentStateService: AuthComponentStateService, router: Router) {

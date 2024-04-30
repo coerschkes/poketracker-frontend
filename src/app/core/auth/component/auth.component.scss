@@ -1,12 +1,45 @@
-.spacer{
+.spacer {
   display: flex;
   flex: auto;
 }
-.authentication-card{
+
+.authentication-card {
   max-width: 480px;
+  max-height: 480px;
 }
 
-.authentication-footer{
+.authentication-footer {
   margin-left: 8px;
   margin-right: 8px;
+}
+
+.authentication-div {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.input {
+  width: 100%;
+  min-width: 300px;
+  max-width: 480px;
+  min-height: 60px;
+  max-height: 80px;
+  margin: 8px 0;
+  //margin-top: 30px;
+}
+
+.authentication-card-header {
+  width: 90%;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.mode-swap-anchor {
+  cursor: pointer;
+}
+
+.card-actions {
+  margin: 0 8px;
 }

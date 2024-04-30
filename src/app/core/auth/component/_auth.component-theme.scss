@@ -4,9 +4,10 @@
 @mixin color($theme) {
   .authentication-card {
     @include mat.overridable-elevation(2, mat.get-theme-color($theme, primary), 0.8);
-    //@include mat.elevation(2, #e91e63, 0.8);
-    //border: solid 1px mat.get-theme-color($theme, primary, 35) !important;
-    //mat.get-theme-color($theme, primary, 100);;
+    background-color: mat.get-theme-color($theme, neutral, 20) !important;
+  }
+  .mode-swap-anchor{
+    color: mat.get-theme-color($theme, primary);
   }
 }
 
