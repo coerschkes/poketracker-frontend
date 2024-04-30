@@ -1,0 +1,19 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  .authentication-card {
+    @include mat.overridable-elevation(2, mat.get-theme-color($theme, primary), 0.8);
+    //@include mat.elevation(2, #e91e63, 0.8);
+    //border: solid 1px mat.get-theme-color($theme, primary, 35) !important;
+    //mat.get-theme-color($theme, primary, 100);;
+  }
+}
+
+@mixin theme($theme) {
+  @if mat.theme-has($theme, color) {
+    @include color($theme);
+  }
+}
+
+

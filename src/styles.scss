@@ -1,1 +1,32 @@
-/* You can add global styles to this file, and also import other style files */
+@use "@angular/material" as mat;
+@use '@angular/material-experimental' as matx;
+@use 'sass:map';
+@use './app/core/auth/component/auth.component-theme' as auth-component;
+
+//@include mat.core();
+
+$light-theme: matx.define-theme();
+$m3-custom: (
+  color: (
+    theme-type: dark,
+    primary: matx.$m3-cyan-palette,
+    tertiary: matx.$m3-orange-palette,
+  )
+);
+$dark-theme: matx.define-theme($m3-custom);
+@include auth-component.theme($dark-theme);
+
+html {
+  @include mat.all-component-themes($dark-theme);
+  background: mat.get-theme-color($dark-theme, surface);
+  //background: mat.get-theme-color(mat.$dark-theme-background-palette, mat.$dark-theme-background-palette, "background");
+}
+
+html, body {
+  height: 100%;
+  //@include mat.all-component-colors($dark-theme);
+}
+
+.accent-btn {
+  @include mat.button-color($dark-theme, $color-variant: tertiary);
+}

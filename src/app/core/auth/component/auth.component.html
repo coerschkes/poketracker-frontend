@@ -1,0 +1,66 @@
+<!--suppress JSIncompatibleTypesComparison -->
+<mat-card class="authentication-card">
+  <mat-card-header>
+    <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+    <mat-card-title>Shiba Inu</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>This card has divider and indeterminate progress as footer</p>
+    <p>text</p>
+    <mat-divider></mat-divider>
+  </mat-card-content>
+  <mat-card-actions>
+    <p>or {{loginMode() ? 'sign up' : 'login'}}</p><button>here</button>
+<!--    button {
+  background: none!important;
+  border: none;
+  padding: 0!important;
+  /*optional*/
+  font-family: arial, sans-serif;
+  /*input has OS specific font-family*/
+  color: #069;
+  text-decoration: underline;
+  cursor: pointer;
+}-->
+    <button mat-button (click)="onSwitchMode()">or {{ loginMode() ? 'sign up' : 'login' }}</button>
+    <div class="spacer"></div>
+    <button [disabled]="!authForm.valid" type="submit" mat-button>{{ loginMode() ? 'login' : 'sign up' }}</button>
+    <!--    <button [disabled]="!authForm.valid" type="submit"> {{ loginMode() ? 'login' : 'sign up' }}</button>-->
+    <!--    <p>or {{ loginMode() ? 'sign up' : 'login' }} <a (click)="onSwitchMode()">here</a></p>-->
+  </mat-card-actions>
+  <!--  todo: show when loading -->
+  <mat-card-footer class="authentication-footer">
+    <mat-progress-bar class="authentication-progress" mode="indeterminate"></mat-progress-bar>
+  </mat-card-footer>
+</mat-card>
+<form #anotherForm=ngForm (ngSubmit)="onSubmit(authForm)">
+  <mat-form-field class="example-full-width">
+    <mat-label>Email</mat-label>
+    <input type="email" name="test" matInput ngModel [errorStateMatcher]="matcher" placeholder="Ex. pat@example.com"
+           email required>
+    <mat-hint>Errors appear instantly!</mat-hint>
+    @if (this.anotherForm.controls['test'] !== undefined && this.anotherForm.controls['test'].hasError('email') && !this.anotherForm.hasError('required')) {
+      <mat-error>Please enter a valid email address</mat-error>
+    }
+    @if (this.anotherForm.controls['test'] !== undefined && anotherForm.controls['test'].hasError('required')) {
+      <mat-error>Email is <strong>required</strong></mat-error>
+    }
+  </mat-form-field>
+  <button (click)="log(anotherForm)">log</button>
+</form>
+<form #authForm=ngForm (ngSubmit)="onSubmit(authForm)">
+  <div>
+    <label for="email">email</label>
+    <input type="email" id="email" ngModel name="email" required email/>
+  </div>
+  <div>
+    <label for="password">password</label>
+    <input type="password" id="password" ngModel name="password" required [minlength]="6"/>
+  </div>
+  <div>
+    <button [disabled]="!authForm.valid" type="submit"> {{ loginMode() ? 'login' : 'sign up' }}</button>
+  </div>
+</form>
+<div>
+  <p>or {{ loginMode() ? 'sign up' : 'login' }} <a (click)="onSwitchMode()">here</a></p>
+</div>
