@@ -20,17 +20,18 @@
       </p>
       <div class="spacer"></div>
       @if (loginMode()) {
-        <button [disabled]="this.loginComponent === undefined || !this.loginComponent!.loginForm.valid"
+        <button [disabled]="!this.loginFormValid"
                 (click)="onSubmitLogin()" mat-flat-button>login
         </button>
       } @else {
-<!--        todo: sign up component communication here-->
+        <!--        todo: sign up component communication here-->
         <button [disabled]="true" mat-flat-button>sign up</button>
       }
     </mat-card-actions>
-    <!--  todo: show when loading -->
-    <mat-card-footer class="authentication-footer">
-      <mat-progress-bar class="authentication-progress" mode="indeterminate"></mat-progress-bar>
-    </mat-card-footer>
+    @if (loading()) {
+      <mat-card-footer class="authentication-footer">
+        <mat-progress-bar class="authentication-progress" mode="indeterminate"></mat-progress-bar>
+      </mat-card-footer>
+    }
   </mat-card>
 </div>

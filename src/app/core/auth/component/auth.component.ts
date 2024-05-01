@@ -3,7 +3,6 @@
 import {Component, Signal, ViewChild} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthService} from "../auth.service";
-import {AuthComponentStateService} from "./auth.component.state.service";
 import {Router} from "@angular/router";
 import {catchError, finalize, first, Observable, of, tap} from "rxjs";
 import {MatButton} from "@angular/material/button";
@@ -22,6 +21,7 @@ import {
 } from "@angular/material/card";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {LoginFormComponent} from "./login-form/login-form.component";
+import {AuthComponentState} from "./auth.component.state";
 
 @Component({
   selector: 'app-auth',
@@ -53,53 +53,61 @@ import {LoginFormComponent} from "./login-form/login-form.component";
   styleUrl: './auth.component.scss',
 })
 export class AuthComponent {
-  private readonly authService: AuthService
-  private readonly authComponentStateService: AuthComponentStateService
-  private readonly router: Router
+  private readonly _authService: AuthService
+  private readonly _router: Router
+  private readonly _state: AuthComponentState;
+
   @ViewChild(LoginFormComponent)
   protected loginComponent: LoginFormComponent;
 
-  constructor(authService: AuthService, authComponentStateService: AuthComponentStateService, router: Router) {
-    this.authService = authService
-    this.authComponentStateService = authComponentStateService
-    this.router = router
+  constructor(authService: AuthService, router: Router) {
+    this._authService = authService
+    this._router = router
+    this._state = new AuthComponentState();
   }
 
   onSwitchMode() {
-    this.authComponentStateService.switchLoginMode()
-    this.loginComponent.loginForm.reset();
+    this._state.toggleLoginMode();
+    this.loginComponent?.loginForm.reset();
   }
 
-  //todo: refactor when sign up is implemented
   onSubmitLogin() {
     if (this.loginComponent.valid) {
-      this.authComponentStateService.switchLoading()
-      const email: string = this.loginComponent.loginForm.email
-      const password: string = this.loginComponent.loginForm.password
-      this.basicLogin(email, password)
+      this._state.toggleLoading();
+      const email: string = this.loginComponent.loginForm.email;
+      const password: string = this.loginComponent.loginForm.password;
+      this.basicLogin(email, password);
     }
   }
 
-  basicLogin(email: string, password: string) {
-    this.authenticationFlow(this.authService.basicLogin(email, password),
-      () => {
-        this.authComponentStateService.reset()
-        this.router.navigate(['/dashboard'])
-      },
-    )
-  }
-
-  signUp(email: string, password: string) {
-    this.authenticationFlow(this.authService.signUp(email, password),
-      () => {
-        this.authComponentStateService.reset()
-        this.authComponentStateService.switchLoginMode()
-      },
-    )
-  }
-
   get loginMode(): Signal<boolean> {
-    return this.authComponentStateService.isLoginMode
+    return this._state.isLoginMode;
+  }
+
+  get loading(): Signal<boolean> {
+    return this._state.isLoading;
+  }
+
+  get loginFormValid(): boolean {
+    return this.loginComponent !== undefined && this.loginComponent!.loginForm.valid
+  }
+
+  private basicLogin(email: string, password: string) {
+    this.authenticationFlow(this._authService.basicLogin(email, password),
+      () => {
+        this._state.reset();
+        this._router.navigate(['/dashboard'])
+      },
+    )
+  }
+
+  private signUp(email: string, password: string) {
+    this.authenticationFlow(this._authService.signUp(email, password),
+      () => {
+        this._state.reset();
+        this._state.toggleLoginMode();
+      },
+    )
   }
 
   private authenticationFlow(observable: Observable<any>, nextCallback: () => void): void {
@@ -109,13 +117,13 @@ export class AuthComponent {
         tap(nextCallback),
         catchError(err => {
             //todo: show error on component
-            console.log(err)
-            return of()
+            console.log(err);
+            return of();
           },
         ),
         finalize(() => {
-          this.authComponentStateService.switchLoading()
+          this._state.toggleLoading();
         }),
-      ).subscribe()
+      ).subscribe();
   }
 }
