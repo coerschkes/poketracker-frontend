@@ -72,7 +72,7 @@ export class AuthComponent {
 
   //todo: refactor when sign up is implemented
   onSubmitLogin() {
-    if (this.loginComponent.isValid()) {
+    if (this.loginComponent.valid) {
       this.authComponentStateService.switchLoading()
       const email: string = this.loginComponent.loginForm.email
       const password: string = this.loginComponent.loginForm.password
