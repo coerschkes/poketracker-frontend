@@ -92,7 +92,7 @@ export class AuthComponent {
     return this.loginComponent !== undefined && this.loginComponent!.loginForm.valid
   }
 
-  private basicLogin(email: string, password: string) {
+  basicLogin(email: string, password: string) {
     this.authenticationFlow(this._authService.basicLogin(email, password),
       () => {
         this._state.reset();
@@ -101,11 +101,10 @@ export class AuthComponent {
     )
   }
 
-  private signUp(email: string, password: string) {
+  signUp(email: string, password: string) {
     this.authenticationFlow(this._authService.signUp(email, password),
       () => {
         this._state.reset();
-        this._state.toggleLoginMode();
       },
     )
   }
