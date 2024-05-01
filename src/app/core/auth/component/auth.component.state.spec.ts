@@ -15,8 +15,8 @@ describe("AuthComponentState", () => {
     expect(state.isLoading()).toBeFalse()
   });
 
-  it('should initialize with isLoginMode() false', () => {
-    expect(state.isLoginMode()).toBeFalse()
+  it('should initialize with isLoginMode() true', () => {
+    expect(state.isLoginMode()).toBeTrue()
   });
 
   it('should revert isLoading on toggleLoading()', () => {
@@ -26,7 +26,7 @@ describe("AuthComponentState", () => {
 
   it('should revert isLoginMode on toggleLoginMode()', () => {
     state.toggleLoginMode()
-    expect(state.isLoginMode()).toBeTrue()
+    expect(state.isLoginMode()).toBeFalse()
   });
 
   it('should revert isLoading and revert it back on toggleLoading() two times', () => {
@@ -40,6 +40,6 @@ describe("AuthComponentState", () => {
     state.toggleLoginMode()
     state.reset()
     expect(state.isLoading()).toBeFalse()
-    expect(state.isLoginMode()).toBeFalse()
+    expect(state.isLoginMode()).toBeTrue()
   });
 })
