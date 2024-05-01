@@ -1,7 +1,7 @@
 // noinspection JSIgnoredPromiseFromCall
 
-import {Component, Signal} from '@angular/core';
-import {FormControl, FormGroupDirective, FormsModule, NgForm} from "@angular/forms";
+import {Component, Signal, ViewChild} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {AuthComponentStateService} from "./auth.component.state.service";
 import {Router} from "@angular/router";
@@ -9,7 +9,6 @@ import {catchError, finalize, first, Observable, of, tap} from "rxjs";
 import {MatButton} from "@angular/material/button";
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from "@angular/material/sidenav";
 import {MatError, MatFormField, MatHint, MatLabel} from "@angular/material/form-field";
-import {ErrorStateMatcher} from "@angular/material/core";
 import {MatInput} from "@angular/material/input";
 import {MatDivider} from "@angular/material/divider";
 import {
@@ -22,13 +21,7 @@ import {
   MatCardTitle
 } from "@angular/material/card";
 import {MatProgressBar} from "@angular/material/progress-bar";
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
+import {LoginFormComponent} from "./login-form/login-form.component";
 
 @Component({
   selector: 'app-auth',
@@ -53,18 +46,18 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
     MatCardSubtitle,
     MatCardHeader,
     MatCard,
+    ReactiveFormsModule,
+    LoginFormComponent,
   ],
   templateUrl: './auth.component.html',
-  styleUrl: './auth.component.scss'
+  styleUrl: './auth.component.scss',
 })
-//todo: style
 export class AuthComponent {
-  protected readonly MIN_PASSWORD_LENGTH = 6;
   private readonly authService: AuthService
   private readonly authComponentStateService: AuthComponentStateService
   private readonly router: Router
-
-  matcher = new MyErrorStateMatcher();
+  @ViewChild(LoginFormComponent)
+  protected loginComponent: LoginFormComponent;
 
   constructor(authService: AuthService, authComponentStateService: AuthComponentStateService, router: Router) {
     this.authService = authService
@@ -74,19 +67,16 @@ export class AuthComponent {
 
   onSwitchMode() {
     this.authComponentStateService.switchLoginMode()
+    this.loginComponent.loginForm.reset();
   }
 
-  onSubmit(authForm: NgForm) {
-    if (authForm.valid) {
+  //todo: refactor when sign up is implemented
+  onSubmitLogin() {
+    if (this.loginComponent.isValid()) {
       this.authComponentStateService.switchLoading()
-      this.authComponentStateService.authForm = authForm
-      const email: string = authForm.value.email
-      const password: string = authForm.value.password
-      if (this.authComponentStateService.isLoginMode()) {
-        this.basicLogin(email, password)
-      } else {
-        this.signUp(email, password)
-      }
+      const email: string = this.loginComponent.loginForm.email
+      const password: string = this.loginComponent.loginForm.password
+      this.basicLogin(email, password)
     }
   }
 
@@ -127,9 +117,5 @@ export class AuthComponent {
           this.authComponentStateService.switchLoading()
         }),
       ).subscribe()
-  }
-
-  public log(form: NgForm): void {
-    console.log(form)
   }
 }

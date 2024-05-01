@@ -1,0 +1,25 @@
+<form [formGroup]="this.loginForm.form" name="loginForm">
+  <mat-form-field class="input">
+    <mat-label>email</mat-label>
+    <input type="email" name="email" matInput formControlName="email" [errorStateMatcher]="this.errorStateMatcher"
+           placeholder="Ex. pat@example.com"
+           email required>
+  </mat-form-field>
+  @if (this.loginForm.hasInvalidEmail()) {
+    <mat-error>Please enter a valid email address</mat-error>
+  }
+  @if (this.loginForm.hasMissingEmail()) {
+    <mat-error>Email is <strong>required</strong></mat-error>
+  }
+  <mat-form-field class="input">
+    <mat-label>password</mat-label>
+    <input type="password" name="password" matInput formControlName="password" required
+           minlength="{{this.MIN_PASSWORD_LENGTH}}">
+  </mat-form-field>
+  @if (this.loginForm.hasShortPassword()) {
+    <mat-error>Password must have at least {{this.MIN_PASSWORD_LENGTH}} characters</mat-error>
+  }
+  @if (this.loginForm.hasMissingPassword()) {
+    <mat-error>Password is <strong>required</strong></mat-error>
+  }
+</form>

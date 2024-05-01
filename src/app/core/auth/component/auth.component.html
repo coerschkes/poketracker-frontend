@@ -1,57 +1,32 @@
 <!--suppress JSIncompatibleTypesComparison -->
-<!--todo: refactor-->
 <div class="authentication-div">
   <mat-card class="authentication-card">
     <mat-card-header class="authentication-card-header">
       <mat-card-subtitle style="font-size: xx-large">{{ loginMode() ? 'login' : 'sign up' }}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <form #authForm=ngForm (ngSubmit)="onSubmit(authForm)">
-        <mat-form-field class="input">
-          <mat-label>email</mat-label>
-          <input type="email" name="email" matInput ngModel [errorStateMatcher]="matcher"
-                 placeholder="Ex. pat@example.com"
-                 email required [ngModelOptions]="{updateOn: 'blur'}">
-          @if (this.authForm.controls['email'] !== undefined && this.authForm.controls['email'].hasError('email') && !this.authForm.hasError('required')) {
-            <mat-error>Please enter a valid email address</mat-error>
-          }
-          @if (this.authForm.controls['email'] !== undefined && authForm.controls['email'].hasError('required')) {
-            <mat-error>Email is <strong>required</strong></mat-error>
-          }
-        </mat-form-field>
-        <mat-form-field class="input">
-          <mat-label>password</mat-label>
-          <input type="password" name="password" matInput ngModel required minlength="{{MIN_PASSWORD_LENGTH}}"
-                 [ngModelOptions]="{updateOn: 'blur'}">
-          @if (this.authForm.controls['password'] !== undefined && this.authForm.controls['password'].hasError('minlength') && !this.authForm.hasError('required')) {
-            <mat-error>Password must have at least {{ MIN_PASSWORD_LENGTH }} characters</mat-error>
-          }
-          @if (this.authForm.controls['password'] !== undefined && authForm.controls['password'].hasError('required')) {
-            <mat-error>Password is <strong>required</strong></mat-error>
-          }
-        </mat-form-field>
-        @if (!loginMode()) {
-          <mat-form-field class="input">
-            <mat-label>repeat password</mat-label>
-            <input type="password" name="repeat-password" matInput ngModel required minlength="{{MIN_PASSWORD_LENGTH}}"
-                   [ngModelOptions]="{updateOn: 'blur'}">
-            @if (this.authForm.controls['password'] !== undefined && this.authForm.controls['password'].hasError('minlength') && !this.authForm.hasError('required')) {
-              <mat-error>Password must have at least {{ MIN_PASSWORD_LENGTH }} characters</mat-error>
-            }
-            @if (this.authForm.controls['password'] !== undefined && authForm.controls['password'].hasError('required')) {
-              <mat-error>Password is <strong>required</strong></mat-error>
-            }
-          </mat-form-field>
-        }
-      </form>
+      @if (loginMode()) {
+        <app-login-form></app-login-form>
+      } @else {
+        <!--        todo: signup form here-->
+      }
       <mat-divider></mat-divider>
     </mat-card-content>
     <mat-card-actions class="card-actions">
-      <p>or {{ loginMode() ? 'sign up' : 'login' }} <strong><a class="mode-swap-anchor"
-                                                               (click)="onSwitchMode()">here</a></strong>
+      <p>or {{ loginMode() ? 'sign up' : 'login' }}
+        <strong>
+          <a class="mode-swap-anchor" (click)="onSwitchMode()">here</a>
+        </strong>
+      </p>
       <div class="spacer"></div>
-      <button [disabled]="!authForm.valid" type="submit" mat-flat-button>{{ loginMode() ? 'login' : 'sign up' }}
-      </button>
+      @if (loginMode()) {
+        <button [disabled]="this.loginComponent === undefined || !this.loginComponent!.loginForm.valid"
+                (click)="onSubmitLogin()" mat-flat-button>login
+        </button>
+      } @else {
+<!--        todo: sign up component communication here-->
+        <button [disabled]="true" mat-flat-button>sign up</button>
+      }
     </mat-card-actions>
     <!--  todo: show when loading -->
     <mat-card-footer class="authentication-footer">
