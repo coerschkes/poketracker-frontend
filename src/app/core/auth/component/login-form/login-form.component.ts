@@ -18,6 +18,7 @@ import {Component} from "@angular/core";
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss'
 })
+//todo: test
 export class LoginFormComponent {
   private readonly _MIN_PASSWORD_LENGTH = 6;
   private readonly _errorStateMatcher: EmailErrorStateMatcher = new EmailErrorStateMatcher();
