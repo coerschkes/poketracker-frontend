@@ -9,32 +9,41 @@ $m3-custom-light: (
   color: (
     theme-type: light,
     primary: matx.$m3-cyan-palette,
-    tertiary: matx.$m3-orange-palette,
+    tertiary: matx.$m3-blue-palette,
   )
 );
 $m3-custom-dark: (
   color: (
     theme-type: dark,
-    primary: matx.$m3-cyan-palette,
+    primary: matx.$m3-azure-palette,
     tertiary: matx.$m3-orange-palette,
   )
 );
 $dark-theme: matx.define-theme($m3-custom-dark);
-$dark-theme-default-text: #e0e3e2;
 $light-theme: matx.define-theme($m3-custom-light);
 
-@include auth-component.theme($dark-theme);
+$currentTheme: $dark-theme;
+
+@if($currentTheme == $dark-theme) {
+  @include auth-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
+} @else {
+  @include auth-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
+}
 
 html {
-  @include mat.all-component-themes($dark-theme);
-  background: mat.get-theme-color($dark-theme, surface);
+  @include mat.all-component-themes($currentTheme);
+  @if($currentTheme == $dark-theme) {
+    background: mat.get-theme-color($currentTheme, secondary, 10);
+  } @else {
+    background: mat.get-theme-color($currentTheme, secondary, 95);
+  }
 }
 
 html, body {
   height: 100%;
-  color: $dark-theme-default-text;
+  color: mat.get-theme-color($currentTheme, secondary);
 }
 
 .accent-btn {
-  @include mat.button-color($dark-theme, $color-variant: tertiary);
+  @include mat.button-color($currentTheme, $color-variant: tertiary);
 }
