@@ -1,4 +1,4 @@
-import {FormBuilder, ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
 import {LoginForm} from "./loginForm";
@@ -19,11 +19,14 @@ import {Component} from "@angular/core";
   styleUrl: './login-form.component.scss'
 })
 export class LoginFormComponent {
-  private readonly _MIN_PASSWORD_LENGTH = 6;
-  private readonly _errorStateMatcher: EmailErrorStateMatcher = new EmailErrorStateMatcher();
-  private readonly _loginForm: LoginForm = new LoginForm(this.formBuilder)
+  private static readonly _MIN_PASSWORD_LENGTH = 6;
+  private static readonly _ERROR_STATE_MATCHER: EmailErrorStateMatcher = new EmailErrorStateMatcher();
 
-  constructor(private formBuilder: FormBuilder) {
+  private readonly _loginForm: LoginForm;
+
+
+  constructor() {
+    this._loginForm = new LoginForm();
   }
 
   get valid(): boolean {
@@ -35,10 +38,10 @@ export class LoginFormComponent {
   }
 
   get MIN_PASSWORD_LENGTH(): number {
-    return this._MIN_PASSWORD_LENGTH;
+    return LoginFormComponent._MIN_PASSWORD_LENGTH;
   }
 
-  get errorStateMatcher(): EmailErrorStateMatcher {
-    return this._errorStateMatcher;
+  get ERROR_STATE_MATCHER(): EmailErrorStateMatcher {
+    return LoginFormComponent._ERROR_STATE_MATCHER;
   }
 }

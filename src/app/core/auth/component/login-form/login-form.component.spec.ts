@@ -1,18 +1,19 @@
 import {LoginFormComponent} from "./login-form.component";
-import {TestBed} from "@angular/core/testing";
+import {ComponentFixture, TestBed} from "@angular/core/testing";
 import {FormBuilder} from "@angular/forms";
+import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 
 describe("LoginFormComponent", () => {
   let component: LoginFormComponent;
+  let fixture: ComponentFixture<LoginFormComponent>;
   let formBuilder: FormBuilder;
 
   beforeEach(async () => {
     TestBed.configureTestingModule({
-      imports: [LoginFormComponent],
-      providers: [{provide: FormBuilder}],
+      imports: [LoginFormComponent, NoopAnimationsModule],
     });
-    component = TestBed.createComponent(LoginFormComponent).componentInstance;
-    formBuilder = TestBed.inject(FormBuilder);
+    fixture = TestBed.createComponent(LoginFormComponent);
+    component = fixture.componentInstance;
   })
 
   it('should create', () => {
@@ -32,6 +33,61 @@ describe("LoginFormComponent", () => {
   });
 
   it('should return not undefined error state matcher instance', () => {
-    expect(component.errorStateMatcher).not.toBeUndefined();
+    expect(component.ERROR_STATE_MATCHER).not.toBeUndefined();
+  });
+
+  it('should not show errors on initial state', () => {
+    let errorTag = fixture.nativeElement.querySelector('mat-error');
+    expect(errorTag).toBeNull();
+  });
+
+  it('should show email invalid error on invalid email', () => {
+    component.loginForm.form.get('email')!.setValue('invalid');
+    component.loginForm.form.get('email')!.markAsTouched()
+
+    fixture.detectChanges();
+    let matError = fixture.nativeElement.querySelectorAll('mat-error')[0];
+    expect(matError).not.toBeNull();
+    expect(matError.textContent).toEqual('Please enter a valid email address');
+  });
+
+  it('should show email required error on missing email', () => {
+    component.loginForm.form.get('email')!.setValue('');
+    component.loginForm.form.get('email')!.markAsTouched()
+
+    fixture.detectChanges();
+    let matError = fixture.nativeElement.querySelectorAll('mat-error')[0];
+    expect(matError).not.toBeNull();
+    expect(matError.textContent).toEqual('Email is required');
+  });
+
+  it('should show password required error on missing password', () => {
+    component.loginForm.form.get('password')!.setValue('');
+    component.loginForm.form.get('password')!.markAsTouched()
+
+    fixture.detectChanges();
+    let matError = fixture.nativeElement.querySelectorAll('mat-error')[0];
+    expect(matError).not.toBeNull();
+    expect(matError.textContent).toEqual('Password is required');
+  });
+
+  it('should not show password required error if only email is touched', () => {
+    component.loginForm.form.get('email')!.setValue('invalid');
+    component.loginForm.form.get('email')!.markAsTouched();
+
+    fixture.detectChanges();
+    let matError = fixture.nativeElement.querySelectorAll('mat-error');
+    expect(matError.length).toBe(1);
+  });
+
+  it('should not show password required error and email required error if both inputs are touched', () => {
+    component.loginForm.form.get('email')!.setValue('');
+    component.loginForm.form.get('email')!.markAsTouched();
+    component.loginForm.form.get('password')!.setValue('');
+    component.loginForm.form.get('password')!.markAsTouched()
+
+    fixture.detectChanges();
+    let matError = fixture.nativeElement.querySelectorAll('mat-error');
+    expect(matError.length).toBe(2);
   });
 })

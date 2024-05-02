@@ -1,30 +1,31 @@
 // noinspection JSNonASCIINames,NonAsciiCharacters
 
 import {FormBuilder, FormControl, FormGroup, ɵElement} from "@angular/forms";
-//todo: test
-export class LoginForm {
-  private readonly _form = this.formBuilder.group({
-    email: new FormControl('', {updateOn: 'blur'}),
-    password: new FormControl('', {updateOn: 'blur'})
-  });
 
-  constructor(private formBuilder: FormBuilder) {
+export class LoginForm {
+  private static readonly _DEFAULT_UPDATE_POLICY = 'blur';
+  private static readonly _ERROR_CODE_REQUIRED = 'required';
+  private static readonly _ERROR_CODE_EMAIL = 'email';
+
+  private readonly _form;
+
+  constructor() {
+    this._form = new FormBuilder().group({
+      email: new FormControl('', {updateOn: LoginForm._DEFAULT_UPDATE_POLICY}),
+      password: new FormControl('', {updateOn: LoginForm._DEFAULT_UPDATE_POLICY})
+    });
   }
 
   hasInvalidEmail(): boolean {
-    return this._form.touched && this._form.controls['email'].hasError('email') && !this._form.hasError('required')
+    return this._email!.touched && this._email!.hasError(LoginForm._ERROR_CODE_EMAIL) && !this._form.hasError(LoginForm._ERROR_CODE_REQUIRED)
   }
 
   hasMissingEmail() {
-    return this._form.touched && this._form.controls['email'].hasError('required')
-  }
-
-  hasShortPassword(): boolean {
-    return this._form.touched && this._form.controls['password'].hasError('password') && !this._form.hasError('required')
+    return this._email!.touched && this._email!.hasError(LoginForm._ERROR_CODE_REQUIRED)
   }
 
   hasMissingPassword() {
-    return this._form.touched && this._form.controls['password'].hasError('required')
+    return this._password!.touched && this._password!.hasError(LoginForm._ERROR_CODE_REQUIRED)
   }
 
   reset() {
@@ -36,11 +37,11 @@ export class LoginForm {
   }
 
   get email(): string {
-    return this._form.controls['email'].value ?? '';
+    return this._email?.value ?? '';
   }
 
   get password(): string {
-    return this._form.controls['password'].value ?? '';
+    return this._password?.value ?? '';
   }
 
   get form(): FormGroup<{
@@ -50,5 +51,13 @@ export class LoginForm {
     }]: ɵElement<{ password: FormControl<string | null>; email: FormControl<string | null> }[K], null>
   }> {
     return this._form;
+  }
+
+  private get _email(): FormControl<string> {
+    return this._form.get('email') as FormControl<string>;
+  }
+
+  private get _password(): FormControl<string> {
+    return this._form.get('password') as FormControl<string>;
   }
 }
