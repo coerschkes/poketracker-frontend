@@ -2,7 +2,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {LoginFormWrapper} from "./loginFormWrapper";
-import {EmailErrorStateMatcher} from "./emailErrorStateMatcher";
+import {EmailErrorStateMatcher} from "../emailErrorStateMatcher";
 import {Component} from "@angular/core";
 
 @Component({
