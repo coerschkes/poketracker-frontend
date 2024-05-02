@@ -13,8 +13,7 @@ describe('AuthService', () => {
   beforeEach(async () => {
     mockFirebaseApiService = jasmine.createSpyObj('firebaseApiService', ['signUp', 'basicLogin', 'refreshToken']);
     mockAuthStateService = jasmine.createSpyObj('firebaseApiService', ['authenticate', 'buildUserInfo']);
-    //todo: fix warning here
-    await TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       providers: [
         AuthService,
         {provide: AuthStateService, useValue: mockAuthStateService},
