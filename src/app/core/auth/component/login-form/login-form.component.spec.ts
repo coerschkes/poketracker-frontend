@@ -40,8 +40,8 @@ describe("LoginFormComponent", () => {
   });
 
   it('should show email invalid error on invalid email', () => {
-    component.loginForm.form.get('email')!.setValue('invalid');
-    component.loginForm.form.get('email')!.markAsTouched()
+    component.loginForm.internalForm.get('email')!.setValue('invalid');
+    component.loginForm.internalForm.get('email')!.markAsTouched()
 
     fixture.detectChanges();
     let matError = fixture.nativeElement.querySelectorAll('mat-error')[0];
@@ -50,8 +50,8 @@ describe("LoginFormComponent", () => {
   });
 
   it('should show email required error on missing email', () => {
-    component.loginForm.form.get('email')!.setValue('');
-    component.loginForm.form.get('email')!.markAsTouched()
+    component.loginForm.internalForm.get('email')!.setValue('');
+    component.loginForm.internalForm.get('email')!.markAsTouched()
 
     fixture.detectChanges();
     let matError = fixture.nativeElement.querySelectorAll('mat-error')[0];
@@ -60,8 +60,8 @@ describe("LoginFormComponent", () => {
   });
 
   it('should show password required error on missing password', () => {
-    component.loginForm.form.get('password')!.setValue('');
-    component.loginForm.form.get('password')!.markAsTouched()
+    component.loginForm.internalForm.get('password')!.setValue('');
+    component.loginForm.internalForm.get('password')!.markAsTouched()
 
     fixture.detectChanges();
     let matError = fixture.nativeElement.querySelectorAll('mat-error')[0];
@@ -70,8 +70,8 @@ describe("LoginFormComponent", () => {
   });
 
   it('should not show password required error if only email is touched', () => {
-    component.loginForm.form.get('email')!.setValue('invalid');
-    component.loginForm.form.get('email')!.markAsTouched();
+    component.loginForm.internalForm.get('email')!.setValue('invalid');
+    component.loginForm.internalForm.get('email')!.markAsTouched();
 
     fixture.detectChanges();
     let matError = fixture.nativeElement.querySelectorAll('mat-error');
@@ -79,10 +79,10 @@ describe("LoginFormComponent", () => {
   });
 
   it('should not show password required error and email required error if both inputs are touched', () => {
-    component.loginForm.form.get('email')!.setValue('');
-    component.loginForm.form.get('email')!.markAsTouched();
-    component.loginForm.form.get('password')!.setValue('');
-    component.loginForm.form.get('password')!.markAsTouched()
+    component.loginForm.internalForm.get('email')!.setValue('');
+    component.loginForm.internalForm.get('email')!.markAsTouched();
+    component.loginForm.internalForm.get('password')!.setValue('');
+    component.loginForm.internalForm.get('password')!.markAsTouched()
 
     fixture.detectChanges();
     let matError = fixture.nativeElement.querySelectorAll('mat-error');

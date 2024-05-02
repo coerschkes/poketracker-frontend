@@ -2,38 +2,38 @@
 
 import {FormBuilder, FormControl, FormGroup, ɵElement} from "@angular/forms";
 
-export class LoginForm {
+export class LoginFormWrapper {
   private static readonly _DEFAULT_UPDATE_POLICY = 'blur';
   private static readonly _ERROR_CODE_REQUIRED = 'required';
   private static readonly _ERROR_CODE_EMAIL = 'email';
 
-  private readonly _form;
+  private readonly _internalForm;
 
   constructor() {
-    this._form = new FormBuilder().group({
-      email: new FormControl('', {updateOn: LoginForm._DEFAULT_UPDATE_POLICY}),
-      password: new FormControl('', {updateOn: LoginForm._DEFAULT_UPDATE_POLICY})
+    this._internalForm = new FormBuilder().group({
+      email: new FormControl('', {updateOn: LoginFormWrapper._DEFAULT_UPDATE_POLICY}),
+      password: new FormControl('', {updateOn: LoginFormWrapper._DEFAULT_UPDATE_POLICY})
     });
   }
 
   hasInvalidEmail(): boolean {
-    return this._email!.touched && this._email!.hasError(LoginForm._ERROR_CODE_EMAIL) && !this._form.hasError(LoginForm._ERROR_CODE_REQUIRED)
+    return this._email!.touched && this._email!.hasError(LoginFormWrapper._ERROR_CODE_EMAIL) && !this._internalForm.hasError(LoginFormWrapper._ERROR_CODE_REQUIRED)
   }
 
   hasMissingEmail() {
-    return this._email!.touched && this._email!.hasError(LoginForm._ERROR_CODE_REQUIRED)
+    return this._email!.touched && this._email!.hasError(LoginFormWrapper._ERROR_CODE_REQUIRED)
   }
 
   hasMissingPassword() {
-    return this._password!.touched && this._password!.hasError(LoginForm._ERROR_CODE_REQUIRED)
+    return this._password!.touched && this._password!.hasError(LoginFormWrapper._ERROR_CODE_REQUIRED)
   }
 
   reset() {
-    this._form.reset();
+    this._internalForm.reset();
   }
 
   get valid(): boolean {
-    return this._form.valid;
+    return this._internalForm.valid;
   }
 
   get email(): string {
@@ -44,20 +44,20 @@ export class LoginForm {
     return this._password?.value ?? '';
   }
 
-  get form(): FormGroup<{
+  get internalForm(): FormGroup<{
     [K in keyof {
       password: FormControl<string | null>;
       email: FormControl<string | null>
     }]: ɵElement<{ password: FormControl<string | null>; email: FormControl<string | null> }[K], null>
   }> {
-    return this._form;
+    return this._internalForm;
   }
 
   private get _email(): FormControl<string> {
-    return this._form.get('email') as FormControl<string>;
+    return this._internalForm.get('email') as FormControl<string>;
   }
 
   private get _password(): FormControl<string> {
-    return this._form.get('password') as FormControl<string>;
+    return this._internalForm.get('password') as FormControl<string>;
   }
 }
