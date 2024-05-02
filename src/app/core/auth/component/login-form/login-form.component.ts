@@ -1,6 +1,6 @@
-import {ReactiveFormsModule} from "@angular/forms";
-import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 import {LoginFormWrapper} from "./loginFormWrapper";
 import {EmailErrorStateMatcher} from "./emailErrorStateMatcher";
 import {Component} from "@angular/core";
@@ -9,11 +9,10 @@ import {Component} from "@angular/core";
   selector: 'app-login-form',
   standalone: true,
   imports: [
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
     ReactiveFormsModule,
-    MatFormField,
-    MatError,
-    MatInput,
-    MatLabel
   ],
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.scss'

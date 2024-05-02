@@ -4,18 +4,18 @@
     <input type="email" name="email" matInput formControlName="email" [errorStateMatcher]="this.ERROR_STATE_MATCHER"
            placeholder="Ex. pat@example.com"
            email required>
+    @if (this.loginForm.hasInvalidEmail()) {
+      <mat-error>Please enter a valid email address</mat-error>
+    }
+    @if (this.loginForm.hasMissingEmail()) {
+      <mat-error>Email is <strong>required</strong></mat-error>
+    }
   </mat-form-field>
-  @if (this.loginForm.hasInvalidEmail()) {
-    <mat-error>Please enter a valid email address</mat-error>
-  }
-  @if (this.loginForm.hasMissingEmail()) {
-    <mat-error>Email is <strong>required</strong></mat-error>
-  }
   <mat-form-field class="input">
     <mat-label>password</mat-label>
     <input type="password" name="password" matInput formControlName="password" required>
+    @if (this.loginForm.hasMissingPassword()) {
+      <mat-error>Password is <strong>required</strong></mat-error>
+    }
   </mat-form-field>
-  @if (this.loginForm.hasMissingPassword()) {
-    <mat-error>Password is <strong>required</strong></mat-error>
-  }
 </form>

@@ -4,8 +4,14 @@
 }
 
 .authentication-card {
+  min-width: 332px;
   max-width: 480px;
+  min-height: 300px;
   max-height: 480px;
+}
+
+.authentication-card-content{
+  margin: 16px 0;
 }
 
 .authentication-footer {
@@ -20,20 +26,10 @@
   align-items: center;
 }
 
-.input {
-  width: 100%;
-  min-width: 300px;
-  max-width: 480px;
-  min-height: 60px;
-  max-height: 80px;
-  margin: 8px 0;
-  //margin-top: 30px;
-}
-
 .authentication-card-header {
   width: 90%;
   justify-content: center;
-  margin-bottom: 20px;
+  margin: 20px auto;
 }
 
 .mode-swap-anchor {
@@ -42,4 +38,8 @@
 
 .card-actions {
   margin: 0 8px;
+}
+
+.mode-swap-paragraph{
+  margin: 10px 0 0 5px ;
 }
