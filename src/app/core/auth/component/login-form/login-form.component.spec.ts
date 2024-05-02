@@ -18,10 +18,6 @@ describe("LoginFormComponent", () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return min password len 6', () => {
-    expect(component.MIN_PASSWORD_LENGTH).toBe(6);
-  });
-
   it('should return valid equivalent to valid state of internal form', () => {
     expect(component.valid).toEqual(component.loginForm.valid);
   });

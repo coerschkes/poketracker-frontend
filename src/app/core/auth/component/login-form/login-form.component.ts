@@ -19,7 +19,6 @@ import {Component} from "@angular/core";
   styleUrl: './login-form.component.scss'
 })
 export class LoginFormComponent {
-  private static readonly _MIN_PASSWORD_LENGTH = 6;
   private static readonly _ERROR_STATE_MATCHER: EmailErrorStateMatcher = new EmailErrorStateMatcher();
 
   private readonly _loginForm: LoginFormWrapper;
@@ -35,10 +34,6 @@ export class LoginFormComponent {
 
   get loginForm(): LoginFormWrapper {
     return this._loginForm;
-  }
-
-  get MIN_PASSWORD_LENGTH(): number {
-    return LoginFormComponent._MIN_PASSWORD_LENGTH;
   }
 
   get ERROR_STATE_MATCHER(): EmailErrorStateMatcher {
