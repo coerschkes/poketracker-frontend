@@ -3,7 +3,6 @@
 import {FormBuilder, FormControl, FormGroup, ɵElement} from "@angular/forms";
 
 export class LoginFormWrapper {
-  private static readonly _DEFAULT_UPDATE_POLICY = 'blur';
   private static readonly _ERROR_CODE_REQUIRED = 'required';
   private static readonly _ERROR_CODE_EMAIL = 'email';
 
@@ -11,8 +10,8 @@ export class LoginFormWrapper {
 
   constructor() {
     this._internalForm = new FormBuilder().group({
-      email: new FormControl('', {updateOn: LoginFormWrapper._DEFAULT_UPDATE_POLICY}),
-      password: new FormControl('', {updateOn: LoginFormWrapper._DEFAULT_UPDATE_POLICY})
+      email: new FormControl('', {updateOn: 'blur'}),
+      password: new FormControl('', {updateOn: 'change'})
     });
   }
 
