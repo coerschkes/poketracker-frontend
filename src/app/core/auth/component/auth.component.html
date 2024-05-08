@@ -15,7 +15,7 @@
     <mat-card-actions class="card-actions">
       <p class="mode-swap-paragraph">or {{ loginMode() ? 'sign up' : 'login' }}
         <strong>
-          <a class="mode-swap-anchor" (click)="onSwitchMode()">here</a>
+          <a class="mode-swap-anchor" routerLink="/auth" (click)="onSwitchMode()">here</a>
         </strong>
       </p>
       <div class="spacer"></div>

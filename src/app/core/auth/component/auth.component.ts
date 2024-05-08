@@ -3,7 +3,7 @@
 import {Component, Signal, ViewChild} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthService} from "../auth.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 import {catchError, finalize, first, Observable, of, tap} from "rxjs";
 import {MatButton} from "@angular/material/button";
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from "@angular/material/sidenav";
@@ -48,6 +48,7 @@ import {AuthComponentState} from "./auth.component.state";
     MatCard,
     ReactiveFormsModule,
     LoginFormComponent,
+    RouterLink,
   ],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',

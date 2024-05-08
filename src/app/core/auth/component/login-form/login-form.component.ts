@@ -22,7 +22,6 @@ export class LoginFormComponent {
 
   private readonly _loginForm: LoginFormWrapper;
 
-
   constructor() {
     this._loginForm = new LoginFormWrapper();
   }
