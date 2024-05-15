@@ -10,7 +10,8 @@ export class AuthService {
   private readonly _firebaseApiService: FirebaseApiService;
   private readonly _authStateService: AuthStateService;
 
-  constructor(firebaseApiService: FirebaseApiService, authStateService: AuthStateService) {
+  constructor(private firebaseApiService: FirebaseApiService,
+              private authStateService: AuthStateService) {
     this._firebaseApiService = firebaseApiService;
     this._authStateService = authStateService;
   }
@@ -35,6 +36,11 @@ export class AuthService {
           )
         )
       )
+  }
+
+  tryLoginWithStoredCredentials(): boolean {
+    this._authStateService.tryLoginWithStoredCredentials()
+    return this._authStateService.isLoggedIn();
   }
 
   private buildUserInfo(idToken: string, email: string, refreshToken: string, expiresInSeconds: string): UserInfo {

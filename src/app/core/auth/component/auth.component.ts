@@ -1,6 +1,6 @@
 // noinspection JSIgnoredPromiseFromCall
 
-import {Component, Signal, ViewChild} from '@angular/core';
+import {Component, OnInit, Signal, ViewChild} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AuthService} from "../auth.service";
 import {Router, RouterLink} from "@angular/router";
@@ -55,7 +55,7 @@ import {SignupFormComponent} from "./signup-form/signup-form.component";
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   private readonly _authService: AuthService
   private readonly _router: Router
   private readonly _state: AuthComponentState;
@@ -69,6 +69,12 @@ export class AuthComponent {
     this._authService = authService
     this._router = router
     this._state = new AuthComponentState();
+  }
+
+  ngOnInit() {
+    if (this._authService.tryLoginWithStoredCredentials()) {
+      this._router.navigate(['/dashboard'])
+    }
   }
 
   onSwitchMode() {
