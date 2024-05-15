@@ -77,4 +77,12 @@ describe('AuthService', () => {
     expect(mockFirebaseApiService.basicLogin).toHaveBeenCalled()
     expect(mockAuthStateService.authenticate).not.toHaveBeenCalled()
   })
+
+  it('should call tryLoginWithStoredCredentials() on init', () => {
+    //todo
+  });
+
+  it('should call isLoggedIn on tryLoginWithStoredCredentials()', () => {
+    //todo
+  });
 });
