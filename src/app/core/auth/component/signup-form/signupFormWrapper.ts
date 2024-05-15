@@ -29,10 +29,6 @@ export class SignupFormWrapper {
     return this._password!.touched && this._password!.hasError(SignupFormWrapper._ERROR_CODE_REQUIRED)
   }
 
-  hasMissingRepeatPassword() {
-    return this._repeatPassword!.touched && this._repeatPassword!.hasError(SignupFormWrapper._ERROR_CODE_REQUIRED)
-  }
-
   hasInvalidRepeatPassword() {
     return this._repeatPassword!.touched &&
       !this.hasMissingPassword() &&
