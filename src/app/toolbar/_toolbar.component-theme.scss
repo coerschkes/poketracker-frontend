@@ -2,12 +2,9 @@
 @use '@angular/material' as mat;
 
 @mixin color($theme, $color) {
-  .authentication-card {
+  .toolbar {
     color: mat.get-theme-color($theme, primary) !important;
-    background-color: $color !important;
-  }
-  .mode-swap-anchor{
-    color: mat.get-theme-color($theme, primary);
+    background-color: $color !important
   }
 }
 
@@ -16,5 +13,3 @@
     @include color($theme, $color);
   }
 }
-
-
