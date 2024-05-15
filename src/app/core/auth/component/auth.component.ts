@@ -23,6 +23,11 @@ import {MatProgressBar} from "@angular/material/progress-bar";
 import {LoginFormComponent} from "./login-form/login-form.component";
 import {AuthComponentState} from "./auth.component.state";
 import {SignupFormComponent} from "./signup-form/signup-form.component";
+import {DialogService} from "../../../shared/dialog.service";
+import {ErrorDialog} from "../../../shared/error/error-dialog/error-dialog.component";
+import {HttpErrorResponse} from "@angular/common/http";
+import {FirebaseApiError, FirebaseApiErrorFactory} from "../../external/firebase/firebase-api-error";
+import {HttpStatusMapper} from "../../../shared/http-status-mapper";
 
 @Component({
   selector: 'app-auth',
@@ -56,8 +61,6 @@ import {SignupFormComponent} from "./signup-form/signup-form.component";
   styleUrl: './auth.component.scss',
 })
 export class AuthComponent implements OnInit {
-  private readonly _authService: AuthService
-  private readonly _router: Router
   private readonly _state: AuthComponentState;
 
   @ViewChild(LoginFormComponent)
@@ -65,15 +68,13 @@ export class AuthComponent implements OnInit {
   @ViewChild(SignupFormComponent)
   protected signUpComponent: SignupFormComponent;
 
-  constructor(authService: AuthService, router: Router) {
-    this._authService = authService
-    this._router = router
+  constructor(private authService: AuthService, private router: Router, private dialogService: DialogService) {
     this._state = new AuthComponentState();
   }
 
   ngOnInit() {
-    if (this._authService.tryLoginWithStoredCredentials()) {
-      this._router.navigate(['/dashboard'])
+    if (this.authService.tryLoginWithStoredCredentials()) {
+      this.router.navigate(['/dashboard'])
     }
   }
 
@@ -118,11 +119,11 @@ export class AuthComponent implements OnInit {
   }
 
   basicLogin(email: string, password: string) {
-    this.authenticationFlow(this._authService.basicLogin(email, password))
+    this.authenticationFlow(this.authService.basicLogin(email, password))
   }
 
   signUp(email: string, password: string) {
-    this.authenticationFlow(this._authService.signUp(email, password));
+    this.authenticationFlow(this.authService.signUp(email, password));
   }
 
   private authenticationFlow(observable: Observable<any>): void {
@@ -131,11 +132,10 @@ export class AuthComponent implements OnInit {
         first(),
         tap(() => {
           this._state.reset();
-          this._router.navigate(['/dashboard'])
+          this.router.navigate(['/dashboard'])
         }),
-        catchError(err => {
-            //todo: show error on component
-            console.log(err);
+        catchError((errorResponse: HttpErrorResponse) => {
+            this.dialogService.openDialog(this.createErrorDialog(errorResponse));
             return of();
           },
         ),
@@ -143,5 +143,13 @@ export class AuthComponent implements OnInit {
           this._state.toggleLoading();
         }),
       ).subscribe();
+  }
+
+  private createErrorDialog(response: HttpErrorResponse): ErrorDialog {
+    const apiError: FirebaseApiError = FirebaseApiErrorFactory.fromResponse(response);
+    return new ErrorDialog(
+      'An error has occurred during authentication',
+      'HTTP ' + apiError.code + ' (' + HttpStatusMapper.map(apiError.code) + ') ' + ': ' + apiError.message
+    );
   }
 }
