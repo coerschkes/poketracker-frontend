@@ -92,5 +92,34 @@ describe("SignupForm", () => {
     formWrapper.internalForm.get('password')?.markAsTouched();
     expect(formWrapper.hasMissingPassword()).toBeFalse();
   });
-  //todo: test password repeat validity
+
+  it('should return hasInvalidRepeatPassword false if password and repeatPassword are not touched', () => {
+    expect(formWrapper.hasInvalidRepeatPassword()).toBeFalse();
+  });
+
+  it('should return hasInvalidRepeatPassword false if password is touched but repeatPassword is not', () => {
+    formWrapper.internalForm.get('password')?.markAsTouched();
+    expect(formWrapper.hasInvalidRepeatPassword()).toBeFalse()
+  });
+
+  it('should return hasInvalidRepeatPassword true if password is not touched but repeatPassword is', () => {
+    formWrapper.internalForm.get('repeatPassword')?.markAsTouched();
+    expect(formWrapper.hasInvalidRepeatPassword()).toBeTrue()
+  });
+
+  it('should return hasInvalidRepeatPassword false if password and repeatPassword are touched but has no error matching', () => {
+    formWrapper.internalForm.get('password')?.setValue('password');
+    formWrapper.internalForm.get('repeatPassword')?.setValue('password');
+    formWrapper.internalForm.get('password')?.markAsTouched();
+    formWrapper.internalForm.get('repeatPassword')?.markAsTouched();
+    expect(formWrapper.hasInvalidRepeatPassword()).toBeFalse();
+  });
+
+  it('should return hasInvalidRepeatPassword true if password and repeatPassword are touched and has error matching', () => {
+    formWrapper.internalForm.get('password')?.setValue('password');
+    formWrapper.internalForm.get('repeatPassword')?.setValue('password1');
+    formWrapper.internalForm.get('password')?.markAsTouched();
+    formWrapper.internalForm.get('repeatPassword')?.markAsTouched();
+    expect(formWrapper.hasInvalidRepeatPassword()).toBeTrue();
+  });
 });
