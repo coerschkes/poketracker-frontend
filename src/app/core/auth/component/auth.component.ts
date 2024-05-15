@@ -22,6 +22,7 @@ import {
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {LoginFormComponent} from "./login-form/login-form.component";
 import {AuthComponentState} from "./auth.component.state";
+import {SignupFormComponent} from "./signup-form/signup-form.component";
 
 @Component({
   selector: 'app-auth',
@@ -49,6 +50,7 @@ import {AuthComponentState} from "./auth.component.state";
     ReactiveFormsModule,
     LoginFormComponent,
     RouterLink,
+    SignupFormComponent,
   ],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',
@@ -60,6 +62,8 @@ export class AuthComponent {
 
   @ViewChild(LoginFormComponent)
   protected loginComponent: LoginFormComponent;
+  @ViewChild(SignupFormComponent)
+  protected signUpComponent: SignupFormComponent;
 
   constructor(authService: AuthService, router: Router) {
     this._authService = authService
@@ -70,6 +74,7 @@ export class AuthComponent {
   onSwitchMode() {
     this._state.toggleLoginMode();
     this.loginComponent?.loginForm.reset();
+    this.signUpComponent?.signupForm.reset();
   }
 
   onSubmitLogin() {
@@ -78,6 +83,15 @@ export class AuthComponent {
       const email: string = this.loginComponent.loginForm.email;
       const password: string = this.loginComponent.loginForm.password;
       this.basicLogin(email, password);
+    }
+  }
+
+  onSubmitSignUp() {
+    if (this.signUpComponent.valid) {
+      this._state.toggleLoading();
+      const email: string = this.signUpComponent.signupForm.email;
+      const password: string = this.signUpComponent.signupForm.password;
+      this.signUp(email, password);
     }
   }
 
@@ -93,28 +107,26 @@ export class AuthComponent {
     return this.loginComponent !== undefined && this.loginComponent!.loginForm.valid
   }
 
+  get signUpFormValid(): boolean {
+    return this.signUpComponent !== undefined && this.signUpComponent!.signupForm.valid
+  }
+
   basicLogin(email: string, password: string) {
-    this.authenticationFlow(this._authService.basicLogin(email, password),
-      () => {
-        this._state.reset();
-        this._router.navigate(['/dashboard'])
-      },
-    )
+    this.authenticationFlow(this._authService.basicLogin(email, password))
   }
 
   signUp(email: string, password: string) {
-    this.authenticationFlow(this._authService.signUp(email, password),
-      () => {
-        this._state.reset();
-      },
-    )
+    this.authenticationFlow(this._authService.signUp(email, password));
   }
 
-  private authenticationFlow(observable: Observable<any>, nextCallback: () => void): void {
+  private authenticationFlow(observable: Observable<any>): void {
     observable
       .pipe(
         first(),
-        tap(nextCallback),
+        tap(() => {
+          this._state.reset();
+          this._router.navigate(['/dashboard'])
+        }),
         catchError(err => {
             //todo: show error on component
             console.log(err);

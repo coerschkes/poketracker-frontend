@@ -8,7 +8,7 @@
       @if (loginMode()) {
         <app-login-form></app-login-form>
       } @else {
-        <!--        todo: signup form here-->
+        <app-signup-form></app-signup-form>
       }
       <mat-divider></mat-divider>
     </mat-card-content>
@@ -24,8 +24,7 @@
                 (click)="onSubmitLogin()" mat-flat-button>login
         </button>
       } @else {
-        <!--        todo: sign up component communication here-->
-        <button [disabled]="true" mat-flat-button>sign up</button>
+        <button [disabled]="!this.signUpFormValid" mat-flat-button (click)="onSubmitSignUp()">sign up</button>
       }
     </mat-card-actions>
     @if (loading()) {

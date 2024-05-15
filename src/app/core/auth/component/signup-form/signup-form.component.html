@@ -1,0 +1,31 @@
+<form [formGroup]="this.signupForm.internalForm" name="loginForm">
+  <mat-form-field class="input">
+    <mat-label>email</mat-label>
+    <input type="email" name="email" matInput formControlName="email" [errorStateMatcher]="this.ERROR_STATE_MATCHER"
+           placeholder="Ex. pat@example.com"
+           email required>
+    @if (this.signupForm.hasInvalidEmail()) {
+      <mat-error>Please enter a valid email address</mat-error>
+    }
+    @if (this.signupForm.hasMissingEmail()) {
+      <mat-error>Email is <strong>required</strong></mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field class="input">
+    <mat-label>password</mat-label>
+    <input type="password" name="password" matInput formControlName="password" required>
+    @if (this.signupForm.hasMissingPassword()) {
+      <mat-error>Password is <strong>required</strong></mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field class="input">
+    <mat-label>repeat password</mat-label>
+    <input type="password" name="password" matInput formControlName="repeatPassword" required>
+    @if (this.signupForm.hasMissingPassword()) {
+      <mat-error>Password is <strong>required</strong></mat-error>
+    }
+    @if (this.signupForm.hasInvalidRepeatPassword()) {
+      <mat-error>Password does not match</mat-error>
+    }
+  </mat-form-field>
+</form>
