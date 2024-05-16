@@ -6,6 +6,9 @@
     color: mat.get-theme-color($theme, primary) !important;
     background-color: $color !important
   }
+  .menu-button{
+    color: mat.get-theme-color($theme, primary) !important;
+  }
 }
 
 @mixin theme($theme, $color) {

@@ -2,7 +2,7 @@
 @use '@angular/material-experimental' as matx;
 @use 'sass:map';
 @use './app/core/auth/component/auth.component-theme' as auth-component;
-@use './app/toolbar/toolbar.component-theme' as toolbar-component;
+@use './app/sidenav/sidenav.component-theme' as sidenav-component;
 
 @include mat.core();
 
@@ -27,10 +27,10 @@ $currentTheme: $dark-theme;
 
 @if($currentTheme == $dark-theme) {
   @include auth-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
-  @include toolbar-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
+  @include sidenav-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
 } @else {
   @include auth-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
-  @include toolbar-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
+  @include sidenav-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 90));
 }
 
 html {
