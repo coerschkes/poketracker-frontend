@@ -2,7 +2,7 @@
 <div class="authentication-div">
   <mat-card class="authentication-card">
     <mat-card-header class="authentication-card-header">
-      <mat-card-title style="font-size: xx-large">login</mat-card-title>
+      <mat-card-title style="font-size: xx-large">{{ loginMode() ? 'login':'sign up' }}</mat-card-title>
     </mat-card-header>
     <mat-card-content class="authentication-card-content">
       @if (loginMode()) {
@@ -13,7 +13,7 @@
       <mat-divider></mat-divider>
     </mat-card-content>
     <mat-card-actions class="card-actions">
-      <p class="mode-swap-paragraph">or {{ loginMode() ? 'sign up' : 'login' }}
+      <p class="mode-swap-paragraph">or {{ loginMode() ? 'login' : 'sign up' }}
         <strong>
           <a class="mode-swap-anchor" routerLink="/auth" (click)="onSwitchMode()">here</a>
         </strong>
