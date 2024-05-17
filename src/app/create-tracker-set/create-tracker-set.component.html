@@ -14,6 +14,9 @@
             @if (this.pokemonNameFormGroup.controls.pokemonName.hasError("pokemonLoadError")) {
               <mat-error>Pokemon not found</mat-error>
             }
+            @if (this.pokemonNameFormGroup.controls.pokemonName.hasError("required")) {
+              <mat-error>Pokemon name is required</mat-error>
+            }
           </mat-form-field>
           @if (_stateService.hasPokemon()) {
             <p>{{ _stateService.pokemon()?.dexNumber }}</p>
