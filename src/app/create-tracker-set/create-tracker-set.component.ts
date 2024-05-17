@@ -7,7 +7,7 @@ import {
   ValidationErrors,
   Validators
 } from "@angular/forms";
-import {AsyncPipe, NgOptimizedImage} from "@angular/common";
+import {AsyncPipe, NgOptimizedImage, TitleCasePipe} from "@angular/common";
 import {MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious} from "@angular/material/stepper";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
@@ -69,6 +69,7 @@ import {animate, style, transition, trigger} from "@angular/animations";
     MatExpansionPanelTitle,
     MatExpansionPanelDescription,
     MatExpansionPanelHeader,
+    TitleCasePipe,
   ],
   templateUrl: './create-tracker-set.component.html',
   styleUrl: './create-tracker-set.component.scss',

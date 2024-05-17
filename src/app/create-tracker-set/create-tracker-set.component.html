@@ -5,7 +5,7 @@
       <mat-card-title>Poketracker entry</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <mat-stepper orientation="vertical" linear="true" #stepper>
+      <mat-stepper class="primary-card" orientation="vertical" linear="true" #stepper>
         <mat-step [stepControl]="pokemonNameFormGroup">
           <form [formGroup]="pokemonNameFormGroup">
             <ng-template matStepLabel>Add Pokémon</ng-template>
@@ -63,8 +63,8 @@
       <mat-card-header>
         <!--        todo: anfangsbuchstabe groß-->
         <!--        todo: typen hinzufügen-->
-        <mat-card-subtitle>{{_stateService.pokemon()?.dexNumber}}</mat-card-subtitle>
-        <mat-card-title>{{_stateService.pokemon()?.name}}</mat-card-title>
+        <mat-card-subtitle>#{{ _stateService.pokemon()?.dexNumber }}</mat-card-subtitle>
+        <mat-card-title>{{ _stateService.pokemon()?.name | titlecase }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
         <img class="rounded-picture" width="400" height="400" src="{{ _stateService.pokemon()?.spriteUrl}}" alt=""/>
