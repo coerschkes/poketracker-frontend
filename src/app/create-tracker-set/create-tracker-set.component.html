@@ -10,7 +10,7 @@
           <ng-template matStepLabel>Add Pokémon</ng-template>
           <mat-form-field>
             <mat-label>Pokémon</mat-label>
-            <input (keydown.enter)="$event.preventDefault()" matInput placeholder="Name" formControlName="pokemonName" (input)="setLoading()" required>
+            <input (keydown.enter)="triggerUpdate()" #pokemonName matInput placeholder="Name" formControlName="pokemonName" required>
             @if (this.pokemonNameFormGroup.controls.pokemonName.hasError("pokemonLoadError")) {
               <mat-error>Pokemon not found</mat-error>
             }
@@ -23,7 +23,7 @@
           }
           <div>
             <button mat-button matStepperNext
-                    [disabled]="pokemonNameFormGroup.controls.pokemonName.invalid">
+                    [disabled]="pokemonNameFormGroup.controls.pokemonName.invalid || this._stateService.loading()">
               Next
             </button>
           </div>

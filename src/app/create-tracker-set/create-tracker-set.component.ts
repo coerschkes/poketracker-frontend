@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {
   AbstractControl,
   AsyncValidatorFn,
@@ -57,6 +57,7 @@ import {CreateTrackerSetStateService} from "./create-tracker-set.state.service";
   styleUrl: './create-tracker-set.component.scss'
 })
 export class CreateTrackerSetComponent {
+  @ViewChild('pokemonName') input: ElementRef<HTMLInputElement>;
   pokemonNameFormGroup = this._formBuilder.group({
     pokemonName: ['', Validators.required, this.pokemonNotFoundValidator()],
   }, {updateOn: "blur"});
@@ -71,7 +72,7 @@ export class CreateTrackerSetComponent {
     if (this.pokemonNameFormGroup.controls.pokemonName.value !== null &&
       this.pokemonNameFormGroup.controls.pokemonName.value !== undefined &&
       this.pokemonNameFormGroup.controls.pokemonName.value !== "") {
-      console.log("calling ")
+      this._stateService.loading = true
       return this._pokeapi.getPokemon(this.pokemonNameFormGroup.controls.pokemonName.value!)
         .pipe(
           tap(value => {
@@ -96,10 +97,19 @@ export class CreateTrackerSetComponent {
       return this.loadPokemon().pipe(
         map(() => null),
         catchError(() => {
+          this._stateService.pokemon = undefined
           return of({pokemonLoadError: {value: control.value}})
         }),
         finalize(() => this._stateService.loading = false)
       );
     }
+  }
+
+  triggerUpdate() {
+    console.log("triggerUpdate")
+    this.input.nativeElement.blur()
+    // this.pokemonNameFormGroup.controls.pokemonName.markAsTouched()
+    // this.pokemonNameFormGroup.controls.pokemonName.markAsDirty()
+    // this.pokemonNameFormGroup.controls.pokemonName.updateValueAndValidity()
   }
 }
