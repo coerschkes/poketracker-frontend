@@ -61,7 +61,6 @@
   @if (_stateService.hasPokemon()) {
     <mat-card [@inOutAnimation] class="picture-card primary-card">
       <mat-card-header>
-        <!--        todo: anfangsbuchstabe groß-->
         <!--        todo: typen hinzufügen-->
         <mat-card-subtitle>#{{ _stateService.pokemon()?.dexNumber }}</mat-card-subtitle>
         <mat-card-title>{{ _stateService.pokemon()?.name | titlecase }}</mat-card-title>

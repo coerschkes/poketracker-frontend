@@ -80,17 +80,17 @@ import {animate, style, transition, trigger} from "@angular/animations";
         transition(
           ':enter',
           [
-            style({ height: 0, opacity: 0 }),
+            style({height: 0, opacity: 0}),
             animate('300ms ease-out',
-              style({ height: '100%', opacity: 1 }))
+              style({height: '100%', opacity: 1}))
           ]
         ),
         transition(
           ':leave',
           [
-            style({ height: '100%', opacity: 1 }),
+            style({height: '100%', opacity: 1}),
             animate('300ms ease-in',
-              style({ height: 0, opacity: 0 }))
+              style({height: 0, opacity: 0}))
           ]
         )
       ]
@@ -114,7 +114,7 @@ export class CreateTrackerSetComponent {
       this.pokemonNameFormGroup.controls.pokemonName.value !== undefined &&
       this.pokemonNameFormGroup.controls.pokemonName.value !== "") {
       this._stateService.loading = true
-      return this._pokeapi.getPokemon(this.pokemonNameFormGroup.controls.pokemonName.value!)
+      return this._pokeapi.getPokemon(this.pokemonNameFormGroup.controls.pokemonName.value!.toLowerCase())
         .pipe(
           tap(value => {
             this._stateService.pokemon = value
