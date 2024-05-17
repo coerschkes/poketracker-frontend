@@ -10,6 +10,7 @@ export class PokeapiService {
   constructor(private httpClient: HttpClient) {
   }
 
+  //todo: lookup dex nr from german name
   public getPokemon(pokemonName: string) {
     return this.httpClient
       .get(`${PokeapiUrlProvider.pokemonEndpoint()}${pokemonName}`)

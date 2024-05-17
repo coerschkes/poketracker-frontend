@@ -1,64 +1,74 @@
-<mat-card class="example-card" style="max-width: 800px">
-  <mat-card-header>
-    <mat-card-subtitle>Create Pokemon</mat-card-subtitle>
-    <mat-card-title>Poketracker entry</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <mat-stepper orientation="vertical" linear="false" #stepper>
-      <mat-step [stepControl]="pokemonNameFormGroup">
-        <form [formGroup]="pokemonNameFormGroup">
-          <ng-template matStepLabel>Add Pokémon</ng-template>
-          <mat-form-field>
-            <mat-label>Pokémon</mat-label>
-            <input (keydown.enter)="triggerUpdate()" #pokemonName matInput placeholder="Name" formControlName="pokemonName" required>
-            @if (this.pokemonNameFormGroup.controls.pokemonName.hasError("pokemonLoadError")) {
-              <mat-error>Pokemon not found</mat-error>
-            }
-            @if (this.pokemonNameFormGroup.controls.pokemonName.hasError("required")) {
-              <mat-error>Pokemon name is required</mat-error>
-            }
-          </mat-form-field>
-          @if (_stateService.hasPokemon()) {
-            <p>{{ _stateService.pokemon()?.dexNumber }}</p>
-          }
-          <div>
-            <button mat-button matStepperNext
-                    [disabled]="pokemonNameFormGroup.controls.pokemonName.invalid || this._stateService.loading()">
-              Next
-            </button>
-          </div>
-        </form>
-      </mat-step>
-      <mat-step [stepControl]="secondFormGroup">
-        <form [formGroup]="secondFormGroup">
-          <ng-template matStepLabel>Fill out your address</ng-template>
-          <mat-form-field>
-            <mat-label>Address</mat-label>
-            <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-                   required>
-          </mat-form-field>
+<div class="base-container">
+  <mat-card class="form-card primary-card">
+    <mat-card-header>
+      <mat-card-subtitle>Create Pokemon</mat-card-subtitle>
+      <mat-card-title>Poketracker entry</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-stepper orientation="vertical" linear="true" #stepper>
+        <mat-step [stepControl]="pokemonNameFormGroup">
+          <form [formGroup]="pokemonNameFormGroup">
+            <ng-template matStepLabel>Add Pokémon</ng-template>
+            <mat-form-field>
+              <mat-label>Pokémon</mat-label>
+              <input (keydown.enter)="triggerUpdate()" #pokemonName matInput placeholder="Name"
+                     formControlName="pokemonName" required>
+              @if (this.pokemonNameFormGroup.controls.pokemonName.hasError("pokemonLoadError")) {
+                <mat-error>Pokemon not found</mat-error>
+              }
+              @if (this.pokemonNameFormGroup.controls.pokemonName.hasError("required")) {
+                <mat-error>Pokemon name is required</mat-error>
+              }
+            </mat-form-field>
+            <div>
+              <button mat-button matStepperNext
+                      [disabled]="pokemonNameFormGroup.controls.pokemonName.invalid || this._stateService.loading()">
+                Next
+              </button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step [stepControl]="secondFormGroup">
+          <form [formGroup]="secondFormGroup">
+            <ng-template matStepLabel>Fill out your address</ng-template>
+            <mat-form-field>
+              <mat-label>Address</mat-label>
+              <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+                     required>
+            </mat-form-field>
+            <div>
+              <button mat-button matStepperPrevious>Back</button>
+              <button mat-button matStepperNext>Next</button>
+            </div>
+          </form>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Done</ng-template>
+          <p>You are now done.</p>
           <div>
             <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
+            <button mat-button (click)="stepper.reset()">Reset</button>
           </div>
-        </form>
-      </mat-step>
-      <mat-step>
-        <ng-template matStepLabel>Done</ng-template>
-        <p>You are now done.</p>
-        <div>
-          <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
-        </div>
-      </mat-step>
-    </mat-stepper>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>CANCEL</button>
-  </mat-card-actions>
-  <mat-card-footer class="footer">
-    @if (_stateService.loading()) {
-      <mat-progress-bar mode="query"></mat-progress-bar>
-    }
-  </mat-card-footer>
-</mat-card>
+        </mat-step>
+      </mat-stepper>
+    </mat-card-content>
+    <mat-card-footer class="footer">
+      @if (_stateService.loading()) {
+        <mat-progress-bar mode="query"></mat-progress-bar>
+      }
+    </mat-card-footer>
+  </mat-card>
+  @if (_stateService.hasPokemon()) {
+    <mat-card [@inOutAnimation] class="picture-card primary-card">
+      <mat-card-header>
+        <!--        todo: anfangsbuchstabe groß-->
+        <!--        todo: typen hinzufügen-->
+        <mat-card-subtitle>{{_stateService.pokemon()?.dexNumber}}</mat-card-subtitle>
+        <mat-card-title>{{_stateService.pokemon()?.name}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <img class="rounded-picture" width="400" height="400" src="{{ _stateService.pokemon()?.spriteUrl}}" alt=""/>
+      </mat-card-content>
+    </mat-card>
+  }
+</div>

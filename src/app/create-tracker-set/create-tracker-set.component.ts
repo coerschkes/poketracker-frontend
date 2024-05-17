@@ -7,7 +7,7 @@ import {
   ValidationErrors,
   Validators
 } from "@angular/forms";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, NgOptimizedImage} from "@angular/common";
 import {MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious} from "@angular/material/stepper";
 import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatInput} from "@angular/material/input";
@@ -26,6 +26,15 @@ import {MatProgressBar} from "@angular/material/progress-bar";
 import {PokeapiService} from "../core/external/pokeapi/pokeapi.service";
 import {catchError, finalize, map, Observable, of, tap} from "rxjs";
 import {CreateTrackerSetStateService} from "./create-tracker-set.state.service";
+import {MatGridList, MatGridTile} from "@angular/material/grid-list";
+import {
+  MatAccordion,
+  MatExpansionPanel,
+  MatExpansionPanelDescription,
+  MatExpansionPanelHeader,
+  MatExpansionPanelTitle
+} from "@angular/material/expansion";
+import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-create-tracker-set',
@@ -51,10 +60,41 @@ import {CreateTrackerSetStateService} from "./create-tracker-set.state.service";
     MatCardFooter,
     MatProgressBar,
     MatError,
-    MatStepLabel
+    MatStepLabel,
+    NgOptimizedImage,
+    MatGridList,
+    MatGridTile,
+    MatAccordion,
+    MatExpansionPanel,
+    MatExpansionPanelTitle,
+    MatExpansionPanelDescription,
+    MatExpansionPanelHeader,
   ],
   templateUrl: './create-tracker-set.component.html',
-  styleUrl: './create-tracker-set.component.scss'
+  styleUrl: './create-tracker-set.component.scss',
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({ height: 0, opacity: 0 }),
+            animate('300ms ease-out',
+              style({ height: '100%', opacity: 1 }))
+          ]
+        ),
+        transition(
+          ':leave',
+          [
+            style({ height: '100%', opacity: 1 }),
+            animate('300ms ease-in',
+              style({ height: 0, opacity: 0 }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class CreateTrackerSetComponent {
   @ViewChild('pokemonName') input: ElementRef<HTMLInputElement>;
@@ -106,10 +146,6 @@ export class CreateTrackerSetComponent {
   }
 
   triggerUpdate() {
-    console.log("triggerUpdate")
     this.input.nativeElement.blur()
-    // this.pokemonNameFormGroup.controls.pokemonName.markAsTouched()
-    // this.pokemonNameFormGroup.controls.pokemonName.markAsDirty()
-    // this.pokemonNameFormGroup.controls.pokemonName.updateValueAndValidity()
   }
 }

@@ -6,13 +6,32 @@
   margin-top: 16px;
 }
 
-.main-div{
-  height: 100vh;
+.footer {
+  margin-left: 8px;
+  margin-right: 8px;
+}
+
+.rounded-picture{
+  border-radius: 50%;
+}
+
+.base-container {
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.footer {
-  margin-left: 8px;
-  margin-right: 8px;
+
+.form-card{
+  max-width: 500px;
+  width: 100%;
+  margin: 16px;
+  max-height: 700px;
+  height: 100%
+}
+
+.picture-card{
+  max-height: 700px;
+  height: 100%;
+  margin: 16px;
 }

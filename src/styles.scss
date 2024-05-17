@@ -3,6 +3,7 @@
 @use 'sass:map';
 @use './app/core/auth/component/auth.component-theme' as auth-component;
 @use './app/sidenav/sidenav.component-theme' as sidenav-component;
+@use './app/create-tracker-set/create-tracker-set.component-theme' as create-tracker-set-component;
 
 @include mat.core();
 
@@ -28,9 +29,11 @@ $currentTheme: $light-theme;
 @if($currentTheme == $dark-theme) {
   @include auth-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
   @include sidenav-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
+  @include create-tracker-set-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
 } @else {
   @include auth-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
   @include sidenav-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 90));
+  @include create-tracker-set-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 90));
 }
 
 html {
@@ -43,7 +46,10 @@ html {
 }
 
 html, body {
-  height: 100%;
+  background: transparent;
+  height: 100vh !important;
+  margin: 0;
+  padding: 0;
   color: mat.get-theme-color($currentTheme, secondary);
 }
 
