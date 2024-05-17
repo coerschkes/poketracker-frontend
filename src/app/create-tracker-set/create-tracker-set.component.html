@@ -5,15 +5,24 @@
   </mat-card-header>
   <mat-card-content>
     <mat-stepper orientation="vertical" linear="false" #stepper>
-      <mat-step [stepControl]="firstFormGroup">
-        <form [formGroup]="firstFormGroup">
-          <ng-template matStepLabel>Fill out your name</ng-template>
+      <mat-step [stepControl]="pokemonNameFormGroup">
+        <form [formGroup]="pokemonNameFormGroup">
+          <ng-template matStepLabel>Add Pokémon</ng-template>
           <mat-form-field>
-            <mat-label>Name</mat-label>
-            <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+            <mat-label>Pokémon</mat-label>
+            <input matInput placeholder="Name" formControlName="pokemonName" (input)="setLoading()" required>
+            @if (this.pokemonNameFormGroup.controls.pokemonName.hasError("pokemonLoadError")) {
+              <mat-error>Pokemon not found</mat-error>
+            }
           </mat-form-field>
+          @if (_stateService.hasPokemon()) {
+            <p>{{ _stateService.pokemon()?.dexNumber }}</p>
+          }
           <div>
-            <button mat-button matStepperNext>Next</button>
+            <button mat-button matStepperNext
+                    [disabled]="pokemonNameFormGroup.controls.pokemonName.invalid">
+              Next
+            </button>
           </div>
         </form>
       </mat-step>
@@ -44,7 +53,9 @@
   <mat-card-actions>
     <button mat-button>CANCEL</button>
   </mat-card-actions>
-  <mat-card-footer>
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  <mat-card-footer class="footer">
+    @if (_stateService.loading()) {
+      <mat-progress-bar mode="query"></mat-progress-bar>
+    }
   </mat-card-footer>
 </mat-card>
