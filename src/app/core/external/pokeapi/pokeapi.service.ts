@@ -1,21 +1,45 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {PokeapiUrlProvider} from "./url/pokeapi-url-provider";
-import {map} from "rxjs";
+import {map, switchMap} from "rxjs";
 import {PokeapiResponseFactory} from "./url/pokeapi-pokemon";
 
 @Injectable({providedIn: "root"})
 export class PokeapiService {
+  private readonly lookupTablePath: string = "assets/pokemon-lookup-table-ger.csv";
 
   constructor(private httpClient: HttpClient) {
   }
 
-  //todo: lookup dex nr from german name
   public getPokemon(pokemonName: string) {
-    return this.httpClient
-      .get(`${PokeapiUrlProvider.pokemonEndpoint()}${pokemonName}`)
+    return this.lookupDexNr(pokemonName)
       .pipe(
-        map(value => PokeapiResponseFactory.fromObject(value))
+        switchMap((kv: string[]) => {
+          return this.httpClient.get(`${PokeapiUrlProvider.pokemonEndpoint()}${Number(kv[0])}`).pipe(
+            map(value => {
+                return PokeapiResponseFactory.fromObject(value, kv[1])
+              }
+            )
+          )
+        }),
+      );
+  }
+
+  private lookupDexNr(pokemonName: string) {
+    return this.httpClient
+      .get(this.lookupTablePath, {responseType: "text"})
+      .pipe(
+        map(value => {
+          const lines = value.split("\n");
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            const columns = line.split(",");
+            if (columns[1].toLowerCase() === pokemonName) {
+              return columns;
+            }
+          }
+          throw new Error(`Pokemon ${pokemonName} not found in lookup table`);
+        })
       );
   }
 }

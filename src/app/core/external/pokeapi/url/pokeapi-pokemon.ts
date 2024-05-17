@@ -28,9 +28,9 @@ export class PokeapiErrorResponseFactory {
 }
 
 export class PokeapiResponseFactory {
-  public static fromObject(object: any): PokeapiPokemon {
+  public static fromObject(object: any, name: string): PokeapiPokemon {
     return {
-      name: object.name,
+      name: name,
       dexNumber: object.id,
       spriteUrl: object.sprites.other['official-artwork'].front_default,
       spriteShinyUrl: object.sprites.other['official-artwork'].front_shiny,
