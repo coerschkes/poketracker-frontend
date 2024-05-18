@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, signal, WritableSignal} from '@angular/core';
+import {Component, Input, OnChanges, signal, WritableSignal} from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {tap} from "rxjs";
 import {LookupTableService} from "../lookup-table.service";
@@ -10,7 +10,7 @@ import {LookupTableService} from "../lookup-table.service";
   templateUrl: './pokemon-type.component.html',
   styleUrl: './pokemon-type.component.scss'
 })
-export class PokemonTypeComponent implements OnInit {
+export class PokemonTypeComponent implements OnChanges {
   private readonly pokemonTypeLookupTablePath: string = "assets/pokemon-type-lookup-table-ger.csv";
   @Input() types!: string[] | undefined;
   protected readonly typesSignal: WritableSignal<string[]> = signal([]);
@@ -18,7 +18,8 @@ export class PokemonTypeComponent implements OnInit {
   constructor(private _lookupTableService: LookupTableService) {
   }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
+    this.typesSignal.update(() => []);
     this.types?.forEach(type => this.lookupType(type));
   }
 
