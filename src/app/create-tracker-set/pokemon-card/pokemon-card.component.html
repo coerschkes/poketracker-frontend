@@ -9,5 +9,16 @@
          alt=""/>
     <mat-divider style="margin: 16px 0 16px 0"></mat-divider>
     <app-pokemon-type [types]="_stateService.pokemon()?.types"></app-pokemon-type>
+    @for (edition of _stateService.editions(); track _stateService.editions()) {
+      <mat-chip-row
+        class="pokemon-edition-chip"
+        (removed)="_stateService.removeEdition(edition)"
+        [editable]="true" title="{{edition}}">
+        {{edition}}
+        <button matChipRemove [attr.aria-label]="'remove ' + edition">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+    }
   </mat-card-content>
 </mat-card>

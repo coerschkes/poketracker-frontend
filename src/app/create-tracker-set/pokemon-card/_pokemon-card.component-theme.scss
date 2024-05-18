@@ -5,9 +5,21 @@
   .rounded-picture {
     border: 2px solid mat.get-theme-color($theme, primary) !important;
   }
-  .primary-card{
+  .primary-card {
     color: mat.get-theme-color($theme, primary) !important;
     background-color: $color !important;
+  }
+  .pokemon-edition-chip[title="Schwarz 2"] {
+    --mdc-chip-label-text-color: white;
+    --mdc-chip-with-trailing-icon-trailing-icon-color: white;
+  }
+  .pokemon-edition-chip[title="Schwarz"] {
+    --mdc-chip-label-text-color: white;
+    --mdc-chip-with-trailing-icon-trailing-icon-color: white;
+  }
+  .pokemon-edition-chip[title="Purpur"] {
+    --mdc-chip-label-text-color: white;
+    --mdc-chip-with-trailing-icon-trailing-icon-color: white;;
   }
 }
 

@@ -14,6 +14,7 @@ export class CreateStateService {
   }
 
   set pokemon(pokemon: PokeapiPokemon | undefined) {
+    console.log("pokemon updated to", pokemon)
     this._pokemon.update(() => pokemon)
   }
 

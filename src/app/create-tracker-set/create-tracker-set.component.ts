@@ -38,7 +38,7 @@ import {
 import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatCheckbox} from "@angular/material/checkbox";
-import {MatChipGrid, MatChipInput, MatChipRow} from "@angular/material/chips";
+import {MatChipGrid, MatChipInput, MatChipRemove, MatChipRow} from "@angular/material/chips";
 import {MatIcon} from "@angular/material/icon";
 import {EditionSelectorComponent} from "./edition-selector/edition-selector.component";
 import {PokemonCardComponent} from "./pokemon-card/pokemon-card.component";
@@ -87,6 +87,7 @@ import {PokemonCardComponent} from "./pokemon-card/pokemon-card.component";
     MatChipInput,
     EditionSelectorComponent,
     PokemonCardComponent,
+    MatChipRemove
   ],
   templateUrl: './create-tracker-set.component.html',
   styleUrl: './create-tracker-set.component.scss',

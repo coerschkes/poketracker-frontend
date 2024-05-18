@@ -5,20 +5,25 @@ import {PokemonTypeComponent} from "../../shared/pokemon-type/pokemon-type.compo
 import {TitleCasePipe} from "@angular/common";
 import {CreateStateService} from "../create-state.service";
 import {animate, style, transition, trigger} from "@angular/animations";
+import {MatChipRemove, MatChipRow} from "@angular/material/chips";
+import {MatIcon} from "@angular/material/icon";
 
 @Component({
   selector: 'app-pokemon-card',
   standalone: true,
-    imports: [
-        MatCard,
-        MatCardContent,
-        MatCardHeader,
-        MatCardSubtitle,
-        MatCardTitle,
-        MatDivider,
-        PokemonTypeComponent,
-        TitleCasePipe
-    ],
+  imports: [
+    MatCard,
+    MatCardContent,
+    MatCardHeader,
+    MatCardSubtitle,
+    MatCardTitle,
+    MatDivider,
+    PokemonTypeComponent,
+    TitleCasePipe,
+    MatChipRow,
+    MatIcon,
+    MatChipRemove
+  ],
   templateUrl: './pokemon-card.component.html',
   styleUrl: './pokemon-card.component.scss',
   animations: [
