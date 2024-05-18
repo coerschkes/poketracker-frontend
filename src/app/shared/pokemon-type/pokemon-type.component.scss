@@ -1,0 +1,82 @@
+.typ-icon[title="Feuer"] {
+  background-color: #ff421c;
+}
+
+.typ-icon[title="Pflanze"] {
+  background-color: #62bc5a;
+}
+
+.typ-icon[title="Normal"] {
+  background-color: #bbbbaa;
+}
+
+.typ-icon[title="Wasser"] {
+  background-color: #2c9be3;
+}
+
+.typ-icon[title="Elektro"] {
+  background-color: #ffdc00;
+  text-shadow: 0 0 2px #999;
+}
+
+.typ-icon[title="Flug"] {
+  background-color: #96caff;
+}
+
+.typ-icon[title="Käfer"] {
+  background-color: #92c12a;
+}
+
+.typ-icon[title="Gift"] {
+  background-color: #9553cd;
+}
+
+.typ-icon[title="Gestein"] {
+  background-color: #bbaa66;
+}
+
+.typ-icon[title="Boden"] {
+  background-color: #a67439;
+}
+
+.typ-icon[title="Kampf"] {
+  background-color: #bb5544;
+}
+
+.typ-icon[title="Eis"] {
+  background-color: #74cfc0;
+}
+
+.typ-icon[title="Psycho"] {
+  background-color: #ff6380;
+}
+
+.typ-icon[title="Geist"] {
+  background-color: #6e4370;
+}
+
+.typ-icon[title="Drache"] {
+  background-color: #5670be;
+}
+.typ-icon[title="Unlicht"] {
+  background-color: #4e4545;
+}
+.typ-icon[title="Stahl"] {
+  background-color: #aaaabb;
+}
+.typ-icon[title="Fee"] {
+  background-color: #ec8fe6;
+}
+.typ-icon {
+  //display: inline-block;
+  min-width: 56px;
+  max-width: 56px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.9em;
+  color: white;
+  border-radius: 0.5em;
+  box-sizing: border-box;
+  background-color: black;
+  border: rgba(255, 255, 255, .5) solid 2px;
+}

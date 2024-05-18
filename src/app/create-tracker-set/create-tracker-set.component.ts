@@ -35,6 +35,7 @@ import {
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
 import {animate, style, transition, trigger} from "@angular/animations";
+import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.component";
 
 @Component({
   selector: 'app-create-tracker-set',
@@ -70,6 +71,7 @@ import {animate, style, transition, trigger} from "@angular/animations";
     MatExpansionPanelDescription,
     MatExpansionPanelHeader,
     TitleCasePipe,
+    PokemonTypeComponent,
   ],
   templateUrl: './create-tracker-set.component.html',
   styleUrl: './create-tracker-set.component.scss',

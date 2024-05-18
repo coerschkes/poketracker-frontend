@@ -4,7 +4,7 @@
       <mat-card-subtitle>Create Pokemon</mat-card-subtitle>
       <mat-card-title>Poketracker entry</mat-card-title>
     </mat-card-header>
-    <mat-card-content>
+    <mat-card-content style="height: 100%">
       <mat-stepper class="primary-card" orientation="vertical" linear="true" #stepper>
         <mat-step [stepControl]="pokemonNameFormGroup">
           <form [formGroup]="pokemonNameFormGroup">
@@ -54,7 +54,6 @@
     </mat-card-content>
     <mat-card-footer class="footer">
       @if (_stateService.loading()) {
-        <!--        todo: fix positioning bottom-->
         <mat-progress-bar mode="query"></mat-progress-bar>
       }
     </mat-card-footer>
@@ -62,12 +61,13 @@
   @if (_stateService.hasPokemon()) {
     <mat-card [@inOutAnimation] class="picture-card primary-card">
       <mat-card-header>
-        <!--        todo: typen hinzufügen-->
         <mat-card-subtitle>#{{ _stateService.pokemon()?.dexNumber }}</mat-card-subtitle>
         <mat-card-title>{{ _stateService.pokemon()?.name | titlecase }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <img class="rounded-picture" width="400" height="400" src="{{ _stateService.pokemon()?.spriteUrl}}" alt=""/>
+        <img class="rounded-picture" width="300" height="300" src="{{ _stateService.pokemon()?.spriteUrl}}" alt=""/>
+        <mat-divider style="margin: 16px 0 16px 0"></mat-divider>
+        <app-pokemon-type [types]="_stateService.pokemon()?.types"></app-pokemon-type>
       </mat-card-content>
     </mat-card>
   }

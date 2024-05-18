@@ -1,5 +1,6 @@
 .mat-stepper-vertical {
   margin-top: 8px;
+  margin-bottom: 5px;
 }
 
 .mat-mdc-form-field {
@@ -9,6 +10,7 @@
 .footer {
   margin-left: 8px;
   margin-right: 8px;
+  margin-bottom: 2px;
 }
 
 .rounded-picture{
@@ -26,12 +28,13 @@
   max-width: 500px;
   width: 100%;
   margin: 16px;
-  max-height: 700px;
+  max-height: 500px;
+  //max-height: 700px;
   height: 100%
 }
 
 .picture-card{
-  max-height: 700px;
+  max-height: 500px;
   height: 100%;
   margin: 16px;
 }
