@@ -9,6 +9,9 @@
     color: mat.get-theme-color($theme, primary) !important;
     background-color: $color !important;
   }
+  .checkbox .mat-internal-form-field{
+    color: var(--mat-card-subtitle-text-color) !important;
+  }
 }
 
 @mixin theme($theme, $color) {

@@ -8,8 +8,8 @@
       <mat-stepper class="primary-card" orientation="vertical" linear="true" #stepper>
         <mat-step [stepControl]="pokemonNameFormGroup">
           <form [formGroup]="pokemonNameFormGroup">
-            <ng-template matStepLabel>Add Pokémon</ng-template>
-            <mat-form-field>
+            <ng-template matStepLabel>Pokémon</ng-template>
+            <mat-form-field style="width: 100%" >
               <mat-label>Pokémon</mat-label>
               <input (keydown.enter)="triggerUpdate()" #pokemonName matInput placeholder="Name"
                      formControlName="pokemonName" required>
@@ -20,35 +20,40 @@
                 <mat-error>Pokemon name is required</mat-error>
               }
             </mat-form-field>
-            <div>
+            <p>
               <button mat-button matStepperNext
                       [disabled]="pokemonNameFormGroup.controls.pokemonName.invalid || this._stateService.loading()">
                 Next
               </button>
-            </div>
-          </form>
-        </mat-step>
-        <mat-step [stepControl]="secondFormGroup">
-          <form [formGroup]="secondFormGroup">
-            <ng-template matStepLabel>Fill out your address</ng-template>
-            <mat-form-field>
-              <mat-label>Address</mat-label>
-              <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
-                     required>
-            </mat-form-field>
-            <div>
-              <button mat-button matStepperPrevious>Back</button>
-              <button mat-button matStepperNext>Next</button>
-            </div>
+            </p>
           </form>
         </mat-step>
         <mat-step>
-          <ng-template matStepLabel>Done</ng-template>
-          <p>You are now done.</p>
-          <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button (click)="stepper.reset()">Reset</button>
-          </div>
+          <p>
+            <mat-checkbox class="checkbox" checked="{{_stateService.isShiny()}}"
+                          (click)="_stateService.toggleShiny()">
+              Shiny
+            </mat-checkbox>
+          </p>
+          <p>
+            <mat-checkbox class="checkbox" checked="{{_stateService.isRegional()}}"
+                          (click)="_stateService.toggleRegional()">
+              Regional
+            </mat-checkbox>
+          </p>
+          <ng-template matStepLabel>Special form</ng-template>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Edition</ng-template>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Create</ng-template>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button>Create</button>
         </mat-step>
       </mat-stepper>
     </mat-card-content>
@@ -65,7 +70,9 @@
         <mat-card-title>{{ _stateService.pokemon()?.name | titlecase }}</mat-card-title>
       </mat-card-header>
       <mat-card-content>
-        <img class="rounded-picture" width="300" height="300" src="{{ _stateService.pokemon()?.spriteUrl}}" alt=""/>
+        <img class="rounded-picture" width="300" height="300"
+             [src]="_stateService.isShiny() ? _stateService.pokemon()?.spriteShinyUrl : _stateService.pokemon()?.spriteUrl"
+             alt=""/>
         <mat-divider style="margin: 16px 0 16px 0"></mat-divider>
         <app-pokemon-type [types]="_stateService.pokemon()?.types"></app-pokemon-type>
       </mat-card-content>

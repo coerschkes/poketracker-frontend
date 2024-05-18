@@ -3,6 +3,7 @@ import {
   AbstractControl,
   AsyncValidatorFn,
   FormBuilder,
+  FormsModule,
   ReactiveFormsModule,
   ValidationErrors,
   Validators
@@ -36,6 +37,11 @@ import {
 } from "@angular/material/expansion";
 import {animate, style, transition, trigger} from "@angular/animations";
 import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.component";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatCheckbox} from "@angular/material/checkbox";
+import {MatChipGrid, MatChipInput, MatChipRow} from "@angular/material/chips";
+import {MatIcon} from "@angular/material/icon";
+import {EditionSelectorComponent} from "./edition-selector/edition-selector.component";
 
 @Component({
   selector: 'app-create-tracker-set',
@@ -72,6 +78,14 @@ import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.componen
     MatExpansionPanelHeader,
     TitleCasePipe,
     PokemonTypeComponent,
+    MatSlideToggleModule,
+    MatCheckbox,
+    FormsModule,
+    MatChipGrid,
+    MatChipRow,
+    MatIcon,
+    MatChipInput,
+    EditionSelectorComponent,
   ],
   templateUrl: './create-tracker-set.component.html',
   styleUrl: './create-tracker-set.component.scss',

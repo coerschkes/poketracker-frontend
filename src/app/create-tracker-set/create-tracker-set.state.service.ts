@@ -5,6 +5,8 @@ import {PokeapiPokemon} from "../core/external/pokeapi/url/pokeapi-pokemon";
 export class CreateTrackerSetStateService {
   private readonly _pokemon: WritableSignal<PokeapiPokemon | undefined> = signal(undefined);
   private readonly _loading: WritableSignal<boolean> = signal(false);
+  private readonly _isShiny: WritableSignal<boolean> = signal(false);
+  private readonly _isRegional: WritableSignal<boolean> = signal(false);
 
   get pokemon(): Signal<PokeapiPokemon | undefined> {
     return this._pokemon;
@@ -24,5 +26,21 @@ export class CreateTrackerSetStateService {
 
   get hasPokemon(): Signal<boolean> {
     return signal(this._pokemon() !== undefined)
+  }
+
+  get isShiny(): Signal<boolean> {
+    return this._isShiny;
+  }
+
+  toggleShiny() {
+    this._isShiny.update(isShiny => !isShiny);
+  }
+
+  get isRegional(): Signal<boolean> {
+    return this._isRegional;
+  }
+
+  toggleRegional() {
+    this._isRegional.update(isRegional => !isRegional);
   }
 }
