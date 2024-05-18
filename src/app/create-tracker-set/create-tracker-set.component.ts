@@ -35,13 +35,13 @@ import {
   MatExpansionPanelHeader,
   MatExpansionPanelTitle
 } from "@angular/material/expansion";
-import {animate, style, transition, trigger} from "@angular/animations";
 import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.component";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatCheckbox} from "@angular/material/checkbox";
 import {MatChipGrid, MatChipInput, MatChipRow} from "@angular/material/chips";
 import {MatIcon} from "@angular/material/icon";
 import {EditionSelectorComponent} from "./edition-selector/edition-selector.component";
+import {PokemonCardComponent} from "./pokemon-card/pokemon-card.component";
 
 @Component({
   selector: 'app-create-tracker-set',
@@ -86,41 +86,16 @@ import {EditionSelectorComponent} from "./edition-selector/edition-selector.comp
     MatIcon,
     MatChipInput,
     EditionSelectorComponent,
+    PokemonCardComponent,
   ],
   templateUrl: './create-tracker-set.component.html',
   styleUrl: './create-tracker-set.component.scss',
-  animations: [
-    trigger(
-      'inOutAnimation',
-      [
-        transition(
-          ':enter',
-          [
-            style({height: 0, opacity: 0}),
-            animate('300ms ease-out',
-              style({height: '100%', opacity: 1}))
-          ]
-        ),
-        transition(
-          ':leave',
-          [
-            style({height: '100%', opacity: 1}),
-            animate('300ms ease-in',
-              style({height: 0, opacity: 0}))
-          ]
-        )
-      ]
-    )
-  ]
 })
 export class CreateTrackerSetComponent {
   @ViewChild('pokemonName') input: ElementRef<HTMLInputElement>;
   pokemonNameFormGroup = this._formBuilder.group({
     pokemonName: ['', Validators.required, this.pokemonNotFoundValidator()],
   }, {updateOn: "blur"});
-  secondFormGroup = this._formBuilder.group({
-    secondCtrl: ['', Validators.required],
-  });
 
   constructor(private _formBuilder: FormBuilder, private _pokeapi: PokeapiService, protected _stateService: CreateTrackerSetStateService) {
   }

@@ -13,10 +13,6 @@
   margin-bottom: 2px;
 }
 
-.rounded-picture{
-  border-radius: 50%;
-}
-
 .base-container {
   height: 100%;
   display: flex;
@@ -32,8 +28,8 @@
   height: 100%
 }
 
-.picture-card{
-  max-height: 550px;
-  height: 100%;
+.pokemon-card{
   margin: 16px;
+  max-height: 580px;
+  height: 100%
 }
