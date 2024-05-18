@@ -54,6 +54,3 @@ export interface RefreshTokenResponse {
   tokenType: string
   expiresInSeconds: string
 }
-
-
-//todo: Add error responses -> as possible return values? maybe <response1 | errorresponse1> ... and switch impls?
