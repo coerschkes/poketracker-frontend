@@ -26,7 +26,7 @@ import {MatDivider} from "@angular/material/divider";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {PokeapiService} from "../core/external/pokeapi/pokeapi.service";
 import {catchError, finalize, map, Observable, of, tap} from "rxjs";
-import {CreateTrackerSetStateService} from "./create-tracker-set.state.service";
+import {CreateStateService} from "./create-state.service";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {
   MatAccordion,
@@ -97,7 +97,7 @@ export class CreateTrackerSetComponent {
     pokemonName: ['', Validators.required, this.pokemonNotFoundValidator()],
   }, {updateOn: "blur"});
 
-  constructor(private _formBuilder: FormBuilder, private _pokeapi: PokeapiService, protected _stateService: CreateTrackerSetStateService) {
+  constructor(private _formBuilder: FormBuilder, private _pokeapi: PokeapiService, protected _stateService: CreateStateService) {
   }
 
   loadPokemon() {

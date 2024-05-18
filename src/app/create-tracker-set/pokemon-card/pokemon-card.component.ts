@@ -3,7 +3,7 @@ import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} f
 import {MatDivider} from "@angular/material/divider";
 import {PokemonTypeComponent} from "../../shared/pokemon-type/pokemon-type.component";
 import {TitleCasePipe} from "@angular/common";
-import {CreateTrackerSetStateService} from "../create-tracker-set.state.service";
+import {CreateStateService} from "../create-state.service";
 import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({
@@ -47,7 +47,7 @@ import {animate, style, transition, trigger} from "@angular/animations";
 })
 export class PokemonCardComponent {
 
-  constructor(protected _stateService: CreateTrackerSetStateService) {
+  constructor(protected _stateService: CreateStateService) {
   }
 
 }
