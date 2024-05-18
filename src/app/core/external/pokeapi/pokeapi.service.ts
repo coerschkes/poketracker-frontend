@@ -3,12 +3,13 @@ import {HttpClient} from "@angular/common/http";
 import {PokeapiUrlProvider} from "./url/pokeapi-url-provider";
 import {map, switchMap} from "rxjs";
 import {PokeapiResponseFactory} from "./url/pokeapi-pokemon";
+import {LookupTableService} from "../../../shared/lookup-table.service";
 
 @Injectable({providedIn: "root"})
 export class PokeapiService {
   private readonly lookupTablePath: string = "assets/pokemon-lookup-table-ger.csv";
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private lookupService: LookupTableService) {
   }
 
   public getPokemon(pokemonName: string) {
@@ -26,20 +27,6 @@ export class PokeapiService {
   }
 
   private lookupDexNr(pokemonName: string) {
-    return this.httpClient
-      .get(this.lookupTablePath, {responseType: "text"})
-      .pipe(
-        map(value => {
-          const lines = value.split("\n");
-          for (let i = 0; i < lines.length; i++) {
-            const line = lines[i];
-            const columns = line.split(",");
-            if (columns[1].toLowerCase() === pokemonName) {
-              return columns;
-            }
-          }
-          throw new Error(`Pokemon ${pokemonName} not found in lookup table`);
-        })
-      );
+    return this.lookupService.lookup(this.lookupTablePath, pokemonName)
   }
 }
