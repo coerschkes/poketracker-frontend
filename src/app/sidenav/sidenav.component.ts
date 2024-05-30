@@ -7,6 +7,8 @@ import {MatListItem, MatNavList} from "@angular/material/list";
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {MatIcon} from "@angular/material/icon";
 import {environment} from "../../environments/environment";
+import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
+import {AuthStateService} from "../core/auth/auth-state.service";
 
 @Component({
   selector: 'app-sidenav',
@@ -21,7 +23,10 @@ import {environment} from "../../environments/environment";
     MatListItem,
     RouterLink,
     MatIcon,
-    RouterOutlet
+    RouterOutlet,
+    MatMenuTrigger,
+    MatMenu,
+    MatMenuItem
   ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
@@ -31,9 +36,13 @@ export class SidenavComponent {
 
   protected mobileQuery: MediaQueryList;
 
-  constructor(media: MediaMatcher) {
+  constructor(media: MediaMatcher, private authState: AuthStateService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
   }
 
   protected readonly environment = environment;
+
+  logout() {
+    this.authState.invalidate()
+  }
 }
