@@ -27,7 +27,7 @@ $light-theme: matx.define-theme($m3-custom-light);
 
 $currentTheme: $dark-theme;
 
-@if($currentTheme == $dark-theme) {
+@if ($currentTheme == $dark-theme) {
   @include auth-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
   @include sidenav-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
   @include create-tracker-set-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
@@ -41,7 +41,7 @@ $currentTheme: $dark-theme;
 
 html {
   @include mat.all-component-themes($currentTheme);
-  @if($currentTheme == $dark-theme) {
+  @if ($currentTheme == $dark-theme) {
     background: mat.get-theme-color($currentTheme, secondary, 10);
   } @else {
     background: mat.get-theme-color($currentTheme, secondary, 95);
@@ -49,7 +49,6 @@ html {
 }
 
 html, body {
-  background: transparent;
   height: 100vh !important;
   margin: 0;
   padding: 0;
