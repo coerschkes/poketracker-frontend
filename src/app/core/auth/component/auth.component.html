@@ -13,7 +13,7 @@
       <mat-divider></mat-divider>
     </mat-card-content>
     <mat-card-actions class="card-actions">
-      <p class="mode-swap-paragraph">or {{ loginMode() ? 'login' : 'sign up' }}
+      <p class="mode-swap-paragraph">or {{ loginMode() ? 'sign up' : 'login' }}
         <strong>
           <a class="mode-swap-anchor" routerLink="/auth" (click)="onSwitchMode()">here</a>
         </strong>
