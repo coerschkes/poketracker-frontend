@@ -92,6 +92,7 @@ import {PokemonCardComponent} from "./pokemon-card/pokemon-card.component";
   templateUrl: './create-tracker-set.component.html',
   styleUrl: './create-tracker-set.component.scss',
 })
+//todo: Add snackbar notification when created
 export class CreateTrackerSetComponent {
   @ViewChild('pokemonName') input: ElementRef<HTMLInputElement>;
   pokemonNameFormGroup = this._formBuilder.group({
