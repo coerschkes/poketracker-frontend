@@ -1,6 +1,11 @@
 import {Injectable} from "@angular/core";
-import {FirebaseApiService} from "../external/firebase/firebase-api.service";
-import {tap} from "rxjs";
+import {
+  FirebaseApiService,
+  RefreshTokenResponse,
+  SignInResponse,
+  SignUpResponse
+} from "../external/firebase/firebase-api.service";
+import {catchError, of, tap} from "rxjs";
 import {AuthStateService} from "./auth-state.service";
 import {UserInfo} from "./user-info";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -19,9 +24,9 @@ export class AuthService {
   signUp(email: string, password: string) {
     return this._firebaseApiService
       .signUp(email, password)
-      .pipe(tap((value: any) =>
+      .pipe(tap((value: SignUpResponse) =>
           this._authStateService.authenticate(
-            this.buildUserInfo(value.idToken, value.email, value.refreshToken, value.expiresInSeconds)
+            this.buildUserInfo(value.idToken, value.refreshToken, value.expiresIn)
           )
         )
       )
@@ -30,10 +35,9 @@ export class AuthService {
   basicLogin(email: string, password: string) {
     return this._firebaseApiService
       .basicLogin(email, password)
-      .pipe(tap((value: any) => {
-            console.log(value)
+      .pipe(tap((value: SignInResponse) => {
             this._authStateService.authenticate(
-              this.buildUserInfo(value.idToken, value.email, value.refreshToken, value.expiresInSeconds)
+              this.buildUserInfo(value.idToken,value.refreshToken, value.expiresIn)
             )
           }
         )
@@ -48,29 +52,23 @@ export class AuthService {
   refreshToken() {
     return this._firebaseApiService
       .refreshToken(this._authStateService.userInfo()?.refreshToken || "")
-      .subscribe({
-          next: (v) => {
-            this.firebaseApiService.lookupUser(v.id_token).subscribe({
-              next: (value: any) => {
-                this._authStateService.authenticate(
-                  this.buildUserInfo(v.id_token, value.email, v.refresh_token, v.expires_in)
-                )
-              }, error: (e: HttpErrorResponse) => {
-                console.log(e)
-              }
-            })
-          },
-          error: (e: HttpErrorResponse) => {
-            console.log(e)
+      .pipe(
+        tap((value: RefreshTokenResponse) => {
+            this._authStateService.authenticate(
+              this.buildUserInfo(value.id_token, value.refresh_token, value.expires_in)
+            )
           }
-        }
+        ),
+        catchError((err: HttpErrorResponse) => {
+          console.log(err)
+          return of(err)
+        })
       )
   }
 
-  private buildUserInfo(idToken: string, email: string, refreshToken: string, expiresInSeconds: string): UserInfo {
+  private buildUserInfo(idToken: string, refreshToken: string, expiresInSeconds: string): UserInfo {
     return {
       idToken: idToken,
-      email: email,
       refreshToken: refreshToken,
       expiresIn: expiresInSeconds,
       createdAt: String(new Date().getTime() / 1000),

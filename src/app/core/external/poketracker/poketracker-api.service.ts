@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {AuthStateService} from "../../auth/auth-state.service";
-import {catchError, Observable, of} from "rxjs";
+import {catchError, Observable, of, switchMap} from "rxjs";
 import {AuthService} from "../../auth/auth.service";
 import {Pokemon} from "./poketracker-api";
 
@@ -19,16 +19,21 @@ export class PoketrackerApiService {
       .pipe(
         catchError((err: HttpErrorResponse) => {
             console.log(err)
-            this.authService.refreshToken();
-            return this.callGetApiAuthenticated<Pokemon[]>(this._baseUrl)
-              .pipe(
-                catchError((err: HttpErrorResponse) => {
-                    console.log(err)
-                    this.authState.invalidate()
-                    return of(err)
-                  }
-                )
-              )
+            return this.authService.refreshToken().pipe(
+              switchMap(() => {
+                return this.callGetApiAuthenticated<Pokemon[]>(this._baseUrl)
+                  .pipe(
+                    catchError((err: HttpErrorResponse) => {
+                        console.log(err)
+                        if (err.status === 401) {
+                          this.authState.invalidate()
+                        }
+                        return of(err)
+                      }
+                    )
+                  )
+              })
+            )
           }
         )
       )
