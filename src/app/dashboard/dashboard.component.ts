@@ -35,6 +35,9 @@ import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.componen
 export class DashboardComponent implements OnInit {
   private _poketrackerApi: any;
   protected _dataSource: Pokemon[];
+  columnsToDisplay = ['dex', 'name', 'types', 'shiny', 'normal', 'universal', 'regional'];
+  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
+  expandedElement: Pokemon | null;
 
   constructor(_poketrackerApi: PoketrackerApiService) {
     this._poketrackerApi = _poketrackerApi;
@@ -51,18 +54,4 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-  //   dex: number
-  //   name: string
-  //   types: string[]
-  //   shiny: boolean
-  //   normal: boolean
-  //   universal: boolean
-  //   regional: boolean
-  //   editions: string[]
-  //   normalSpriteUrl: string
-  //   shinySpriteUrl: string
-
-  columnsToDisplay = ['dex', 'name', 'types', 'shiny', 'normal', 'universal', 'regional'];
-  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-  expandedElement: Pokemon | null;
 }
