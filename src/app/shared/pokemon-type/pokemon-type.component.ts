@@ -13,6 +13,7 @@ import {LookupTableService} from "../lookup-table.service";
 export class PokemonTypeComponent implements OnChanges {
   private readonly pokemonTypeLookupTablePath: string = "assets/pokemon-type-lookup-table-ger.csv";
   @Input() types!: string[] | undefined;
+  @Input() inputLanguage!: string | undefined;
   protected readonly typesSignal: WritableSignal<string[]> = signal([]);
 
   constructor(private _lookupTableService: LookupTableService) {
@@ -24,9 +25,14 @@ export class PokemonTypeComponent implements OnChanges {
   }
 
   protected lookupType(type: string): void {
-    this._lookupTableService.lookup(this.pokemonTypeLookupTablePath, type)
-      .pipe(
-        tap(value => this.typesSignal.update(types => types.concat(value[0]))),
-      ).subscribe();
+    type = type.toLowerCase()
+    if (this.inputLanguage === "en") {
+      this._lookupTableService.translateTypeToGerman(this.pokemonTypeLookupTablePath, type)
+        .pipe(
+          tap(value => this.typesSignal.update(types => types.concat(value[0]))),
+        ).subscribe();
+    } else if (this.inputLanguage === "de") {
+      this.typesSignal.update(types => types.concat(type));
+    }
   }
 }

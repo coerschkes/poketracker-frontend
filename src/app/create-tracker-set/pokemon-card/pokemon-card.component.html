@@ -8,7 +8,7 @@
          [src]="_stateService.isShiny() ? _stateService.pokemon()?.spriteShinyUrl : _stateService.pokemon()?.spriteUrl"
          alt=""/>
     <mat-divider style="margin: 16px 0 16px 0"></mat-divider>
-    <app-pokemon-type [types]="_stateService.pokemon()?.types"></app-pokemon-type>
+    <app-pokemon-type [types]="_stateService.pokemon()?.types" [inputLanguage]="'en'"></app-pokemon-type>
     @for (edition of _stateService.editions(); track _stateService.editions()) {
       <mat-chip-row
         class="pokemon-edition-chip"

@@ -7,7 +7,7 @@ export class LookupTableService {
   constructor(private _httpClient: HttpClient) {
   }
 
-  public lookup(path: string, key: string) {
+  public translateTypeToGerman(path: string, key: string) {
     return this._httpClient
       .get(path, {responseType: "text"})
       .pipe(

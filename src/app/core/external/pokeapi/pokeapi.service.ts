@@ -27,6 +27,6 @@ export class PokeapiService {
   }
 
   private lookupDexNr(pokemonName: string) {
-    return this.lookupService.lookup(this.lookupTablePath, pokemonName)
+    return this.lookupService.translateTypeToGerman(this.lookupTablePath, pokemonName)
   }
 }
