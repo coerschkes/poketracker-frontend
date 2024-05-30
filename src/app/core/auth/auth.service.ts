@@ -3,7 +3,7 @@ import {FirebaseApiService} from "../external/firebase/firebase-api.service";
 import {tap} from "rxjs";
 import {AuthStateService} from "./auth-state.service";
 import {UserInfo} from "./user-info";
-import {BasicLoginResponse, SignUpResponse} from "../external/firebase/firebase-api";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Injectable({providedIn: "root"})
 export class AuthService {
@@ -18,8 +18,8 @@ export class AuthService {
 
   signUp(email: string, password: string) {
     return this._firebaseApiService
-      .signUp({email: email, password: password, returnToken: true})
-      .pipe(tap((value: SignUpResponse) =>
+      .signUp(email, password)
+      .pipe(tap((value: any) =>
           this._authStateService.authenticate(
             this.buildUserInfo(value.idToken, value.email, value.refreshToken, value.expiresInSeconds)
           )
@@ -29,11 +29,13 @@ export class AuthService {
 
   basicLogin(email: string, password: string) {
     return this._firebaseApiService
-      .basicLogin({email: email, password: password, returnToken: true})
-      .pipe(tap((value: BasicLoginResponse) =>
-          this._authStateService.authenticate(
-            this.buildUserInfo(value.idToken, value.email, value.refreshToken, value.expiresInSeconds)
-          )
+      .basicLogin(email, password)
+      .pipe(tap((value: any) => {
+            console.log(value)
+            this._authStateService.authenticate(
+              this.buildUserInfo(value.idToken, value.email, value.refreshToken, value.expiresInSeconds)
+            )
+          }
         )
       )
   }
@@ -41,6 +43,28 @@ export class AuthService {
   tryLoginWithStoredCredentials(): boolean {
     this._authStateService.tryLoginWithStoredCredentials()
     return this._authStateService.isLoggedIn();
+  }
+
+  refreshToken() {
+    return this._firebaseApiService
+      .refreshToken(this._authStateService.userInfo()?.refreshToken || "")
+      .subscribe({
+          next: (v) => {
+            this.firebaseApiService.lookupUser(v.id_token).subscribe({
+              next: (value: any) => {
+                this._authStateService.authenticate(
+                  this.buildUserInfo(v.id_token, value.email, v.refresh_token, v.expires_in)
+                )
+              }, error: (e: HttpErrorResponse) => {
+                console.log(e)
+              }
+            })
+          },
+          error: (e: HttpErrorResponse) => {
+            console.log(e)
+          }
+        }
+      )
   }
 
   private buildUserInfo(idToken: string, email: string, refreshToken: string, expiresInSeconds: string): UserInfo {

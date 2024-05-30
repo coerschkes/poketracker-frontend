@@ -14,7 +14,9 @@ export class AuthStateService {
 
   public authenticate(userInfo: UserInfo) {
     this._userInfo.update(() => userInfo)
-    this.localStorageService.storeUserInfo(userInfo)
+    if (userInfo.refreshToken !== undefined) {
+      this.localStorageService.storeUserInfo(userInfo)
+    }
   }
 
   public invalidate() {
