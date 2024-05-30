@@ -7,5 +7,6 @@ export interface Pokemon {
   universal: boolean
   regional: boolean
   editions: string[]
-  userId: number
+  normalSpriteUrl: string
+  shinySpriteUrl: string
 }
