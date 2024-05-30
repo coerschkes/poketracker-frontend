@@ -34,6 +34,7 @@ import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.componen
 })
 //todo: add a search bar to filter the pokemon
 //todo: add buttons for deleting, editing and adding pokemon
+//todo: add statistics? (total pokemon, total shiny, total normal, total universal, total regional), piechart?
 export class DashboardComponent implements OnInit {
   private _poketrackerApi: any;
   protected _dataSource: Pokemon[];
