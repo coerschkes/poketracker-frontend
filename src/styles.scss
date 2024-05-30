@@ -5,6 +5,7 @@
 @use './app/sidenav/sidenav.component-theme' as sidenav-component;
 @use './app/create-tracker-set/create-tracker-set.component-theme' as create-tracker-set-component;
 @use './app/create-tracker-set/pokemon-card/pokemon-card.component-theme' as pokemon-card-component;
+@use './app/dashboard/dashboard.component-theme' as dashboard-component;
 
 @include mat.core();
 
@@ -32,11 +33,13 @@ $currentTheme: $dark-theme;
   @include sidenav-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
   @include create-tracker-set-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
   @include pokemon-card-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
+  @include dashboard-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
 } @else {
   @include auth-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
   @include sidenav-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 90));
   @include create-tracker-set-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
   @include pokemon-card-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
+  @include dashboard-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
 }
 
 html {
