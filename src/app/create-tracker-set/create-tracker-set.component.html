@@ -54,7 +54,7 @@
         <mat-step>
           <ng-template matStepLabel>Create</ng-template>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button>Create</button>
+          <button mat-button (click)="createTrackerEntry()">Create</button>
         </mat-step>
       </mat-stepper>
     </mat-card-content>

@@ -25,7 +25,7 @@ import {
 import {MatDivider} from "@angular/material/divider";
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {PokeapiService} from "../core/external/pokeapi/pokeapi.service";
-import {catchError, finalize, map, Observable, of, tap} from "rxjs";
+import {catchError, finalize, map, Observable, of, switchMap, tap} from "rxjs";
 import {CreateStateService} from "./create-state.service";
 import {MatGridList, MatGridTile} from "@angular/material/grid-list";
 import {
@@ -42,6 +42,11 @@ import {MatChipGrid, MatChipInput, MatChipRemove, MatChipRow} from "@angular/mat
 import {MatIcon} from "@angular/material/icon";
 import {EditionSelectorComponent} from "./edition-selector/edition-selector.component";
 import {PokemonCardComponent} from "./pokemon-card/pokemon-card.component";
+import {Pokemon} from "../core/external/poketracker/poketracker-api";
+import {PoketrackerApiService} from "../core/external/poketracker/poketracker-api.service";
+import {HttpErrorResponse} from "@angular/common/http";
+import {SnackbarService} from "../shared/snackbar/snackbar.service";
+import {PokemonTypeService} from "../shared/pokemon-type/pokemon-type.service";
 
 @Component({
   selector: 'app-create-tracker-set',
@@ -99,7 +104,12 @@ export class CreateTrackerSetComponent {
     pokemonName: ['', Validators.required, this.pokemonNotFoundValidator()],
   }, {updateOn: "blur"});
 
-  constructor(private _formBuilder: FormBuilder, private _pokeapi: PokeapiService, protected _stateService: CreateStateService) {
+  constructor(private _formBuilder: FormBuilder,
+              private _pokeapi: PokeapiService,
+              private _poketrackerApi: PoketrackerApiService,
+              private _snackbarService: SnackbarService,
+              private _pokemonTypeService: PokemonTypeService,
+              protected _stateService: CreateStateService) {
   }
 
   loadPokemon() {
@@ -141,5 +151,51 @@ export class CreateTrackerSetComponent {
 
   triggerUpdate() {
     this.input.nativeElement.blur()
+  }
+
+  createTrackerEntry() {
+    let pokemon = this.buildPokemonFromStepper();
+    pokemon.pipe(
+      switchMap(value => this._poketrackerApi.createPokemon(value))
+    )
+      .subscribe(
+        {
+          next: (value: Pokemon | HttpErrorResponse) => {
+            if (value instanceof HttpErrorResponse) {
+              console.error(value)
+              this._snackbarService.message = value.error.Message
+              this._snackbarService.colorClass = "snackbar-error"
+            } else {
+              this._snackbarService.message = "Pokemon created"
+              this._snackbarService.colorClass = "snackbar-success"
+            }
+          },
+          complete: () => {
+            this._snackbarService.show()
+          }
+        }
+      )
+  }
+
+  buildPokemonFromStepper(): Observable<Pokemon> {
+    return this._pokemonTypeService.lookupTypes(this._stateService.pokemon()!.types, "en")
+      .pipe(
+        map(types => this.buildPokemon(types))
+      )
+  }
+
+  buildPokemon(types: string[]): Pokemon {
+    return {
+      dex: this._stateService.pokemon()!.dexNumber,
+      name: this._stateService.pokemon()!.name,
+      types: types,
+      shiny: this._stateService.isShiny(),
+      normal: !this._stateService.isShiny(),
+      universal: !this._stateService.isRegional(),
+      regional: this._stateService.isRegional(),
+      editions: this._stateService.editions(),
+      normalSpriteUrl: this._stateService.pokemon()!.spriteUrl,
+      shinySpriteUrl: this._stateService.pokemon()!.spriteShinyUrl
+    }
   }
 }
