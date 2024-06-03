@@ -38,6 +38,7 @@ import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.componen
 //todo: pagination?
 //todo: add snackbar notification if error occurs
 //todo: session timed out notification?
+//todo: sort by dex nr
 export class DashboardComponent implements OnInit {
   private _poketrackerApi: any;
   protected _dataSource: Pokemon[];
