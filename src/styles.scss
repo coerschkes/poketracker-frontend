@@ -26,7 +26,7 @@ $m3-custom-dark: (
 $dark-theme: matx.define-theme($m3-custom-dark);
 $light-theme: matx.define-theme($m3-custom-light);
 
-$currentTheme: $dark-theme;
+$currentTheme: $light-theme;
 
 @if ($currentTheme == $dark-theme) {
   @include auth-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
@@ -60,4 +60,24 @@ html, body {
 
 .accent-btn {
   @include mat.button-color($currentTheme, $color-variant: tertiary);
+}
+
+.mat-mdc-snack-bar-container {
+  &.snackbar-success {
+    --mdc-snackbar-container-color:  #026e00;
+    --mat-snack-bar-button-color: #fff;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    --mat-mdc-button-touch-target-color: #fff;
+  }
+}
+
+.mat-mdc-snack-bar-container {
+  &.snackbar-error {
+    --mdc-snackbar-container-color: #f44336;
+    --mat-snack-bar-button-color: #fff;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+    --mat-mdc-button-touch-target-color: #fff;
+  }
 }
