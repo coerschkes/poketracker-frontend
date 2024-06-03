@@ -97,7 +97,6 @@ import {PokemonTypeService} from "../shared/pokemon-type/pokemon-type.service";
   templateUrl: './create-tracker-set.component.html',
   styleUrl: './create-tracker-set.component.scss',
 })
-//todo: Add snackbar notification when created
 export class CreateTrackerSetComponent {
   @ViewChild('pokemonName') input: ElementRef<HTMLInputElement>;
   pokemonNameFormGroup = this._formBuilder.group({
@@ -127,12 +126,6 @@ export class CreateTrackerSetComponent {
         );
     } else {
       return of()
-    }
-  }
-
-  setLoading() {
-    if (!this._stateService.loading()) {
-      this._stateService.loading = true
     }
   }
 
@@ -168,6 +161,9 @@ export class CreateTrackerSetComponent {
             } else {
               this._snackbarService.message = "Pokemon created"
               this._snackbarService.colorClass = "snackbar-success"
+              this._stateService.pokemon = undefined
+              this._stateService.reset()
+              this.pokemonNameFormGroup.reset()
             }
           },
           complete: () => {
@@ -180,22 +176,20 @@ export class CreateTrackerSetComponent {
   buildPokemonFromStepper(): Observable<Pokemon> {
     return this._pokemonTypeService.lookupTypes(this._stateService.pokemon()!.types, "en")
       .pipe(
-        map(types => this.buildPokemon(types))
+        map(types => {
+          return {
+            dex: this._stateService.pokemon()!.dexNumber,
+            name: this._stateService.pokemon()!.name,
+            types: types,
+            shiny: this._stateService.isShiny(),
+            normal: !this._stateService.isShiny(),
+            universal: !this._stateService.isRegional(),
+            regional: this._stateService.isRegional(),
+            editions: this._stateService.editions(),
+            normalSpriteUrl: this._stateService.pokemon()!.spriteUrl,
+            shinySpriteUrl: this._stateService.pokemon()!.spriteShinyUrl
+          }
+        })
       )
-  }
-
-  buildPokemon(types: string[]): Pokemon {
-    return {
-      dex: this._stateService.pokemon()!.dexNumber,
-      name: this._stateService.pokemon()!.name,
-      types: types,
-      shiny: this._stateService.isShiny(),
-      normal: !this._stateService.isShiny(),
-      universal: !this._stateService.isRegional(),
-      regional: this._stateService.isRegional(),
-      editions: this._stateService.editions(),
-      normalSpriteUrl: this._stateService.pokemon()!.spriteUrl,
-      shinySpriteUrl: this._stateService.pokemon()!.spriteShinyUrl
-    }
   }
 }

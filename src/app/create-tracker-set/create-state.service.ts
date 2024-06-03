@@ -14,7 +14,6 @@ export class CreateStateService {
   }
 
   set pokemon(pokemon: PokeapiPokemon | undefined) {
-    console.log("pokemon updated to", pokemon)
     this._pokemon.update(() => pokemon)
   }
 
@@ -56,5 +55,13 @@ export class CreateStateService {
 
   removeEdition(edition: string) {
     this._editions.update(editions => editions.filter(e => e !== edition));
+  }
+
+  reset(){
+    this._pokemon.update(() => undefined);
+    this._loading.update(() => false);
+    this._isShiny.update(() => false);
+    this._isRegional.update(() => false);
+    this._editions.update(() => []);
   }
 }
