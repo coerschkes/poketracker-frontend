@@ -15,13 +15,33 @@ export class PoketrackerApiService {
   }
 
   public getAllPokemon(): Observable<Pokemon[] | HttpErrorResponse> {
-    return this.callGetApiAuthenticated<Pokemon[]>(this._baseUrl)
+    return this.callApiAuthenticated(this.callGet<Pokemon[]>(this._baseUrl));
+  }
+
+  public createPokemon(pokemon: Pokemon): Observable<Pokemon | HttpErrorResponse> {
+    return this.callApiAuthenticated(this.callPost<Pokemon>(this._baseUrl, pokemon));
+  }
+
+  public callGet<T>(url: string) {
+    return this.httpClient.get<T>(url, {
+      headers: {Authorization: 'Bearer ' + this.authState.userInfo()?.idToken}
+    })
+  }
+
+  public callPost<T>(url: string, body: any) {
+    return this.httpClient.post<T>(url, body, {
+      headers: {Authorization: 'Bearer ' + this.authState.userInfo()?.idToken}
+    })
+  }
+
+  private callApiAuthenticated<T>(obs: Observable<T>): Observable<T | HttpErrorResponse> {
+    return obs
       .pipe(
         catchError((err: HttpErrorResponse) => {
             console.log(err)
             return this.authService.refreshToken().pipe(
               switchMap(() => {
-                return this.callGetApiAuthenticated<Pokemon[]>(this._baseUrl)
+                return obs
                   .pipe(
                     catchError((err: HttpErrorResponse) => {
                         console.log(err)
@@ -37,11 +57,5 @@ export class PoketrackerApiService {
           }
         )
       )
-  }
-
-  public callGetApiAuthenticated<T>(url: string) {
-    return this.httpClient.get<T>(url, {
-      headers: {Authorization: 'Bearer ' + this.authState.userInfo()?.idToken}
-    })
   }
 }
