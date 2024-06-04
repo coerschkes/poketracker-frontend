@@ -15,7 +15,8 @@ jobs:
       - name: Create environments file
         run: 'touch environments/environments.ts'
       - name: Set up environments
-        run: "echo 'export const environment = { FIREBASE_API_KEY: $FIREBASE_API_KEY, APP_NAME=\'Pokètracker\' };' > environments/environments.ts"
+        run: |
+          echo "export const environment = { FIREBASE_API_KEY: '$FIREBASE_API_KEY', APP_NAME='Pokétracker' };" > environments/environments.ts
         shell: bash
         env:
           FIREBASE_API_KEY: ${{secrets.FIREBASE_API_KEY}}
