@@ -15,11 +15,11 @@ jobs:
       - name: Create environments file
         run: 'touch environments/environments.ts'
       - name: Set up environments
+        env:
+          FIREBASE_API_KEY: ${{secrets.FIREBASE_API_KEY}}
         run: |
           echo "export const environment = { FIREBASE_API_KEY: '$FIREBASE_API_KEY', APP_NAME='Pokétracker' };" > environments/environments.ts
         shell: bash
-        env:
-          FIREBASE_API_KEY: ${{secrets.FIREBASE_API_KEY}}
       - run: "cat environments/environments.ts"
       - name: Adding Node.js
         uses: actions/setup-node@v2
