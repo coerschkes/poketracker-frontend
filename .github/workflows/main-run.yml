@@ -11,18 +11,18 @@ jobs:
         run: |
           ls ${{ github.workspace }}
       - name: Create environments folder
-        run: 'mkdir environments'
+        run: 'mkdir src/environments'
       - name: Create environments file
-        run: 'touch environments/environments.ts'
+        run: 'touch src/environments/environments.ts'
       - name: Set up environments
         env:
           FIREBASE_API_KEY: ${{secrets.FIREBASE_API_TOKEN}}
         run: |
-          echo "export const environment = { FIREBASE_API_KEY: '$FIREBASE_API_KEY', APP_NAME='Pokétracker' };" > environments/environment.ts
+          echo "export const environment = { FIREBASE_API_KEY: '$FIREBASE_API_KEY', APP_NAME='Pokétracker' };" > src/environments/environment.ts
         shell: bash
       - run: ls
       - run: ls environments
-      - run: "cat environments/environment.ts"
+      - run: "cat src/environments/environment.ts"
       - name: Adding Node.js
         uses: actions/setup-node@v2
         with:
