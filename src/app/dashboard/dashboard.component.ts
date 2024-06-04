@@ -39,6 +39,7 @@ import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.componen
 //todo: add snackbar notification if error occurs
 //todo: session timed out notification?
 //todo: sort by dex nr
+//todo: check space between type and row boundaries
 export class DashboardComponent implements OnInit {
   private _poketrackerApi: any;
   protected _dataSource: Pokemon[];
@@ -54,6 +55,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this._poketrackerApi.getAllPokemon().subscribe({
       next: (value: Pokemon[]) => {
+        value.sort((a, b) => a.dex - b.dex);
         this._dataSource = value;
       },
       error: (e: HttpErrorResponse) => {
