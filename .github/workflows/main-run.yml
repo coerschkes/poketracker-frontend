@@ -30,7 +30,7 @@ jobs:
         run: npm run build
       - name: test
         run: npm install -g @angular/cli
-      - run: ng add angular-cli-ghpages
+      - run: npm install -g angular-cli-ghpages@2.0.0
       - name: Deploy to gh pages
         env:
           CI: true
