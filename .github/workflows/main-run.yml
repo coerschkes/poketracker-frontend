@@ -29,7 +29,7 @@ jobs:
       - name: Build Angular App
         run: npm run build --base-href=/poketracker-frontend/
       - name: Add cli-ghpages
-        run: npm install -g angular-cli-ghpages
+        run: npm install --save-dev @angular-devkit/build-angular
       - name: Deploy to gh pages
         env:
           CI: true
