@@ -9,7 +9,7 @@
           <mat-icon fontIcon="{{ element[column] === true ? 'done' : 'not_interested'}}"></mat-icon>
         </td>
       } @else if (column === 'types') {
-        <td mat-cell *matCellDef="let element">
+        <td class="pokemon-type" mat-cell *matCellDef="let element">
           <app-pokemon-type [inputLanguage]="'de'" [types]="element[column]"></app-pokemon-type>
         </td>
       } @else {
