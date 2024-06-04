@@ -34,4 +34,3 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           npx angular-cli-ghpages --no-silent --dir=dist/poketracker/browser
-
