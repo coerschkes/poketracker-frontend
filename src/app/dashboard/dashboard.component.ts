@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, signal, WritableSignal} from '@angular/core';
 import {SidenavComponent} from "../sidenav/sidenav.component";
 import {PoketrackerApiService} from "../core/external/poketracker/poketracker-api.service";
 import {Pokemon} from "../core/external/poketracker/poketracker-api";
@@ -42,6 +42,7 @@ import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.componen
 //todo: check space between type and row boundaries
 export class DashboardComponent implements OnInit {
   private _poketrackerApi: any;
+  protected _dataSourceSignal: WritableSignal<Pokemon[]>;
   protected _dataSource: Pokemon[];
   columnsToDisplay = ['dex', 'name', 'types', 'shiny', 'normal', 'universal', 'regional'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
@@ -49,18 +50,32 @@ export class DashboardComponent implements OnInit {
 
   constructor(_poketrackerApi: PoketrackerApiService) {
     this._poketrackerApi = _poketrackerApi;
+    this._dataSourceSignal = signal([]);
     this._dataSource = [];
   }
 
   ngOnInit(): void {
+   this.loadPokemonTable()
+  }
+
+  loadPokemonTable() {
     this._poketrackerApi.getAllPokemon().subscribe({
       next: (value: Pokemon[]) => {
         value.sort((a, b) => a.dex - b.dex);
-        this._dataSource = value;
+        this._dataSourceSignal.update(() => value);
       },
       error: (e: HttpErrorResponse) => {
         console.log(e);
       }
     });
+  }
+
+  deletePokemon(pokemon: Pokemon) {
+    this._poketrackerApi.deletePokemon(pokemon).subscribe({
+      next: (value: any) => {
+        this.loadPokemonTable()
+      },
+    });
+    console.log("pokemon deleted, " + pokemon.dex)
   }
 }

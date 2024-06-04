@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
 import {AuthStateService} from "../../auth/auth-state.service";
 import {catchError, Observable, of, switchMap} from "rxjs";
 import {AuthService} from "../../auth/auth.service";
@@ -22,14 +22,24 @@ export class PoketrackerApiService {
     return this.callApiAuthenticated(this.callPost<Pokemon>(this._baseUrl, pokemon));
   }
 
-  public callGet<T>(url: string) {
+  public deletePokemon(pokemon: Pokemon): Observable<HttpResponse<any> | HttpErrorResponse> {
+    return this.callApiAuthenticated(this.callDelete<HttpResponse<any>>(this._baseUrl + '/' + pokemon.dex));
+  }
+
+  private callGet<T>(url: string) {
     return this.httpClient.get<T>(url, {
       headers: {Authorization: 'Bearer ' + this.authState.userInfo()?.idToken}
     })
   }
 
-  public callPost<T>(url: string, body: any) {
+  private callPost<T>(url: string, body: any) {
     return this.httpClient.post<T>(url, body, {
+      headers: {Authorization: 'Bearer ' + this.authState.userInfo()?.idToken}
+    })
+  }
+
+  private callDelete<T>(url: string) {
+    return this.httpClient.delete<T>(url, {
       headers: {Authorization: 'Bearer ' + this.authState.userInfo()?.idToken}
     })
   }

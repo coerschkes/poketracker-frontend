@@ -1,5 +1,5 @@
 <table mat-table
-       [dataSource]="_dataSource" multiTemplateDataRows
+       [dataSource]="_dataSourceSignal()" multiTemplateDataRows
        class="mat-elevation-z8">
   @for (column of columnsToDisplay; track column) {
     <ng-container matColumnDef="{{column}}">
@@ -47,6 +47,9 @@
         <div class="element-description">
           {{ element.description }}
           <span class="element-description-attribution"> -- element description attribution </span>
+        </div>
+        <div>
+          <button mat-button (click)="deletePokemon(element)">Delete <mat-icon fontIcon="delete"></mat-icon></button>
         </div>
       </div>
     </td>
