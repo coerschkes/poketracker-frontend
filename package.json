@@ -1,5 +1,6 @@
 {
   "name": "poketracker",
+  "homepage" : "http://coerschkes.github.io/poketracker-frontend",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
