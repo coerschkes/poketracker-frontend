@@ -9,7 +9,7 @@ import {Pokemon} from "./poketracker-api";
   providedIn: 'root'
 })
 export class PoketrackerApiService {
-  private readonly _baseUrl: string = 'http://104.248.253.244:1323/api/pokemon';
+  private readonly _baseUrl: string = 'http://localhost:1323/api/pokemon';
 
   constructor(private httpClient: HttpClient, private authState: AuthStateService, private authService: AuthService) {
   }
