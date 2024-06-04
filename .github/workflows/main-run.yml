@@ -33,5 +33,4 @@ jobs:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          npm run ng -- deploy --dir=dist/poketracker/browser --base-href=/poketracker-frontend/ --name="${{ secrets.UNAME }}" --email=${{ secrets.EMAIL }}
-#          npx angular-cli-ghpages --no-silent --dir=dist/poketracker/browser --name="${{ secrets.UNAME }}" --email=${{ secrets.EMAIL }}
+          npx angular-cli-ghpages --base-href=/poketracker-frontend/ --no-silent --dir=dist/poketracker/browser --name="${{ secrets.UNAME }}" --email=${{ secrets.EMAIL }}
