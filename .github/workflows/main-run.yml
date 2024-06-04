@@ -10,6 +10,10 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - name: Create environments folder
+        run: 'mkdir environments'
+      - name: Create environments file
+        run: 'touch environments/environments.ts'
       - name: Set up environments
         run: "echo 'export const environment = { FIREBASE_API_KEY: \'$FIREBASE_API_KEY\', APP_NAME=\'Pokètracker\' };' > environments/environments.ts"
         shell: bash
