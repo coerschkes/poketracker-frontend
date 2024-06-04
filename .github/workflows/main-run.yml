@@ -21,7 +21,7 @@ jobs:
           FIREBASE_API_KEY: ${{secrets.FIREBASE_API_KEY}}
       - name: List files in the repository 2
         run: |
-          ls ${{ github.workspace }}/src/environments
+          ls environments
       - name: Adding Node.js
         uses: actions/setup-node@v2
         with:
