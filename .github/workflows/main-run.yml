@@ -20,6 +20,8 @@ jobs:
         run: |
           echo "export const environment = { FIREBASE_API_KEY: '$FIREBASE_API_KEY', APP_NAME='Pokétracker' };" > environments/environment.ts
         shell: bash
+      - run: ls
+      - run: ls environments
       - run: "cat environments/environment.ts"
       - name: Adding Node.js
         uses: actions/setup-node@v2
