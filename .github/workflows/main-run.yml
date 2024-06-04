@@ -33,4 +33,4 @@ jobs:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          npx angular-cli-ghpages --no-silent --dir=dist --name="${{ secrets.UNAME }}" --email=${{ secrets.EMAIL }}
+          npx angular-cli-ghpages --no-silent --dir=dist/poketracker --name="${{ secrets.UNAME }}" --email=${{ secrets.EMAIL }}
