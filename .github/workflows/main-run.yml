@@ -27,7 +27,7 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Build Angular App
-        run: npm run ng build -- --prod --base-href="https://coerschkes.github.io/poketracker-frontend/"
+        run: npm run ng build --base-href="https://coerschkes.github.io/poketracker-frontend/"
       - name: Deploy to gh pages
         env:
           CI: true
