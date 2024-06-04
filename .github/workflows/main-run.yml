@@ -19,6 +19,9 @@ jobs:
         shell: bash
         env:
           FIREBASE_API_KEY: ${{secrets.FIREBASE_API_KEY}}
+      - name: List files in the repository
+        run: |
+          ls ${{ github.workspace }}
       - name: List files in the repository 2
         run: |
           ls environments
