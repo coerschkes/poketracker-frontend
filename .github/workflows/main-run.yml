@@ -31,6 +31,6 @@ jobs:
       - name: Deploy to gh pages
         run: |
           npx angular-cli-ghpages --no-silent --dir=dist/poketracker/browser
-          env:
-           CI: true
-           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        env:
+         CI: true
+         GH_TOKEN: ${{ secrets.GH_TOKEN }}
