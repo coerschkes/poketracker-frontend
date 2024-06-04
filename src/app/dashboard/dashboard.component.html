@@ -46,10 +46,23 @@
             <img class="rounded-picture" [src]="element.shinySpriteUrl" alt="normal sprite url">
           </div>
         }
-        <div class="element-description">
-          {{ element.description }}
-          <span class="element-description-attribution"> -- element description attribution </span>
+        <div style="padding: 16px">
+          @for (edition of element.editions; track edition) {
+            <mat-chip-row
+              class="pokemon-edition-chip"
+              [editable]="true" title="{{edition}}">
+              {{ edition }}
+              <!--            <button matChipRemove [attr.aria-label]="'remove ' + edition">-->
+              <!--              <mat-icon>cancel</mat-icon>-->
+              <!--            </button>-->
+            </mat-chip-row>
+          }
         </div>
+<!--        <div class="element-description">-->
+<!--          {{ element.description }}-->
+<!--          <span class="element-description-attribution"> &#45;&#45; </span>-->
+<!--        </div>-->
+        <div style="flex-grow: 1"></div>
         <div>
           <button mat-button (click)="deletePokemon(element)">Delete
             <mat-icon fontIcon="delete"></mat-icon>

@@ -9,6 +9,7 @@ import {MatIconModule} from "@angular/material/icon";
 import {animate, state, style, transition, trigger} from "@angular/animations";
 import {TitleCasePipe, UpperCasePipe} from "@angular/common";
 import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.component";
+import {MatChipRemove, MatChipRow} from "@angular/material/chips";
 
 @Component({
   selector: 'app-dashboard',
@@ -20,7 +21,9 @@ import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.componen
     MatIconModule,
     UpperCasePipe,
     TitleCasePipe,
-    PokemonTypeComponent
+    PokemonTypeComponent,
+    MatChipRow,
+    MatChipRemove
   ],
   animations: [
     trigger('detailExpand', [
@@ -72,7 +75,7 @@ export class DashboardComponent implements OnInit {
 
   deletePokemon(pokemon: Pokemon) {
     this._poketrackerApi.deletePokemon(pokemon).subscribe({
-      next: (value: any) => {
+      next: () => {
         this.loadPokemonTable()
       },
     });
