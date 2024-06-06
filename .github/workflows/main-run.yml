@@ -32,6 +32,5 @@ jobs:
         env:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-#          todo: cleanup
         run: |
           npx angular-cli-ghpages --no-silent --dir=dist/poketracker/browser --name=${{ secrets.UNAME }} --email=${{ secrets.EMAIL }}
