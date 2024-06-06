@@ -13,7 +13,6 @@ export class PoketrackerApiService {
   private readonly _options = {
     headers: {
       Authorization: 'Bearer ' + this.authState.userInfo()?.idToken,
-      'rejectUnauthorized': 'false'
     }
   }
 
