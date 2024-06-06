@@ -4,12 +4,14 @@ import {AuthStateService} from "../../auth/auth-state.service";
 import {catchError, Observable, of, switchMap} from "rxjs";
 import {AuthService} from "../../auth/auth.service";
 import {Pokemon} from "./poketracker-api";
+import {environment} from "../../../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PoketrackerApiService {
-  private readonly _baseUrl: string = 'https://104.248.253.244:1323/api/pokemon';
+
+  private readonly _baseUrl: string = environment.POKETRACKER_API_URL;
   private readonly _options = {
     headers: {
       Authorization: 'Bearer ' + this.authState.userInfo()?.idToken,
