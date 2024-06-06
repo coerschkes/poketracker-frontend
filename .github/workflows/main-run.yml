@@ -7,9 +7,6 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
       - name: Create environments folder
         run: 'mkdir src/environments'
       - name: Create environments file
