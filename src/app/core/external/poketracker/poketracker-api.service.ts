@@ -10,6 +10,12 @@ import {Pokemon} from "./poketracker-api";
 })
 export class PoketrackerApiService {
   private readonly _baseUrl: string = 'http://104.248.253.244:1323/api/pokemon';
+  private readonly _options = {
+    headers: {
+      Authorization: 'Bearer ' + this.authState.userInfo()?.idToken,
+      'Referrer-Policy': 'unsafe-url'
+    }
+  }
 
   constructor(private httpClient: HttpClient, private authState: AuthStateService, private authService: AuthService) {
   }
@@ -27,21 +33,15 @@ export class PoketrackerApiService {
   }
 
   private callGet<T>(url: string) {
-    return this.httpClient.get<T>(url, {
-      headers: {Authorization: 'Bearer ' + this.authState.userInfo()?.idToken}
-    })
+    return this.httpClient.get<T>(url, this._options)
   }
 
   private callPost<T>(url: string, body: any) {
-    return this.httpClient.post<T>(url, body, {
-      headers: {Authorization: 'Bearer ' + this.authState.userInfo()?.idToken}
-    })
+    return this.httpClient.post<T>(url, body, this._options)
   }
 
   private callDelete<T>(url: string) {
-    return this.httpClient.delete<T>(url, {
-      headers: {Authorization: 'Bearer ' + this.authState.userInfo()?.idToken}
-    })
+    return this.httpClient.delete<T>(url, this._options)
   }
 
   private callApiAuthenticated<T>(obs: Observable<T>): Observable<T | HttpErrorResponse> {
