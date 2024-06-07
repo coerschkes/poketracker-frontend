@@ -37,16 +37,16 @@
       <div class="element-detail"
            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
         @if (element.normal === true) {
-          <div class="element-sprites">
+          <div style="{{_responsiveConfigurationService.isMobile() ? 'height: 144px;' : 'height: 204px'}}" class="element-sprites">
             <img class="rounded-picture" [src]="element.normalSpriteUrl" alt="normal sprite url">
           </div>
         }
         @if (element.shiny === true) {
-          <div class="element-sprites">
+          <div style="{{_responsiveConfigurationService.isMobile() ? 'height: 144px;' : 'height: 204px'}}" class="element-sprites">
             <img class="rounded-picture" [src]="element.shinySpriteUrl" alt="normal sprite url">
           </div>
         }
-        <div style="padding: 16px">
+        <div style=" width: 100%">
           @for (edition of element.editions; track edition) {
             <mat-chip-row
               class="pokemon-edition-chip"

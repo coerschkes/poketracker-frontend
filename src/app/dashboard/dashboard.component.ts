@@ -50,7 +50,7 @@ export class DashboardComponent implements OnInit {
   columnsToDisplayWithExpand: string[];
   expandedElement: Pokemon | null;
 
-  constructor(_poketrackerApi: PoketrackerApiService, private _responsiveConfigurationService: ResponsiveConfigurationService) {
+  constructor(_poketrackerApi: PoketrackerApiService, protected _responsiveConfigurationService: ResponsiveConfigurationService) {
     this._poketrackerApi = _poketrackerApi;
     this._dataSourceSignal = signal([]);
     effect(() => this.changeDisplayedColumns());
