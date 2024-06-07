@@ -1,18 +1,19 @@
-<div class="base-container" style="{{_responsiveConfigurationService.isMobile() ? 'align-items: start;': 'align-items: center;'}}">
-  <mat-card  class="{{_responsiveConfigurationService.isMobile() ? 'mobile-form-card' :'form-card'}} primary-card">
+<div class="base-container"
+     style="{{_responsiveConfigurationService.isMobile() ? 'align-items: start;': 'align-items: center;'}}">
+  <mat-card class="{{_responsiveConfigurationService.isMobile() ? 'mobile-form-card' :'form-card'}} primary-card">
     <mat-card-header>
       <mat-card-subtitle>Create Pokemon</mat-card-subtitle>
       <mat-card-title>Poketracker entry</mat-card-title>
     </mat-card-header>
     <mat-card-content style="height: 100%">
-      @if (_stateService.hasPokemon() && _responsiveConfigurationService.isMobile()){
+      @if (_stateService.hasPokemon() && _responsiveConfigurationService.isMobile()) {
         <app-pokemon-card-content></app-pokemon-card-content>
       }
       <mat-stepper class="primary-card" orientation="vertical" linear="true" #stepper>
         <mat-step [stepControl]="pokemonNameFormGroup">
           <form [formGroup]="pokemonNameFormGroup">
             <ng-template matStepLabel>Pokémon</ng-template>
-            <mat-form-field style="width: 100%" >
+            <mat-form-field style="width: 100%">
               <mat-label>Pokémon</mat-label>
               <input (keydown.enter)="triggerUpdate()" #pokemonName matInput placeholder="Name"
                      formControlName="pokemonName" required>
@@ -44,6 +45,18 @@
               Regional
             </mat-checkbox>
           </p>
+          <p>
+            <mat-checkbox class="checkbox" checked="{{_stateService.isNormal()}}"
+                          (click)="_stateService.toggleNormal()">
+              Normal
+            </mat-checkbox>
+          </p>
+          <p>
+            <mat-checkbox class="checkbox" checked="{{_stateService.isUniversal()}}"
+                          (click)="_stateService.toggleUniversal()">
+              Universal
+            </mat-checkbox>
+          </p>
           <ng-template matStepLabel>Special form</ng-template>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
@@ -67,7 +80,7 @@
       }
     </mat-card-footer>
   </mat-card>
-  @if (_stateService.hasPokemon() && !_responsiveConfigurationService.isMobile()){
+  @if (_stateService.hasPokemon() && !_responsiveConfigurationService.isMobile()) {
     <app-pokemon-card class="pokemon-card"></app-pokemon-card>
   }
 </div>

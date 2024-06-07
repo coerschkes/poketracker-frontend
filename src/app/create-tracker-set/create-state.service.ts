@@ -7,6 +7,8 @@ export class CreateStateService {
   private readonly _loading: WritableSignal<boolean> = signal(false);
   private readonly _isShiny: WritableSignal<boolean> = signal(false);
   private readonly _isRegional: WritableSignal<boolean> = signal(false);
+  private readonly _isNormal: WritableSignal<boolean> = signal(false);
+  private readonly _isUniversal: WritableSignal<boolean> = signal(false);
   private readonly _editions: WritableSignal<string[]> = signal([]);
 
   get pokemon(): Signal<PokeapiPokemon | undefined> {
@@ -45,6 +47,22 @@ export class CreateStateService {
     this._isRegional.update(isRegional => !isRegional);
   }
 
+  get isNormal(): Signal<boolean> {
+    return this._isNormal;
+  }
+
+  toggleNormal() {
+    this._isNormal.update(isNormal => !isNormal);
+  }
+
+  get isUniversal(): Signal<boolean> {
+    return this._isUniversal;
+  }
+
+  toggleUniversal() {
+    this._isUniversal.update(isUniversal => !isUniversal);
+  }
+
   get editions(): Signal<string[]> {
     return this._editions;
   }
@@ -57,11 +75,13 @@ export class CreateStateService {
     this._editions.update(editions => editions.filter(e => e !== edition));
   }
 
-  reset(){
+  reset() {
     this._pokemon.update(() => undefined);
     this._loading.update(() => false);
     this._isShiny.update(() => false);
     this._isRegional.update(() => false);
+    this._isNormal.update(() => false);
+    this._isUniversal.update(() => false);
     this._editions.update(() => []);
   }
 }
