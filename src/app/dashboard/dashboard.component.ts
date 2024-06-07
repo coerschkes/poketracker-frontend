@@ -46,7 +46,6 @@ import {MatChipRemove, MatChipRow} from "@angular/material/chips";
 export class DashboardComponent implements OnInit {
   private _poketrackerApi: any;
   protected _dataSourceSignal: WritableSignal<Pokemon[]>;
-  protected _dataSource: Pokemon[];
   columnsToDisplay: string[];
   columnsToDisplayWithExpand: string[];
   expandedElement: Pokemon | null;
@@ -59,7 +58,6 @@ export class DashboardComponent implements OnInit {
   constructor(_poketrackerApi: PoketrackerApiService) {
     this._poketrackerApi = _poketrackerApi;
     this._dataSourceSignal = signal([]);
-    this._dataSource = [];
   }
 
   ngOnInit(): void {

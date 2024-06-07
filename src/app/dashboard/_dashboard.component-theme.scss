@@ -1,5 +1,6 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
+@use '../../variables' as vars;
 
 @mixin color($theme, $color) {
   .rounded-picture {
@@ -93,6 +94,9 @@
   .pokemon-edition-chip[title="Schwert"]{
     --mdc-chip-label-text-color: white;
     --mdc-chip-with-trailing-icon-trailing-icon-color: white;
+  }
+  .deleteButton{
+    color: vars.$error-color !important;
   }
 }
 

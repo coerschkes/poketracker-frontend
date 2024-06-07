@@ -6,6 +6,7 @@
 @use './app/create-tracker-set/create-tracker-set.component-theme' as create-tracker-set-component;
 @use './app/create-tracker-set/pokemon-card/pokemon-card.component-theme' as pokemon-card-component;
 @use './app/dashboard/dashboard.component-theme' as dashboard-component;
+@use 'variables' as vars;
 
 @include mat.core();
 
@@ -52,11 +53,12 @@ html {
 }
 
 html, body {
-  height: 100vh !important;
+  height: 100% !important;
   margin: 0;
   padding: 0;
   color: mat.get-theme-color($currentTheme, secondary);
   min-width: 300px;
+  overflow-y: hidden;
 }
 
 .accent-btn {
@@ -65,7 +67,7 @@ html, body {
 
 .mat-mdc-snack-bar-container {
   &.snackbar-success {
-    --mdc-snackbar-container-color:  #026e00;
+    --mdc-snackbar-container-color:  vars.$success-color;
     --mat-snack-bar-button-color: #fff;
     --mat-mdc-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: #fff;
@@ -75,7 +77,7 @@ html, body {
 
 .mat-mdc-snack-bar-container {
   &.snackbar-error {
-    --mdc-snackbar-container-color: #f44336;
+    --mdc-snackbar-container-color: vars.$error-color;
     --mat-snack-bar-button-color: #fff;
     --mat-mdc-snack-bar-button-color: #fff;
     --mdc-snackbar-supporting-text-color: #fff;
