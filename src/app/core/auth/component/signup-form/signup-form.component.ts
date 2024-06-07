@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
@@ -20,6 +20,7 @@ import {SignupFormWrapper} from "./signupFormWrapper";
 export class SignupFormComponent {
 
   private static readonly _ERROR_STATE_MATCHER: EmailErrorStateMatcher = new EmailErrorStateMatcher();
+  @Output("submitCallback") submitCallback: EventEmitter<any> = new EventEmitter();
 
   private readonly _signupForm: SignupFormWrapper;
 
@@ -39,4 +40,7 @@ export class SignupFormComponent {
     return SignupFormComponent._ERROR_STATE_MATCHER;
   }
 
+  submit() {
+    this.submitCallback.emit();
+  }
 }

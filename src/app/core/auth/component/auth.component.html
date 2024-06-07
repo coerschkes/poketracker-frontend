@@ -6,9 +6,9 @@
     </mat-card-header>
     <mat-card-content class="authentication-card-content">
       @if (loginMode()) {
-        <app-login-form></app-login-form>
+        <app-login-form (submitCallback)="onSubmitLogin()"></app-login-form>
       } @else {
-        <app-signup-form></app-signup-form>
+        <app-signup-form (submitCallback)="onSubmitSignUp()"></app-signup-form>
       }
       <mat-divider></mat-divider>
     </mat-card-content>

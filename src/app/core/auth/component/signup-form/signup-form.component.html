@@ -20,7 +20,7 @@
   </mat-form-field>
   <mat-form-field class="input">
     <mat-label>repeat password</mat-label>
-    <input type="password" name="password" matInput formControlName="repeatPassword" required>
+    <input type="password" name="password" matInput formControlName="repeatPassword" (keydown.enter)="submit()" required>
     @if (this.signupForm.hasMissingPassword()) {
       <mat-error>Password is <strong>required</strong></mat-error>
     }

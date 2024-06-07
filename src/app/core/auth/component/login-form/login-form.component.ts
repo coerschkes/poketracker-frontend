@@ -3,7 +3,7 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {LoginFormWrapper} from "./loginFormWrapper";
 import {EmailErrorStateMatcher} from "../emailErrorStateMatcher";
-import {Component} from "@angular/core";
+import {Component, EventEmitter, Output} from "@angular/core";
 
 @Component({
   selector: 'app-login-form',
@@ -20,6 +20,7 @@ import {Component} from "@angular/core";
 export class LoginFormComponent {
   private static readonly _ERROR_STATE_MATCHER: EmailErrorStateMatcher = new EmailErrorStateMatcher();
 
+  @Output("submitCallback") submitCallback: EventEmitter<any> = new EventEmitter();
   private readonly _loginForm: LoginFormWrapper;
 
   constructor() {
@@ -36,5 +37,9 @@ export class LoginFormComponent {
 
   get ERROR_STATE_MATCHER(): EmailErrorStateMatcher {
     return LoginFormComponent._ERROR_STATE_MATCHER;
+  }
+
+  submit() {
+    this.submitCallback.emit();
   }
 }

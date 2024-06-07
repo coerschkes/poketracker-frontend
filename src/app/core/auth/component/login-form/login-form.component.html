@@ -13,7 +13,7 @@
   </mat-form-field>
   <mat-form-field class="input">
     <mat-label>password</mat-label>
-    <input type="password" name="password" matInput formControlName="password" required>
+    <input type="password" name="password" matInput formControlName="password" (keydown.enter)="submit()" required>
     @if (this.loginForm.hasMissingPassword()) {
       <mat-error>Password is <strong>required</strong></mat-error>
     }
