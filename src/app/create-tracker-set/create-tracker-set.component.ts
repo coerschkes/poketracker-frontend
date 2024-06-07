@@ -144,7 +144,7 @@ export class CreateTrackerSetComponent {
       this.pokemonNameFormGroup.controls.pokemonName.value !== undefined &&
       this.pokemonNameFormGroup.controls.pokemonName.value !== "") {
       this._stateService.loading = true
-      return this._pokeapi.getPokemon(this.pokemonNameFormGroup.controls.pokemonName.value!.toLowerCase())
+      return this._pokeapi.getPokemon(this.pokemonNameFormGroup.controls.pokemonName.value!.toLowerCase().trim())
         .pipe(
           tap(value => {
             this._stateService.pokemon = value
