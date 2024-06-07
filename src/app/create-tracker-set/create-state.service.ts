@@ -68,7 +68,9 @@ export class CreateStateService {
   }
 
   addEdition(edition: string) {
-    this._editions.update(editions => [...editions, edition]);
+    if (!this.editions().includes(edition)) {
+      this._editions.update(editions => [...editions, edition]);
+    }
   }
 
   removeEdition(edition: string) {
