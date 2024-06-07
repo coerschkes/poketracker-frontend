@@ -1,9 +1,10 @@
-import {Component} from '@angular/core';
+import {Component, HostListener} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {environment} from "../environments/environment";
 import {AuthStateService} from "./core/auth/auth-state.service";
 import {SidenavComponent} from "./sidenav/sidenav.component";
 import {AuthComponent} from "./core/auth/component/auth.component";
+import {ResponsiveConfigurationService} from "./shared/responsive-configuration.service";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,12 @@ export class AppComponent {
   private readonly _authState: AuthStateService;
   readonly title = environment.APP_NAME;
 
-  constructor(authState: AuthStateService) {
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this._responsiveConfigurationService.update();
+  }
+
+  constructor(authState: AuthStateService, private _responsiveConfigurationService: ResponsiveConfigurationService) {
     this._authState = authState;
   }
 

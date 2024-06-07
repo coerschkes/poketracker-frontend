@@ -47,6 +47,7 @@ import {PoketrackerApiService} from "../core/external/poketracker/poketracker-ap
 import {HttpErrorResponse} from "@angular/common/http";
 import {SnackbarService} from "../shared/snackbar/snackbar.service";
 import {PokemonTypeService} from "../shared/pokemon-type/pokemon-type.service";
+import {ResponsiveConfigurationService} from "../shared/responsive-configuration.service";
 
 @Component({
   selector: 'app-create-tracker-set',
@@ -108,7 +109,8 @@ export class CreateTrackerSetComponent {
               private _poketrackerApi: PoketrackerApiService,
               private _snackbarService: SnackbarService,
               private _pokemonTypeService: PokemonTypeService,
-              protected _stateService: CreateStateService) {
+              protected _stateService: CreateStateService,
+              protected _responsiveConfigurationService: ResponsiveConfigurationService) {
   }
 
   loadPokemon() {

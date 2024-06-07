@@ -1,5 +1,5 @@
-<div class="base-container">
-  <mat-card class="form-card primary-card">
+<div class="base-container" style="{{_responsiveConfigurationService.isMobile() ? 'margin-top: 16px;': ''}}">
+  <mat-card style="{{!_responsiveConfigurationService.isMobile() ? 'max-height: 580px;': ''}}" class="form-card primary-card">
     <mat-card-header>
       <mat-card-subtitle>Create Pokemon</mat-card-subtitle>
       <mat-card-title>Poketracker entry</mat-card-title>
@@ -64,7 +64,7 @@
       }
     </mat-card-footer>
   </mat-card>
-  @if (_stateService.hasPokemon()) {
+  @if (_stateService.hasPokemon() && !_responsiveConfigurationService.isMobile()){
     <app-pokemon-card class="pokemon-card"></app-pokemon-card>
   }
 </div>

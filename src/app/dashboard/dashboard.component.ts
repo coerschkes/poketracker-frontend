@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit, signal, WritableSignal} from '@angular/core';
+import {Component, effect, OnInit, signal, WritableSignal} from '@angular/core';
 import {SidenavComponent} from "../sidenav/sidenav.component";
 import {PoketrackerApiService} from "../core/external/poketracker/poketracker-api.service";
 import {Pokemon} from "../core/external/poketracker/poketracker-api";
@@ -10,6 +10,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
 import {TitleCasePipe, UpperCasePipe} from "@angular/common";
 import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.component";
 import {MatChipRemove, MatChipRow} from "@angular/material/chips";
+import {ResponsiveConfigurationService} from "../shared/responsive-configuration.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -49,14 +50,10 @@ export class DashboardComponent implements OnInit {
   columnsToDisplayWithExpand: string[];
   expandedElement: Pokemon | null;
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.changeDisplayedColumns();
-  }
-
-  constructor(_poketrackerApi: PoketrackerApiService) {
+  constructor(_poketrackerApi: PoketrackerApiService, private _responsiveConfigurationService: ResponsiveConfigurationService) {
     this._poketrackerApi = _poketrackerApi;
     this._dataSourceSignal = signal([]);
+    effect(() => this.changeDisplayedColumns());
   }
 
   ngOnInit(): void {
@@ -65,7 +62,7 @@ export class DashboardComponent implements OnInit {
   }
 
   changeDisplayedColumns() {
-    if (window.innerWidth <= 600) {
+    if (this._responsiveConfigurationService.isMobile()) {
       this.columnsToDisplay = ['dex', 'name', 'types'];
     } else {
       this.columnsToDisplay = ['dex', 'name', 'types', 'shiny', 'normal', 'universal', 'regional'];
