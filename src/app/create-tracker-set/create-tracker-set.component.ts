@@ -184,7 +184,7 @@ export class CreateTrackerSetComponent {
           next: (value: Pokemon | HttpErrorResponse) => {
             if (value instanceof HttpErrorResponse) {
               console.error(value)
-              this._snackbarService.message = value.error.Message
+              this._snackbarService.message = "Pokemon already exists"
               this._snackbarService.colorClass = "snackbar-error"
             } else {
               this._snackbarService.message = "Pokemon created"
