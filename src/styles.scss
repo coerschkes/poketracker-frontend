@@ -7,7 +7,6 @@
 @use './app/create-tracker-set/pokemon-card/pokemon-card.component-theme' as pokemon-card-component;
 @use './app/dashboard/dashboard.component-theme' as dashboard-component;
 @use './app/create-tracker-set/pokemon-card-content/pokemon-card-content.component-theme' as pokemon-card-content-component;
-@use 'variables' as vars;
 
 @include mat.core();
 
@@ -68,22 +67,18 @@ html, body {
   @include mat.button-color($currentTheme, $color-variant: tertiary);
 }
 
-.mat-mdc-snack-bar-container {
-  &.snackbar-success {
-    --mdc-snackbar-container-color:  vars.$success-color;
-    --mat-snack-bar-button-color: #fff;
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-    --mat-mdc-button-touch-target-color: #fff;
-  }
+.snackbar-success {
+  --mdc-snackbar-container-color: #026e00;
+  --mat-snack-bar-button-color: #fff;
+  --mat-mdc-snack-bar-button-color: #fff;
+  --mdc-snackbar-supporting-text-color: #fff;
+  --mat-mdc-button-touch-target-color: #fff;
 }
 
-.mat-mdc-snack-bar-container {
-  &.snackbar-error {
-    --mdc-snackbar-container-color: vars.$error-color;
-    --mat-snack-bar-button-color: #fff;
-    --mat-mdc-snack-bar-button-color: #fff;
-    --mdc-snackbar-supporting-text-color: #fff;
-    --mat-mdc-button-touch-target-color: #fff;
-  }
+.snackbar-error {
+  --mdc-snackbar-container-color: #f44336;
+  --mat-snack-bar-button-color: #fff;
+  --mat-mdc-snack-bar-button-color: #fff;
+  --mdc-snackbar-supporting-text-color: #fff;
+  --mat-mdc-button-touch-target-color: #fff;
 }
