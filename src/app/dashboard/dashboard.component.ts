@@ -43,6 +43,7 @@ import {ResponsiveConfigurationService} from "../shared/responsive-configuration
 //todo: pagination?
 //todo: add snackbar notification if error occurs
 //todo: session timed out notification?
+// todo: stats on another tab? -> especially for mobile
 export class DashboardComponent implements OnInit {
   private _poketrackerApi: any;
   protected _dataSourceSignal: WritableSignal<Pokemon[]>;
