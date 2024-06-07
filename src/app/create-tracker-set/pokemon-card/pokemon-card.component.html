@@ -1,24 +1,3 @@
 <mat-card [@inOutAnimation] class="pokemon-card primary-card">
-  <mat-card-header>
-    <mat-card-subtitle>#{{ _stateService.pokemon()?.dexNumber }}</mat-card-subtitle>
-    <mat-card-title>{{ _stateService.pokemon()?.name | titlecase }}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <img class="rounded-picture" width="300" height="300"
-         [src]="_stateService.isShiny() ? _stateService.pokemon()?.spriteShinyUrl : _stateService.pokemon()?.spriteUrl"
-         alt=""/>
-    <mat-divider style="margin: 16px 0 16px 0"></mat-divider>
-    <app-pokemon-type [types]="_stateService.pokemon()?.types" [inputLanguage]="'en'"></app-pokemon-type>
-    @for (edition of _stateService.editions(); track _stateService.editions()) {
-      <mat-chip-row
-        class="pokemon-edition-chip"
-        (removed)="_stateService.removeEdition(edition)"
-        [editable]="true" title="{{edition}}">
-        {{edition}}
-        <button matChipRemove [attr.aria-label]="'remove ' + edition">
-          <mat-icon>cancel</mat-icon>
-        </button>
-      </mat-chip-row>
-    }
-  </mat-card-content>
+  <app-pokemon-card-content></app-pokemon-card-content>
 </mat-card>

@@ -1,28 +1,15 @@
 import {Component} from '@angular/core';
-import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from "@angular/material/card";
-import {MatDivider} from "@angular/material/divider";
-import {PokemonTypeComponent} from "../../shared/pokemon-type/pokemon-type.component";
-import {TitleCasePipe} from "@angular/common";
+import {MatCard} from "@angular/material/card";
 import {CreateStateService} from "../create-state.service";
 import {animate, style, transition, trigger} from "@angular/animations";
-import {MatChipRemove, MatChipRow} from "@angular/material/chips";
-import {MatIcon} from "@angular/material/icon";
+import {PokemonCardContentComponent} from "../pokemon-card-content/pokemon-card-content.component";
 
 @Component({
   selector: 'app-pokemon-card',
   standalone: true,
   imports: [
     MatCard,
-    MatCardContent,
-    MatCardHeader,
-    MatCardSubtitle,
-    MatCardTitle,
-    MatDivider,
-    PokemonTypeComponent,
-    TitleCasePipe,
-    MatChipRow,
-    MatIcon,
-    MatChipRemove
+    PokemonCardContentComponent
   ],
   templateUrl: './pokemon-card.component.html',
   styleUrl: './pokemon-card.component.scss',
