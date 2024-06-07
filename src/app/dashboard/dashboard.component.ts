@@ -38,11 +38,10 @@ import {MatChipRemove, MatChipRow} from "@angular/material/chips";
 //todo: add a search bar to filter the pokemon
 //todo: add buttons for deleting, editing and adding pokemon
 //todo: add statistics? (total pokemon, total shiny, total normal, total universal, total regional), piechart?
+//      -> maybe in another tab?
 //todo: pagination?
 //todo: add snackbar notification if error occurs
 //todo: session timed out notification?
-//todo: sort by dex nr
-//todo: check space between type and row boundaries
 export class DashboardComponent implements OnInit {
   private _poketrackerApi: any;
   protected _dataSourceSignal: WritableSignal<Pokemon[]>;

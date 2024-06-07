@@ -17,6 +17,7 @@ import {SignupFormWrapper} from "./signupFormWrapper";
   templateUrl: './signup-form.component.html',
   styleUrl: './signup-form.component.scss'
 })
+// todo: refactor to encapsulate functions and unify login and signup
 export class SignupFormComponent {
 
   private static readonly _ERROR_STATE_MATCHER: EmailErrorStateMatcher = new EmailErrorStateMatcher();
