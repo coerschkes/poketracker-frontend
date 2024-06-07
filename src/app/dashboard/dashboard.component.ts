@@ -1,4 +1,4 @@
-import {Component, OnInit, signal, WritableSignal} from '@angular/core';
+import {Component, HostListener, OnInit, signal, WritableSignal} from '@angular/core';
 import {SidenavComponent} from "../sidenav/sidenav.component";
 import {PoketrackerApiService} from "../core/external/poketracker/poketracker-api.service";
 import {Pokemon} from "../core/external/poketracker/poketracker-api";
@@ -47,9 +47,14 @@ export class DashboardComponent implements OnInit {
   private _poketrackerApi: any;
   protected _dataSourceSignal: WritableSignal<Pokemon[]>;
   protected _dataSource: Pokemon[];
-  columnsToDisplay = ['dex', 'name', 'types', 'shiny', 'normal', 'universal', 'regional'];
-  columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
+  columnsToDisplay: string[];
+  columnsToDisplayWithExpand: string[];
   expandedElement: Pokemon | null;
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.changeDisplayedColumns();
+  }
 
   constructor(_poketrackerApi: PoketrackerApiService) {
     this._poketrackerApi = _poketrackerApi;
@@ -58,7 +63,17 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   this.loadPokemonTable()
+    this.loadPokemonTable()
+    this.changeDisplayedColumns()
+  }
+
+  changeDisplayedColumns() {
+    if (window.innerWidth <= 600) {
+      this.columnsToDisplay = ['dex', 'name', 'types'];
+    } else {
+      this.columnsToDisplay = ['dex', 'name', 'types', 'shiny', 'normal', 'universal', 'regional'];
+    }
+    this.columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
   }
 
   loadPokemonTable() {

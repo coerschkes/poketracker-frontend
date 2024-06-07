@@ -56,6 +56,7 @@ html, body {
   margin: 0;
   padding: 0;
   color: mat.get-theme-color($currentTheme, secondary);
+  min-width: 300px;
 }
 
 .accent-btn {
