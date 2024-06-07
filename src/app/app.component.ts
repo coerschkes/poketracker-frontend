@@ -1,4 +1,4 @@
-import {Component, HostListener} from '@angular/core';
+import {Component, HostListener, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {environment} from "../environments/environment";
 import {AuthStateService} from "./core/auth/auth-state.service";
@@ -13,12 +13,16 @@ import {ResponsiveConfigurationService} from "./shared/responsive-configuration.
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   private readonly _authState: AuthStateService;
   readonly title = environment.APP_NAME;
 
   @HostListener('window:resize', ['$event'])
   onResize() {
+    this._responsiveConfigurationService.update();
+  }
+
+  ngOnInit(): void {
     this._responsiveConfigurationService.update();
   }
 
