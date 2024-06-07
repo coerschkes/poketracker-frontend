@@ -9,6 +9,9 @@
   .checkbox .mat-internal-form-field{
     color: var(--mat-card-subtitle-text-color) !important;
   }
+  .rounded-picture {
+    border: 2px solid mat.get-theme-color($theme, primary) !important;
+  }
 }
 
 @mixin theme($theme, $color) {

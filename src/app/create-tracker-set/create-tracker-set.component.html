@@ -1,10 +1,13 @@
-<div class="base-container" style="{{_responsiveConfigurationService.isMobile() ? 'margin-top: 16px;': ''}}">
-  <mat-card style="{{!_responsiveConfigurationService.isMobile() ? 'max-height: 580px;': ''}}" class="form-card primary-card">
+<div class="base-container" style="{{_responsiveConfigurationService.isMobile() ? 'align-items: start;': 'align-items: center;'}}">
+  <mat-card  class="{{_responsiveConfigurationService.isMobile() ? 'mobile-form-card' :'form-card'}} primary-card">
     <mat-card-header>
       <mat-card-subtitle>Create Pokemon</mat-card-subtitle>
       <mat-card-title>Poketracker entry</mat-card-title>
     </mat-card-header>
     <mat-card-content style="height: 100%">
+      @if (_stateService.hasPokemon() && _responsiveConfigurationService.isMobile()){
+        <app-pokemon-card-content></app-pokemon-card-content>
+      }
       <mat-stepper class="primary-card" orientation="vertical" linear="true" #stepper>
         <mat-step [stepControl]="pokemonNameFormGroup">
           <form [formGroup]="pokemonNameFormGroup">

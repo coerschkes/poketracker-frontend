@@ -48,6 +48,8 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {SnackbarService} from "../shared/snackbar/snackbar.service";
 import {PokemonTypeService} from "../shared/pokemon-type/pokemon-type.service";
 import {ResponsiveConfigurationService} from "../shared/responsive-configuration.service";
+import {animate, style, transition, trigger} from "@angular/animations";
+import {PokemonCardContentComponent} from "./pokemon-card-content/pokemon-card-content.component";
 
 @Component({
   selector: 'app-create-tracker-set',
@@ -93,10 +95,34 @@ import {ResponsiveConfigurationService} from "../shared/responsive-configuration
     MatChipInput,
     EditionSelectorComponent,
     PokemonCardComponent,
-    MatChipRemove
+    MatChipRemove,
+    PokemonCardContentComponent
   ],
   templateUrl: './create-tracker-set.component.html',
   styleUrl: './create-tracker-set.component.scss',
+  animations: [
+    trigger(
+      'inOutAnimation',
+      [
+        transition(
+          ':enter',
+          [
+            style({height: 0, opacity: 0}),
+            animate('500ms ease-out',
+              style({height: '100%', opacity: 1}))
+          ]
+        ),
+        transition(
+          ':leave',
+          [
+            style({height: '100%', opacity: 1}),
+            animate('500ms ease-in',
+              style({height: 0, opacity: 0}))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class CreateTrackerSetComponent {
   @ViewChild('pokemonName') input: ElementRef<HTMLInputElement>;
