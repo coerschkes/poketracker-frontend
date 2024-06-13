@@ -8,6 +8,7 @@ import {
   MatDialogTitle
 } from "@angular/material/dialog";
 import {MatButton} from "@angular/material/button";
+import {ResponsiveConfigurationService} from "../responsive-configuration.service";
 
 export class ConfirmDialog implements DataCarrierDialog {
   constructor(public title: string, public content: string, public callback: (confirmation: boolean) => void) {
@@ -31,9 +32,9 @@ export class ConfirmDialog implements DataCarrierDialog {
   templateUrl: './confirm-dialog.component.html',
   styleUrl: './confirm-dialog.component.scss'
 })
-export class ConfirmDialogComponent {
+export class ConfirmDialogComponent{
 
-  constructor(@Inject(MAT_DIALOG_DATA) public dialog: ConfirmDialog) {
+  constructor(@Inject(MAT_DIALOG_DATA) public dialog: ConfirmDialog, protected responsive: ResponsiveConfigurationService) {
   }
 
   onConfirm(b: boolean) {

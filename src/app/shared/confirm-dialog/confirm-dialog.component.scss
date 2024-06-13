@@ -1,0 +1,28 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+.dark-mode-button{
+  color: #abc7ff;
+  --mdc-text-button-container-shape: 9999px;
+}
+
+.dark-mode-container{
+  background-color: #283041;
+}
+
+.dark-mode-text{
+  color: #abc7ff;
+}
+
+.light-mode-button{
+  color: #006a6a;
+  --mdc-text-button-container-shape: 9999px;
+}
+
+.light-mode-container{
+  background-color: white;
+}
+
+.light-mode-text{
+  color: #006a6a;
+}

@@ -9,6 +9,7 @@ import {
 
 import {MatButton} from "@angular/material/button";
 import {DataCarrierDialog} from "../../data-carrier-dialog";
+import {ResponsiveConfigurationService} from "../../responsive-configuration.service";
 
 export class ErrorDialog implements DataCarrierDialog {
   constructor(public title: string, public content: string) {
@@ -33,6 +34,6 @@ export class ErrorDialog implements DataCarrierDialog {
   styleUrl: './error-dialog.component.scss'
 })
 export class ErrorDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public dialog: ErrorDialog) {
+  constructor(@Inject(MAT_DIALOG_DATA) public dialog: ErrorDialog, protected responsiveConfigurationService: ResponsiveConfigurationService) {
   }
 }

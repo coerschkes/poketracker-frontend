@@ -1,21 +1,26 @@
-<div class="content-container">
+<div #container class="content-container">
   <mat-toolbar color="primary" class="toolbar">
     <button mat-icon-button (click)="sidenav.toggle()">
       <mat-icon class="menu-button">menu</mat-icon>
     </button>
     <h1 class="app-name">{{ appName }}</h1>
     <span class="spacer"></span>
-    <!--  todo: dynamic picture & onclick stuff-->
     <button mat-icon-button [matMenuTriggerFor]="menu" class="profile-picture" aria-label="Account settings">
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="logout()">Logout <mat-icon fontIcon="logout"></mat-icon></button>
-        <button mat-menu-item (click)="this.responsiveConfigurationService.toggleDarkMode()">Toggle dark mode <mat-icon fontIcon="toggle"></mat-icon></button>
+      <mat-menu
+        #menu="matMenu">
+        <button [class]="theme" mat-menu-item (click)="logout()">Logout
+          <mat-icon [class]="theme" fontIcon="logout"></mat-icon>
+        </button>
+        <button [class]="theme" mat-menu-item (click)="this.responsive.toggleDarkMode()">
+          {{ responsive.isDarkMode() ? 'Light Mode' : 'Dark Mode' }}
+          <mat-icon [class]="theme" fontIcon="brightness_medium"></mat-icon>
+        </button>
       </mat-menu>
     </button>
   </mat-toolbar>
 
   <mat-sidenav-container hasBackdrop="true" class="sidenav-container">
-    <mat-sidenav class="sidenav" #sidenav mode="side" [fixedInViewport]="mobileQuery.matches" fixedTopGap="56">
+    <mat-sidenav class="sidenav" #sidenav mode="side" [fixedInViewport]="responsive.isMobile()" fixedTopGap="56">
       <mat-nav-list>
         <a class="sidenav-element" mat-list-item routerLink="/dashboard" (click)="sidenav.toggle()">Dashboard</a>
         <a mat-list-item routerLink="/create" (click)="sidenav.toggle()">Create</a>
