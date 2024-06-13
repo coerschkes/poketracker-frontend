@@ -37,12 +37,14 @@
       <div class="element-detail"
            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
         @if (element.normal === true) {
-          <div style="{{_responsiveConfigurationService.isMobile() ? 'height: 144px;' : 'height: 204px'}}" class="element-sprites">
+          <div style="{{_responsiveConfigurationService.isMobile() ? 'height: 144px;' : 'height: 204px'}}"
+               class="element-sprites">
             <img class="rounded-picture" [src]="element.normalSpriteUrl" alt="normal sprite url">
           </div>
         }
         @if (element.shiny === true) {
-          <div style="{{_responsiveConfigurationService.isMobile() ? 'height: 144px;' : 'height: 204px'}}" class="element-sprites">
+          <div style="{{_responsiveConfigurationService.isMobile() ? 'height: 144px;' : 'height: 204px'}}"
+               class="element-sprites">
             <img class="rounded-picture" [src]="element.shinySpriteUrl" alt="normal sprite url">
           </div>
         }
@@ -58,12 +60,15 @@
             </mat-chip-row>
           }
         </div>
-<!--        <div class="element-description">-->
-<!--          {{ element.description }}-->
-<!--          <span class="element-description-attribution"> &#45;&#45; </span>-->
-<!--        </div>-->
-        <div style="width: 100%" >
-          <button class="deleteButton" mat-button (click)="deletePokemon(element)">Delete
+        <!--        <div class="element-description">-->
+        <!--          {{ element.description }}-->
+        <!--          <span class="element-description-attribution"> &#45;&#45; </span>-->
+        <!--        </div>-->
+        <div style="width: 100%">
+          <button class="editButton" mat-button>Edit
+            <mat-icon fontIcon="edit"></mat-icon>
+          </button>
+          <button class="deleteButton" mat-button (click)="onDeletePokemon(element)">Delete
             <mat-icon fontIcon="delete"></mat-icon>
           </button>
         </div>

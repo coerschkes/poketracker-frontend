@@ -11,6 +11,8 @@ import {TitleCasePipe, UpperCasePipe} from "@angular/common";
 import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.component";
 import {MatChipRemove, MatChipRow} from "@angular/material/chips";
 import {ResponsiveConfigurationService} from "../shared/responsive-configuration.service";
+import {ConfirmDialog} from "../shared/confirm-dialog/confirm-dialog.component";
+import {DialogService} from "../shared/dialog.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -51,7 +53,9 @@ export class DashboardComponent implements OnInit {
   columnsToDisplayWithExpand: string[];
   expandedElement: Pokemon | null;
 
-  constructor(_poketrackerApi: PoketrackerApiService, protected _responsiveConfigurationService: ResponsiveConfigurationService) {
+  constructor(_poketrackerApi: PoketrackerApiService,
+              protected _responsiveConfigurationService: ResponsiveConfigurationService,
+              private dialogService: DialogService) {
     this._poketrackerApi = _poketrackerApi;
     this._dataSourceSignal = signal([]);
     effect(() => this.changeDisplayedColumns());
@@ -83,7 +87,23 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  deletePokemon(pokemon: Pokemon) {
+  onDeletePokemon(pokemon: Pokemon) {
+    this.dialogService.openDialog<ConfirmDialog>(this.createConfirmDialog(pokemon))
+  }
+
+  private createConfirmDialog(pokemon: Pokemon): ConfirmDialog {
+    return new ConfirmDialog(
+      'Delete Pokemon',
+      'Are you sure you want to delete pokemon: ' + pokemon.name + '?',
+      (confirmation: boolean) => {
+        if (confirmation) {
+          this.deletePokemon(pokemon)
+        }
+      }
+    );
+  }
+
+  private deletePokemon(pokemon: Pokemon) {
     this._poketrackerApi.deletePokemon(pokemon).subscribe({
       next: () => {
         this.loadPokemonTable()

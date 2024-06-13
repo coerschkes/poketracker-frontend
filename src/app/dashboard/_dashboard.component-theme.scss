@@ -98,6 +98,10 @@
   .deleteButton{
     color: vars.$error-color !important;
   }
+
+  .editButton{
+    color: mat.get-theme-color($theme, primary);
+  }
 }
 
 @mixin theme($theme, $color) {
