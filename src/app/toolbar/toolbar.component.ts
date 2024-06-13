@@ -13,7 +13,7 @@ import {MatSlideToggle} from "@angular/material/slide-toggle";
 import {NgStyle} from "@angular/common";
 
 @Component({
-  selector: 'app-sidenav',
+  selector: 'app-toolbar',
   standalone: true,
   imports: [
     MatSidenavContent,
@@ -32,11 +32,11 @@ import {NgStyle} from "@angular/common";
     MatSlideToggle,
     NgStyle,
   ],
-  templateUrl: './sidenav.component.html',
-  styleUrl: './sidenav.component.scss',
+  templateUrl: './toolbar.component.html',
+  styleUrl: './toolbar.component.scss',
 })
 // todo: rename to toolbar
-export class SidenavComponent {
+export class ToolbarComponent {
   protected readonly appName = environment.APP_NAME;
   protected readonly environment = environment;
 

@@ -1,5 +1,5 @@
 import {Component, effect, OnInit, signal, WritableSignal} from '@angular/core';
-import {SidenavComponent} from "../sidenav/sidenav.component";
+import {ToolbarComponent} from "../toolbar/toolbar.component";
 import {PoketrackerApiService} from "../core/external/poketracker/poketracker-api.service";
 import {Pokemon} from "../core/external/poketracker/poketracker-api";
 import {HttpErrorResponse} from "@angular/common/http";
@@ -18,7 +18,7 @@ import {DialogService} from "../shared/dialog.service";
   selector: 'app-dashboard',
   standalone: true,
   imports: [
-    SidenavComponent,
+    ToolbarComponent,
     MatTableModule,
     MatButtonModule,
     MatIconModule,

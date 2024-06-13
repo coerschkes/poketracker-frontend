@@ -2,14 +2,14 @@ import {Component, effect, HostBinding, HostListener, OnInit} from '@angular/cor
 import {RouterOutlet} from '@angular/router';
 import {environment} from "../environments/environment";
 import {AuthStateService} from "./core/auth/auth-state.service";
-import {SidenavComponent} from "./sidenav/sidenav.component";
+import {ToolbarComponent} from "./toolbar/toolbar.component";
 import {AuthComponent} from "./core/auth/component/auth.component";
 import {ResponsiveConfigurationService} from "./shared/responsive-configuration.service";
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SidenavComponent, AuthComponent],
+  imports: [RouterOutlet, ToolbarComponent, AuthComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
