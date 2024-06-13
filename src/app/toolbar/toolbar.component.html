@@ -8,12 +8,12 @@
     <button mat-icon-button [matMenuTriggerFor]="menu" class="profile-picture" aria-label="Account settings">
       <mat-menu
         #menu="matMenu">
-        <button [class]="theme" mat-menu-item (click)="logout()">Logout
-          <mat-icon [class]="theme" fontIcon="logout"></mat-icon>
-        </button>
         <button [class]="theme" mat-menu-item (click)="this.responsive.toggleDarkMode()">
           {{ responsive.isDarkMode() ? 'Light Mode' : 'Dark Mode' }}
           <mat-icon [class]="theme" fontIcon="brightness_medium"></mat-icon>
+        </button>
+        <button [class]="theme" mat-menu-item (click)="logout()">Logout
+          <mat-icon [class]="theme" fontIcon="logout"></mat-icon>
         </button>
       </mat-menu>
     </button>
