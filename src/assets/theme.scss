@@ -9,9 +9,11 @@
 @use '../app/create-tracker-set/pokemon-card-content/pokemon-card-content.component-theme' as pokemon-card-content;
 
 @include mat.core();
+html{
+  @include mat.all-component-themes(darkTheme.$dark-theme);
+}
 
 @mixin create-dark-theme() {
-  @include mat.all-component-themes(darkTheme.$dark-theme);
   @include sidenav-component.sidenav-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
   @include auth-component.auth-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20), mat.get-theme-color(darkTheme.$dark-theme, secondary, 10));
   @include create-tracker-set.create-tracker-set-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
@@ -33,7 +35,7 @@
 }
 
 @mixin create-light-theme() {
-  @include mat.all-component-themes(lightTheme.$light-theme);
+  @include mat.all-component-colors(lightTheme.$light-theme);
   @include sidenav-component.sidenav-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 90));
   @include auth-component.auth-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100), mat.get-theme-color(lightTheme.$light-theme, secondary, 95));
   @include create-tracker-set.create-tracker-set-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100));
