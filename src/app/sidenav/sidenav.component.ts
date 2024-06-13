@@ -9,6 +9,7 @@ import {MatIcon} from "@angular/material/icon";
 import {environment} from "../../environments/environment";
 import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {AuthStateService} from "../core/auth/auth-state.service";
+import {ResponsiveConfigurationService} from "../shared/responsive-configuration.service";
 
 @Component({
   selector: 'app-sidenav',
@@ -36,7 +37,7 @@ export class SidenavComponent {
 
   protected mobileQuery: MediaQueryList;
 
-  constructor(media: MediaMatcher, private authState: AuthStateService) {
+  constructor(media: MediaMatcher, private authState: AuthStateService, protected responsiveConfigurationService: ResponsiveConfigurationService) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
   }
 

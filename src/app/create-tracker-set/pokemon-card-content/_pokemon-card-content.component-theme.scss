@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin color($theme, $color) {
+@mixin pokemon-card-content-theme($theme, $color) {
   .rounded-picture {
     border: 2px solid mat.get-theme-color($theme, primary) !important;
   }
@@ -84,11 +84,5 @@
   .pokemon-edition-chip[title="Schwert"]{
     --mdc-chip-label-text-color: white;
     --mdc-chip-with-trailing-icon-trailing-icon-color: white;
-  }
-}
-
-@mixin theme($theme, $color) {
-  @if mat.theme-has($theme, color) {
-    @include color($theme, $color);
   }
 }

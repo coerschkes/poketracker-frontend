@@ -1,70 +1,26 @@
 @use "@angular/material" as mat;
 @use '@angular/material-experimental' as matx;
 @use 'sass:map';
-@use './app/core/auth/component/auth.component-theme' as auth-component;
-@use './app/sidenav/sidenav.component-theme' as sidenav-component;
-@use './app/create-tracker-set/create-tracker-set.component-theme' as create-tracker-set-component;
-@use './app/create-tracker-set/pokemon-card/pokemon-card.component-theme' as pokemon-card-component;
-@use './app/dashboard/dashboard.component-theme' as dashboard-component;
-@use './app/create-tracker-set/pokemon-card-content/pokemon-card-content.component-theme' as pokemon-card-content-component;
+@use "assets/theme" as theme;
 
 @include mat.core();
 
-$m3-custom-light: (
-  color: (
-    theme-type: light,
-    primary: matx.$m3-cyan-palette,
-    tertiary: matx.$m3-blue-palette,
-  )
-);
-$m3-custom-dark: (
-  color: (
-    theme-type: dark,
-    primary: matx.$m3-azure-palette,
-    tertiary: matx.$m3-orange-palette,
-  )
-);
-$dark-theme: matx.define-theme($m3-custom-dark);
-$light-theme: matx.define-theme($m3-custom-light);
-
-$currentTheme: $light-theme;
-
-@if ($currentTheme == $dark-theme) {
-  @include auth-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
-  @include sidenav-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
-  @include create-tracker-set-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
-  @include pokemon-card-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
-  @include pokemon-card-content-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
-  @include dashboard-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 20));
-} @else {
-  @include auth-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
-  @include sidenav-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 90));
-  @include create-tracker-set-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
-  @include pokemon-card-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
-  @include pokemon-card-content-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
-  @include dashboard-component.theme($currentTheme, mat.get-theme-color($currentTheme, secondary, 100));
+.dark-theme {
+  @include theme.create-dark-theme();
 }
 
-html {
-  @include mat.all-component-themes($currentTheme);
-  @if ($currentTheme == $dark-theme) {
-    background: mat.get-theme-color($currentTheme, secondary, 10);
-  } @else {
-    background: mat.get-theme-color($currentTheme, secondary, 95);
-  }
+.light-theme {
+  @include theme.create-light-theme();
 }
 
 html, body {
   height: 100% !important;
   margin: 0;
   padding: 0;
-  color: mat.get-theme-color($currentTheme, secondary);
   min-width: 300px;
   overflow-y: hidden;
-}
-
-.accent-btn {
-  @include mat.button-color($currentTheme, $color-variant: tertiary);
+  --mdc-dialog-container-shape: 20px;
+  --mdc-dialog-container-color: transparent;
 }
 
 .snackbar-success {

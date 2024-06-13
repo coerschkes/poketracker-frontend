@@ -2,7 +2,7 @@
 @use '@angular/material' as mat;
 @use '../../variables' as vars;
 
-@mixin color($theme, $color) {
+@mixin dashboard-component-theme($theme, $color) {
   .rounded-picture {
     border: 2px solid mat.get-theme-color($theme, primary) !important;
   }
@@ -101,11 +101,5 @@
 
   .editButton{
     color: mat.get-theme-color($theme, primary);
-  }
-}
-
-@mixin theme($theme, $color) {
-  @if mat.theme-has($theme, color) {
-    @include color($theme, $color);
   }
 }

@@ -1,4 +1,4 @@
-import {Component, HostListener, OnInit} from '@angular/core';
+import {Component, effect, HostBinding, HostListener, OnInit} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
 import {environment} from "../environments/environment";
 import {AuthStateService} from "./core/auth/auth-state.service";
@@ -20,18 +20,30 @@ export class AppComponent implements OnInit{
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    this._responsiveConfigurationService.update();
+    this._responsiveConfigurationService.updateIsMobile();
   }
 
-  ngOnInit(): void {
-    this._responsiveConfigurationService.update();
-  }
+  @HostBinding('class')
+  currentTheme: 'light-theme' | 'dark-theme' = 'light-theme';
 
   constructor(authState: AuthStateService, private _responsiveConfigurationService: ResponsiveConfigurationService) {
     this._authState = authState;
+    effect(() => {
+      if(this._responsiveConfigurationService.isDarkMode()){
+        this.currentTheme = 'dark-theme';
+      } else {
+        this.currentTheme = 'light-theme'
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    this._responsiveConfigurationService.updateIsMobile();
+    this._responsiveConfigurationService.toggleDarkMode();
   }
 
   isLoggedIn(): boolean {
     return this._authState.isLoggedIn()
   }
+
 }
