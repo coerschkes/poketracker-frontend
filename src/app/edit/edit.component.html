@@ -1,0 +1,15 @@
+<form class="example-form">
+  <mat-form-field class="example-full-width">
+    <mat-label>Pokemon</mat-label>
+    <input type="text"
+           placeholder="Name"
+           matInput
+           [formControl]="pokemonNameControl"
+           [matAutocomplete]="auto">
+    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      @for (option of filteredOptions | async; track option) {
+        <mat-option [value]="option">{{option}}</mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

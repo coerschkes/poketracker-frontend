@@ -23,7 +23,8 @@
     <mat-sidenav class="sidenav" #sidenav mode="side" [fixedInViewport]="responsive.isMobile()" fixedTopGap="56">
       <mat-nav-list>
         <a class="sidenav-element" mat-list-item routerLink="/dashboard" (click)="sidenav.toggle()">Dashboard</a>
-        <a mat-list-item routerLink="/create" (click)="sidenav.toggle()">Create</a>
+        <a class="sidenav-element" mat-list-item routerLink="/edit" (click)="sidenav.toggle()">Edit</a>
+        <a class="sidenav-element" mat-list-item routerLink="/create" (click)="sidenav.toggle()">Create</a>
       </mat-nav-list>
     </mat-sidenav>
 

@@ -21,6 +21,16 @@ export const routes: Routes = [
     loadComponent: () => import('./create-tracker-set/create-tracker-set.component').then(m => m.CreateTrackerSetComponent),
     canActivate: [LoginGuard.canActivate]
   },
+  {
+    path: 'edit',
+    loadComponent: () => import('./edit/edit.component').then(m => m.EditComponent),
+    canActivate: [LoginGuard.canActivate]
+  },
+  {
+    path: 'edit/:id',
+    loadComponent: () => import('./edit/edit.component').then(m => m.EditComponent),
+    canActivate: [LoginGuard.canActivate]
+  },
   // todo: redirect to error page here
   {path: '**', redirectTo: 'dashboard'}
 ];
