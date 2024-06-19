@@ -6,7 +6,6 @@
 @use '../app/create-tracker-set/create-tracker-set.component-theme' as create-tracker-set-component;
 @use '../app/create-tracker-set/pokemon-card/pokemon-card.component-theme' as pokemon-card-component;
 @use '../app/dashboard/dashboard.component-theme' as dashboard-component;
-@use '../app/create-tracker-set/pokemon-card-content/pokemon-card-content.component-theme' as pokemon-card-content-component;
 
 @include mat.core();
 

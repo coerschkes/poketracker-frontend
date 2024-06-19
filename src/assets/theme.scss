@@ -6,11 +6,21 @@
 @use '../app/dashboard/dashboard.component-theme' as dashboard-component;
 @use '../app/create-tracker-set/create-tracker-set.component-theme' as create-tracker-set;
 @use '../app/create-tracker-set/pokemon-card/pokemon-card.component-theme' as pokemon-card;
-@use '../app/create-tracker-set/pokemon-card-content/pokemon-card-content.component-theme' as pokemon-card-content;
+@use '../app/edit/edit-accordion/edit-accordion.component-theme' as edit-accordion;
 
 @include mat.core();
-html{
+
+html {
   @include mat.all-component-themes(darkTheme.$dark-theme);
+
+  .pokemon-edition-chip[title="Schwarz 2"], [title="Schwarz"], [title="Purpur"], [title="Saphir"],
+  [title="Smaragd"], [title="Blattgrün"], [title="Alpha Saphir"], [title="Schild"], [title="Karmesin"],
+  [title="X"], [title="Y"], [title="Mond"], [title="Ultra Mond"], [title="Let's Go, Evoli!"],
+  [title="Legenden: Arceus"], [title="Rot"], [title="Feuerrot"], [title="Rubin"], [title="Omega Rubin"],
+  [title="Schwert"] {
+    --mdc-chip-label-text-color: white;
+    --mdc-chip-with-trailing-icon-trailing-icon-color: white;
+  }
 }
 
 @mixin create-dark-theme() {
@@ -18,8 +28,8 @@ html{
   @include auth-component.auth-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20), mat.get-theme-color(darkTheme.$dark-theme, secondary, 10));
   @include create-tracker-set.create-tracker-set-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
   @include pokemon-card.pokemon-card-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
-  @include pokemon-card-content.pokemon-card-content-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
   @include dashboard-component.dashboard-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
+  @include edit-accordion.edit-accordion-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
 
   html {
     background-color: mat.get-theme-color(darkTheme.$dark-theme, secondary, 10);
@@ -32,6 +42,10 @@ html{
   .accent-btn {
     @include mat.button-color(darkTheme.$dark-theme, $color-variant: tertiary);
   }
+
+  .rounded-picture {
+    border: 2px solid mat.get-theme-color(darkTheme.$dark-theme, primary) !important;
+  }
 }
 
 @mixin create-light-theme() {
@@ -40,8 +54,8 @@ html{
   @include auth-component.auth-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100), mat.get-theme-color(lightTheme.$light-theme, secondary, 95));
   @include create-tracker-set.create-tracker-set-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100));
   @include pokemon-card.pokemon-card-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100));
-  @include pokemon-card-content.pokemon-card-content-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100));
   @include dashboard-component.dashboard-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100));
+  @include edit-accordion.edit-accordion-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100));
 
   html {
     background-color: mat.get-theme-color(lightTheme.$light-theme, secondary, 95);
@@ -53,5 +67,9 @@ html{
 
   .accent-btn {
     @include mat.button-color(lightTheme.$light-theme, $color-variant: tertiary);
+  }
+
+  .rounded-picture {
+    border: 2px solid mat.get-theme-color(darkTheme.$dark-theme, primary) !important;
   }
 }

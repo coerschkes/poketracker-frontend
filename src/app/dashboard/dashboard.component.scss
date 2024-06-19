@@ -1,8 +1,3 @@
-.rounded-picture {
-  border-radius: 50%;
-  height: 100%;
-}
-
 table {
   width: 100%;
 }
@@ -16,16 +11,10 @@ tr.detail-row {
 }
 
 .element-detail {
+  justify-content: center;
   overflow: hidden;
   display: flex;
   flex-wrap: wrap;
-}
-
-.element-sprites {
-  min-width: 80px;
-  padding: 8px;
-  font-weight: lighter;
-  margin: 8px 0;
 }
 
 .element-symbol {
@@ -44,161 +33,6 @@ tr.detail-row {
 
 .pokemon-type{
   padding-top: 8px !important;
-}
-
-.pokemon-edition-chip[title="Rot"] {
-  background-color: #E57373;
-}
-
-.pokemon-edition-chip[title="Blau"] {
-  background-color: #64B5F6;
-}
-
-.pokemon-edition-chip[title="Gelb"] {
-  background-color: #FFD54F;
-}
-
-.pokemon-edition-chip[title="Gold"] {
-  background-color: #FFD700;
-}
-
-.pokemon-edition-chip[title="Silber"] {
-  background-color: #C0C0C0;
-}
-
-.pokemon-edition-chip[title="Kristall"] {
-  background-color: #00FFFF;
-}
-
-.pokemon-edition-chip[title="Rubin"] {
-  background-color: #FF6347;
-}
-
-.pokemon-edition-chip[title="Saphir"] {
-  background-color: #4682B4;
-}
-
-.pokemon-edition-chip[title="Smaragd"] {
-  background-color: #2E8B57;
-}
-
-.pokemon-edition-chip[title="Feuerrot"] {
-  background-color: #FF4500;
-}
-
-.pokemon-edition-chip[title="Blattgrün"] {
-  background-color: #228B22;
-}
-
-.pokemon-edition-chip[title="Diamant"] {
-  background-color: #B9F2FF;
-}
-
-.pokemon-edition-chip[title="Perl"] {
-  background-color: #EF9A9A;
-}
-
-.pokemon-edition-chip[title="Platin"] {
-  background-color: #C0C0C0;
-}
-
-.pokemon-edition-chip[title="Heart Gold"] {
-  background-color: #FFD700;
-}
-
-.pokemon-edition-chip[title="Soul Silver"] {
-  background-color: #C0C0C0;
-}
-
-.pokemon-edition-chip[title="Schwarz"] {
-  background-color: #000000;
-}
-
-.pokemon-edition-chip[title="Weiß"] {
-  background-color: #FFFFFF;
-  border: 0.2px solid black;
-}
-
-.pokemon-edition-chip[title="Schwarz 2"] {
-  background-color: #000000;
-}
-
-.pokemon-edition-chip[title="Schwarz 2"] .mat-mdc-chip-action-label {
-  background-color: #000000;
-}
-
-
-.pokemon-edition-chip[title="Weiß 2"] {
-  background-color: #FFFFFF;
-  border: 0.2px solid black;
-}
-
-.pokemon-edition-chip[title="X"] {
-  background-color: #5C6BC0;
-}
-
-.pokemon-edition-chip[title="Y"] {
-  background-color: #E53935;
-}
-
-.pokemon-edition-chip[title="Omega Rubin"] {
-  background-color: #FF6347;
-}
-
-.pokemon-edition-chip[title="Alpha Saphir"] {
-  background-color: #4682B4;
-}
-
-.pokemon-edition-chip[title="Sonne"] {
-  background-color: #FFD700;
-}
-
-.pokemon-edition-chip[title="Mond"] {
-  background-color: #7B1FA2;
-}
-
-.pokemon-edition-chip[title="Ultra Sonne"] {
-  background-color: #FFD700;
-}
-
-.pokemon-edition-chip[title="Ultra Mond"] {
-  background-color: #7B1FA2;
-}
-
-.pokemon-edition-chip[title="Let's Go, Pikachu!"] {
-  background-color: #FFEE58;
-}
-
-.pokemon-edition-chip[title="Let's Go, Evoli!"] {
-  background-color: #795548;
-}
-
-.pokemon-edition-chip[title="Schwert"] {
-  background-color: #FF6347;
-}
-
-.pokemon-edition-chip[title="Schild"] {
-  background-color: #4682B4;
-}
-
-.pokemon-edition-chip[title="Strahlender Diamant"] {
-  background-color: #B9F2FF;
-}
-
-.pokemon-edition-chip[title="Leuchtende Perle"] {
-  background-color: #EF9A9A;
-}
-
-.pokemon-edition-chip[title="Legenden: Arceus"] {
-  background-color: #424242;
-}
-
-.pokemon-edition-chip[title="Karmesin"] {
-  background-color: #FF4500;
-}
-
-.pokemon-edition-chip[title="Purpur"] {
-  background-color: #673AB7;
 }
 
 .deleteButton{
