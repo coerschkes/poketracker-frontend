@@ -46,6 +46,11 @@ html {
   .rounded-picture {
     border: 2px solid mat.get-theme-color(darkTheme.$dark-theme, primary) !important;
   }
+
+  .action-button {
+    margin: 8px 0;
+    color: mat.get-theme-color(darkTheme.$dark-theme, primary);
+  }
 }
 
 @mixin create-light-theme() {
@@ -70,6 +75,11 @@ html {
   }
 
   .rounded-picture {
-    border: 2px solid mat.get-theme-color(darkTheme.$dark-theme, primary) !important;
+    border: 2px solid mat.get-theme-color(lightTheme.$light-theme, primary) !important;
+  }
+
+  .action-button {
+    margin: 8px 0;
+    color: mat.get-theme-color(lightTheme.$light-theme, primary);
   }
 }

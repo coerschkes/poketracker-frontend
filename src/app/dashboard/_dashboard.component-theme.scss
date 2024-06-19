@@ -10,12 +10,4 @@
   tr.element-row:not(.expanded-row):active {
     background: $color;
   }
-
-  .deleteButton{
-    color: vars.$error-color !important;
-  }
-
-  .editButton{
-    color: mat.get-theme-color($theme, primary);
-  }
 }
