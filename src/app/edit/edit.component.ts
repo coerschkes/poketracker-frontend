@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Signal, viewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Signal, viewChild, ViewEncapsulation} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {AbstractControl, AsyncValidatorFn, FormControl, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
@@ -12,6 +12,7 @@ import {ResponsiveConfigurationService} from "../shared/responsive-configuration
 import {EditAccordionComponent} from "./edit-accordion/edit-accordion.component";
 import {MatInput} from "@angular/material/input";
 import {EditStateService} from "./edit-state.service";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-edit',
@@ -25,11 +26,13 @@ import {EditStateService} from "./edit-state.service";
     MatOption,
     AsyncPipe,
     EditAccordionComponent,
-    MatInput
+    MatInput,
+    MatButton
   ],
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.None
 })
 // todo: implement a sort of navigation from the dashboard -> auto load in pokemon name
 export class EditComponent {

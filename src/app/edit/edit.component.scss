@@ -1,7 +1,15 @@
-.container{
+.container {
   margin: 8px;
 }
 
-.pokemon-name-form-field{
+.pokemon-name-form-field {
   width: 100%;
+}
+
+.light-themed {
+  background-color: white !important;
+}
+
+.light-themed .mdc-list-item__primary-text {
+  color: #006a6a;
 }

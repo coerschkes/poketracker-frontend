@@ -7,9 +7,11 @@
              matInput
              [formControl]="pokemonNameControl"
              [matAutocomplete]="auto">
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-autocomplete [class]="_responsive.isDarkMode() ? '' : 'light-themed'" #auto="matAutocomplete">
         @for (option of filteredOptions | async; track option) {
-          <mat-option [value]="option">{{ option }}</mat-option>
+          <mat-option [class]="_responsive.isDarkMode() ? '' : 'light-themed'"
+                      [value]="option">{{ option }}
+          </mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
@@ -18,4 +20,5 @@
   @if (this._stateService.selectedPokemon() !== undefined) {
     <app-edit-accordion [pokemon]="this._stateService.selectedPokemon"></app-edit-accordion>
   }
+  <button class="action-button" style="float:right;" mat-flat-button (click)="updatePokemon()">Update</button>
 </div>
