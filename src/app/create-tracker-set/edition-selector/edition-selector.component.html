@@ -1,6 +1,6 @@
 <mat-form-field class="edition-selector" >
   <mat-label>Edition</mat-label>
-  <mat-select (selectionChange)="addEdition($event)" [(ngModel)]="selectedValue" name="edition">
+  <mat-select (selectionChange)="this.onChange.emit($event.value)" [(ngModel)]="selectedValue" name="edition">
     @for (edition of editions; track edition) {
       <mat-option [value]="edition.name">{{edition.name}}</mat-option>
     }

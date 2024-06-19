@@ -125,6 +125,7 @@ import {PokemonCardContentComponent} from "./pokemon-card-content/pokemon-card-c
   ]
 })
 // todo: remove mat card for mobile devices to have a cleaner look
+// todo: autocomplete when typing in pokemon name
 export class CreateTrackerSetComponent {
   @ViewChild('pokemonName') input: ElementRef<HTMLInputElement>;
   pokemonNameFormGroup = this._formBuilder.group({

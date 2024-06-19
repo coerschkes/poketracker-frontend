@@ -63,7 +63,7 @@
         </mat-step>
         <mat-step>
           <ng-template matStepLabel>Edition</ng-template>
-          <app-edition-selector></app-edition-selector>
+          <app-edition-selector  (onChange)="this._stateService.addEdition($event)"></app-edition-selector>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
         </mat-step>

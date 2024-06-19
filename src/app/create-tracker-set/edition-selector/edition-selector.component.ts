@@ -1,12 +1,11 @@
-import {Component} from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {MatChipGrid, MatChipInput, MatChipRemove, MatChipRow} from "@angular/material/chips";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AsyncPipe} from "@angular/common";
-import {MatSelect, MatSelectChange} from "@angular/material/select";
-import {CreateStateService} from "../create-state.service";
+import {MatSelect} from "@angular/material/select";
 
 interface Edition {
   name: string;
@@ -36,6 +35,7 @@ interface Edition {
   styleUrl: './edition-selector.component.scss'
 })
 export class EditionSelectorComponent {
+  @Output() onChange: EventEmitter<string> = new EventEmitter();
   selectedValue: string;
 
   editions: Edition[] = [
@@ -77,11 +77,4 @@ export class EditionSelectorComponent {
     {name: 'Karmesin', generation: 9},
     {name: 'Purpur', generation: 9},
   ];
-
-  constructor(protected _stateService: CreateStateService) {
-  }
-
-  addEdition($event: MatSelectChange) {
-    this._stateService.addEdition($event.value);
-  }
 }
