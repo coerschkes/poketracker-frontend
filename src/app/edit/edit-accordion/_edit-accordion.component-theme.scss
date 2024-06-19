@@ -1,0 +1,17 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin edit-accordion-component-theme($theme, $color) {
+  .edit-accordion {
+    background-color: $color;
+  }
+
+  .mat-expansion-panel{
+    background: $color;
+    --mat-expansion-container-background-color: $color !important;
+  }
+
+  .edit-expansion-panel-colored{
+    color: mat.get-theme-color($theme, primary);
+  }
+}

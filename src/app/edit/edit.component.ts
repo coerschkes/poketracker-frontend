@@ -1,21 +1,5 @@
-import {Component, signal, WritableSignal} from '@angular/core';
-import {EditionSelectorComponent} from "../create-tracker-set/edition-selector/edition-selector.component";
-import {MatButton} from "@angular/material/button";
-import {
-  MatCard,
-  MatCardContent,
-  MatCardFooter,
-  MatCardHeader,
-  MatCardSubtitle,
-  MatCardTitle
-} from "@angular/material/card";
-import {MatCheckbox} from "@angular/material/checkbox";
-import {MatError, MatFormField, MatLabel} from "@angular/material/form-field";
-import {MatInput} from "@angular/material/input";
-import {MatProgressBar} from "@angular/material/progress-bar";
-import {MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious} from "@angular/material/stepper";
-import {PokemonCardComponent} from "../create-tracker-set/pokemon-card/pokemon-card.component";
-import {PokemonCardContentComponent} from "../create-tracker-set/pokemon-card-content/pokemon-card-content.component";
+import {ChangeDetectionStrategy, Component, Signal, viewChild} from '@angular/core';
+import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {AbstractControl, AsyncValidatorFn, FormControl, ReactiveFormsModule} from "@angular/forms";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
 import {AsyncPipe} from "@angular/common";
@@ -23,48 +7,38 @@ import {map, Observable, of, startWith} from "rxjs";
 import {Pokemon} from "../core/external/poketracker/poketracker-api";
 import {HttpErrorResponse} from "@angular/common/http";
 import {PoketrackerApiService} from "../core/external/poketracker/poketracker-api.service";
+import {MatAccordion} from "@angular/material/expansion";
+import {ResponsiveConfigurationService} from "../shared/responsive-configuration.service";
+import {EditAccordionComponent} from "./edit-accordion/edit-accordion.component";
+import {MatInput} from "@angular/material/input";
+import {EditStateService} from "./edit-state.service";
 
 @Component({
   selector: 'app-edit',
   standalone: true,
   imports: [
-    EditionSelectorComponent,
-    MatButton,
-    MatCard,
-    MatCardContent,
-    MatCardFooter,
-    MatCardHeader,
-    MatCardSubtitle,
-    MatCardTitle,
-    MatCheckbox,
-    MatError,
     MatFormField,
-    MatInput,
-    MatLabel,
-    MatProgressBar,
-    MatStep,
-    MatStepLabel,
-    MatStepper,
-    MatStepperNext,
-    MatStepperPrevious,
-    PokemonCardComponent,
-    PokemonCardContentComponent,
     ReactiveFormsModule,
     MatAutocompleteTrigger,
     MatAutocomplete,
+    MatLabel,
+    MatOption,
     AsyncPipe,
-    MatOption
+    EditAccordionComponent,
+    MatInput
   ],
   templateUrl: './edit.component.html',
-  styleUrl: './edit.component.scss'
+  styleUrl: './edit.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
+// todo: implement a sort of navigation from the dashboard -> auto load in pokemon name
 export class EditComponent {
   private _poketrackerApi: any;
-  pokemonNameControl: FormControl<string | null>;
-  optionsSignal: WritableSignal<string[]> = signal([]);
-  filteredOptions: Observable<string[]>;
+  protected pokemonNameControl: FormControl<string | null>;
+  protected accordion: Signal<MatAccordion> = viewChild.required(MatAccordion);
+  protected filteredOptions: Observable<string[]>;
 
-  constructor(_poketrackerApi: PoketrackerApiService) {
+  constructor(_poketrackerApi: PoketrackerApiService, protected _responsive: ResponsiveConfigurationService, protected _stateService: EditStateService) {
     this._poketrackerApi = _poketrackerApi;
     this.pokemonNameControl = new FormControl('', {
       updateOn: 'change',
@@ -73,27 +47,34 @@ export class EditComponent {
   }
 
   ngOnInit() {
-    this.loadAutocompleteList();
-    this.filteredOptions = this.pokemonNameControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value || '')),
-    );
+    this.loadPokemonList();
+  }
+
+  updatePokemon() {
+    // todo: save to server
+    this._stateService.reset();
   }
 
   private validatePokemonInput(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
-      if (this.optionsSignal().indexOf(control.value) === -1) {
+      if (this._stateService.pokemonSignal().map(pokemon => pokemon.name).indexOf(control.value) === -1) {
+        this._stateService.selectedPokemon.update(() => undefined);
         return of({invalidPokemon: {value: control.value}});
       }
+      this._stateService.selectedPokemon.update(() => this._stateService.pokemonSignal().find(pokemon => pokemon.name === control.value));
       return of();
     }
   }
 
-  private loadAutocompleteList() {
+  private loadPokemonList() {
     this._poketrackerApi.getAllPokemon().subscribe({
       next: (value: Pokemon[]) => {
         value.sort((a, b) => a.dex - b.dex);
-        this.optionsSignal.update(() => value.map(pokemon => pokemon.name));
+        this._stateService.pokemonSignal.update(() => value);
+        this.filteredOptions = this.pokemonNameControl.valueChanges.pipe(
+          startWith(''),
+          map(value => this._filter(value || '')),
+        );
       },
       error: (e: HttpErrorResponse) => {
         console.log(e);
@@ -104,6 +85,6 @@ export class EditComponent {
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 
-    return this.optionsSignal().filter(option => option.toLowerCase().includes(filterValue));
+    return this._stateService.pokemonSignal().map(pokemon => pokemon.name).filter(pokemon => pokemon.toLowerCase().includes(filterValue));
   }
 }
