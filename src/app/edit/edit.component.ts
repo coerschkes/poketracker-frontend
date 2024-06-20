@@ -75,7 +75,7 @@ export class EditComponent {
             console.log(value);
             return;
           } else {
-            this._snackbarService.message = 'Pokemon updated successfully';
+            this._snackbarService.message = 'Pokemon ' + value.name + ' updated successfully';
             this._snackbarService.colorClass = "snackbar-success"
             this._snackbarService.show();
             this._stateService.reset();
