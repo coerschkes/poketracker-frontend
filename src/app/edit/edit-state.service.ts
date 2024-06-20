@@ -1,10 +1,16 @@
-import {Injectable, signal, WritableSignal} from "@angular/core";
+import {effect, Injectable, signal, WritableSignal} from "@angular/core";
 import {Pokemon} from "../core/external/poketracker/poketracker-api";
 
 @Injectable({providedIn: "root"})
 export class EditStateService {
   pokemonSignal: WritableSignal<Pokemon[]> = signal([]);
   selectedPokemon: WritableSignal<Pokemon | undefined> = signal(undefined);
+
+  constructor() {
+    effect(() => {
+      console.log(this.selectedPokemon());
+    });
+  }
 
   removeEdition(edition: string) {
     this.updatePokemon(value => {

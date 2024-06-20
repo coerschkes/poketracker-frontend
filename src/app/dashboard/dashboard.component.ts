@@ -14,6 +14,8 @@ import {ResponsiveConfigurationService} from "../shared/responsive-configuration
 import {ConfirmDialog} from "../shared/confirm-dialog/confirm-dialog.component";
 import {DialogService} from "../shared/dialog.service";
 import {SnackbarService} from "../shared/snackbar/snackbar.service";
+import {EditStateService} from "../edit/edit-state.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -56,7 +58,9 @@ export class DashboardComponent implements OnInit {
   constructor(private _poketrackerApi: PoketrackerApiService,
               private dialogService: DialogService,
               protected _responsiveConfigurationService: ResponsiveConfigurationService,
-              private _snackbarService: SnackbarService) {
+              private _snackbarService: SnackbarService,
+              private _editStateService: EditStateService,
+              private _router: Router) {
     this._dataSourceSignal = signal([]);
     effect(() => this.changeDisplayedColumns());
   }
@@ -116,5 +120,10 @@ export class DashboardComponent implements OnInit {
     this._snackbarService.message = "Pokemon '" + pokemon.dex + "' deleted";
     this._snackbarService.colorClass = "snackbar-success"
     this._snackbarService.show();
+  }
+
+  onEditPokemon(pokemon: Pokemon) {
+    this._editStateService.selectedPokemon.update(() => pokemon);
+    this._router.navigate(['/edit']);
   }
 }

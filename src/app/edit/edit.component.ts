@@ -14,6 +14,7 @@ import {MatInput} from "@angular/material/input";
 import {EditStateService} from "./edit-state.service";
 import {MatButton} from "@angular/material/button";
 import {SnackbarService} from "../shared/snackbar/snackbar.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-edit',
@@ -35,14 +36,16 @@ import {SnackbarService} from "../shared/snackbar/snackbar.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-// todo: implement a sort of navigation from the dashboard -> auto load in pokemon name
 export class EditComponent {
   protected pokemonNameControl: FormControl<string | null>;
   protected accordion: Signal<MatAccordion> = viewChild.required(MatAccordion);
   protected filteredOptions: Observable<string[]>;
 
-  constructor(private _poketrackerApi: PoketrackerApiService, protected _responsive: ResponsiveConfigurationService,
-              protected _stateService: EditStateService, private _snackbarService: SnackbarService) {
+  constructor(private _poketrackerApi: PoketrackerApiService,
+              protected _responsive: ResponsiveConfigurationService,
+              protected _stateService: EditStateService,
+              private _snackbarService: SnackbarService,
+              private _router: Router) {
     this._poketrackerApi = _poketrackerApi;
     this.pokemonNameControl = new FormControl('', {
       updateOn: 'change',
@@ -52,10 +55,13 @@ export class EditComponent {
 
   ngOnInit() {
     this.loadPokemonList();
+    if (this._stateService.hasSelectedPokemon()) {
+      this.pokemonNameControl.setValue(this._stateService.selectedPokemon()!.name);
+    }
   }
 
   updatePokemon() {
-    if (this._stateService.hasSelectedPokemon()) {
+    if (!this._stateService.hasSelectedPokemon()) {
       this._snackbarService.message = 'Form is invalid';
       this._snackbarService.colorClass = "snackbar-error";
       this._snackbarService.show();
@@ -72,9 +78,9 @@ export class EditComponent {
             this._snackbarService.message = 'Pokemon updated successfully';
             this._snackbarService.colorClass = "snackbar-success"
             this._snackbarService.show();
-            //   maybe update dashboard?
             this._stateService.reset();
             this.pokemonNameControl.reset();
+            this._router.navigate(['/dashboard']);
           }
         }
       });
@@ -83,11 +89,13 @@ export class EditComponent {
 
   private validatePokemonInput(): AsyncValidatorFn {
     return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
-      if (this._stateService.pokemonSignal().map(pokemon => pokemon.name).indexOf(control.value) === -1) {
-        this._stateService.selectedPokemon.update(() => undefined);
-        return of({invalidPokemon: {value: control.value}});
+      if (control.dirty) {
+        if (this._stateService.pokemonSignal().map(pokemon => pokemon.name).indexOf(control.value) === -1) {
+          this._stateService.selectedPokemon.update(() => undefined);
+          return of({invalidPokemon: {value: control.value}});
+        }
+        this._stateService.selectedPokemon.update(() => this._stateService.pokemonSignal().find(pokemon => pokemon.name === control.value));
       }
-      this._stateService.selectedPokemon.update(() => this._stateService.pokemonSignal().find(pokemon => pokemon.name === control.value));
       return of();
     }
   }

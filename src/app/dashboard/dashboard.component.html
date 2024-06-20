@@ -58,7 +58,7 @@
           }
         </div>
         <div style="width: 100%">
-          <button class="action-button" mat-flat-button>Edit
+          <button class="action-button" mat-flat-button (click)="onEditPokemon(element)">Edit
             <mat-icon fontIcon="edit"></mat-icon>
           </button>
           <button class="action-button" style="float: right;" mat-flat-button (click)="onDeletePokemon(element)">Delete
