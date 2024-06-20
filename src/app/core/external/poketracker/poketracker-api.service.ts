@@ -12,11 +12,6 @@ import {environment} from "../../../../environments/environment";
 export class PoketrackerApiService {
 
   private readonly _baseUrl: string = environment.POKETRACKER_API_URL;
-  private readonly _options = {
-    headers: {
-      Authorization: 'Bearer ' + this.authState.userInfo()?.idToken,
-    }
-  }
 
   constructor(private httpClient: HttpClient, private authState: AuthStateService, private authService: AuthService) {
   }
@@ -29,29 +24,39 @@ export class PoketrackerApiService {
     return this.callApiAuthenticated(this.callPost<Pokemon>(this._baseUrl, pokemon));
   }
 
+  public updatePokemon(pokemon: Pokemon): Observable<Pokemon | HttpErrorResponse> {
+    return this.callApiAuthenticated(this.callPut<Pokemon>(this._baseUrl, pokemon));
+  }
+
   public deletePokemon(pokemon: Pokemon): Observable<HttpResponse<any> | HttpErrorResponse> {
     return this.callApiAuthenticated(this.callDelete<HttpResponse<any>>(this._baseUrl + '/' + pokemon.dex));
   }
 
   private callGet<T>(url: string) {
-    return this.httpClient.get<T>(url, this._options)
+    return this.httpClient.get<T>(url, this.buildOptions())
   }
 
   private callPost<T>(url: string, body: any) {
-    return this.httpClient.post<T>(url, body, this._options)
+    return this.httpClient.post<T>(url, body, this.buildOptions())
+  }
+
+  private callPut<T>(url: string, body: any) {
+    return this.httpClient.put<T>(url, body, this.buildOptions())
   }
 
   private callDelete<T>(url: string) {
-    return this.httpClient.delete<T>(url, this._options)
+    return this.httpClient.delete<T>(url, this.buildOptions())
   }
 
   private callApiAuthenticated<T>(obs: Observable<T>): Observable<T | HttpErrorResponse> {
+    this.buildOptions()
     return obs
       .pipe(
         catchError((err: HttpErrorResponse) => {
             console.log(err)
             return this.authService.refreshToken().pipe(
               switchMap(() => {
+                console.log(this.buildOptions())
                 return obs
                   .pipe(
                     catchError((err: HttpErrorResponse) => {
@@ -68,5 +73,13 @@ export class PoketrackerApiService {
           }
         )
       )
+  }
+
+  private buildOptions() {
+    return {
+      headers: {
+        Authorization: 'Bearer ' + this.authState.userInfo()?.idToken,
+      }
+    }
   }
 }
