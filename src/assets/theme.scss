@@ -51,6 +51,14 @@ html {
     margin: 8px 0;
     color: mat.get-theme-color(darkTheme.$dark-theme, primary);
   }
+
+  .pokemon-edition-chip[title="Schwarz"] {
+    border: 0.2px solid mat.get-theme-color(darkTheme.$dark-theme, secondary, 30);
+  }
+
+  .pokemon-edition-chip[title="Schwarz 2"] {
+    border: 0.2px solid mat.get-theme-color(darkTheme.$dark-theme, secondary, 30);
+  }
 }
 
 @mixin create-light-theme() {
@@ -81,5 +89,13 @@ html {
   .action-button {
     margin: 8px 0;
     color: mat.get-theme-color(lightTheme.$light-theme, primary);
+  }
+
+  .pokemon-edition-chip[title="Weiß"] {
+    border: 0.2px solid mat.get-theme-color(lightTheme.$light-theme, secondary, 70);
+  }
+
+  .pokemon-edition-chip[title="Weiß 2"] {
+    border: 0.2px solid mat.get-theme-color(lightTheme.$light-theme, secondary, 70);
   }
 }
