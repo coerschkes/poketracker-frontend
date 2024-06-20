@@ -13,6 +13,7 @@ import {EditAccordionComponent} from "./edit-accordion/edit-accordion.component"
 import {MatInput} from "@angular/material/input";
 import {EditStateService} from "./edit-state.service";
 import {MatButton} from "@angular/material/button";
+import {SnackbarService} from "../shared/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-edit',
@@ -35,13 +36,15 @@ import {MatButton} from "@angular/material/button";
   encapsulation: ViewEncapsulation.None
 })
 // todo: implement a sort of navigation from the dashboard -> auto load in pokemon name
+// todo: disable button if no pokemon is selected
+// todo: improve styling of the dropdown (autocomplete) -> wrong text color in light mode atm if item is selected
 export class EditComponent {
-  private _poketrackerApi: any;
   protected pokemonNameControl: FormControl<string | null>;
   protected accordion: Signal<MatAccordion> = viewChild.required(MatAccordion);
   protected filteredOptions: Observable<string[]>;
 
-  constructor(_poketrackerApi: PoketrackerApiService, protected _responsive: ResponsiveConfigurationService, protected _stateService: EditStateService) {
+  constructor(private _poketrackerApi: PoketrackerApiService, protected _responsive: ResponsiveConfigurationService,
+              protected _stateService: EditStateService, private _snackbarService: SnackbarService) {
     this._poketrackerApi = _poketrackerApi;
     this.pokemonNameControl = new FormControl('', {
       updateOn: 'change',
@@ -54,8 +57,30 @@ export class EditComponent {
   }
 
   updatePokemon() {
-    // todo: save to server
-    this._stateService.reset();
+    if (this._stateService.selectedPokemon() === undefined) {
+      this._snackbarService.message = 'Form is invalid';
+      this._snackbarService.colorClass = "snackbar-error";
+      this._snackbarService.show();
+    } else {
+      this._poketrackerApi.updatePokemon(this._stateService.selectedPokemon()!).subscribe({
+        next: (value: Pokemon | HttpErrorResponse) => {
+          if (value instanceof HttpErrorResponse) {
+            this._snackbarService.message = 'Unable to update pokemon';
+            this._snackbarService.colorClass = "snackbar-error"
+            this._snackbarService.show();
+            console.log(value);
+            return;
+          } else {
+            this._snackbarService.message = 'Pokemon updated successfully';
+            this._snackbarService.colorClass = "snackbar-success"
+            this._snackbarService.show();
+            //   maybe update dashboard?
+            this._stateService.reset();
+            this.pokemonNameControl.reset();
+          }
+        }
+      });
+    }
   }
 
   private validatePokemonInput(): AsyncValidatorFn {
@@ -71,23 +96,26 @@ export class EditComponent {
 
   private loadPokemonList() {
     this._poketrackerApi.getAllPokemon().subscribe({
-      next: (value: Pokemon[]) => {
+      next: (value: Pokemon[] | HttpErrorResponse) => {
+        if (value instanceof HttpErrorResponse) {
+          this._snackbarService.message = 'Unable load autocomplete pokemon list';
+          this._snackbarService.colorClass = "snackbar-error"
+          this._snackbarService.show();
+          console.log(value);
+          return;
+        }
         value.sort((a, b) => a.dex - b.dex);
         this._stateService.pokemonSignal.update(() => value);
         this.filteredOptions = this.pokemonNameControl.valueChanges.pipe(
           startWith(''),
           map(value => this._filter(value || '')),
         );
-      },
-      error: (e: HttpErrorResponse) => {
-        console.log(e);
       }
     });
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-
     return this._stateService.pokemonSignal().map(pokemon => pokemon.name).filter(pokemon => pokemon.toLowerCase().includes(filterValue));
   }
 }
