@@ -13,6 +13,7 @@ import {MatChipRemove, MatChipRow} from "@angular/material/chips";
 import {ResponsiveConfigurationService} from "../shared/responsive-configuration.service";
 import {ConfirmDialog} from "../shared/confirm-dialog/confirm-dialog.component";
 import {DialogService} from "../shared/dialog.service";
+import {SnackbarService} from "../shared/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -47,16 +48,15 @@ import {DialogService} from "../shared/dialog.service";
 //todo: session timed out notification?
 // todo: stats on another tab? -> especially for mobile
 export class DashboardComponent implements OnInit {
-  private _poketrackerApi: any;
   protected _dataSourceSignal: WritableSignal<Pokemon[]>;
   columnsToDisplay: string[];
   columnsToDisplayWithExpand: string[];
   expandedElement: Pokemon | null;
 
-  constructor(_poketrackerApi: PoketrackerApiService,
+  constructor(private _poketrackerApi: PoketrackerApiService,
+              private dialogService: DialogService,
               protected _responsiveConfigurationService: ResponsiveConfigurationService,
-              private dialogService: DialogService) {
-    this._poketrackerApi = _poketrackerApi;
+              private _snackbarService: SnackbarService) {
     this._dataSourceSignal = signal([]);
     effect(() => this.changeDisplayedColumns());
   }
@@ -77,7 +77,11 @@ export class DashboardComponent implements OnInit {
 
   loadPokemonTable() {
     this._poketrackerApi.getAllPokemon().subscribe({
-      next: (value: Pokemon[]) => {
+      next: (value: Pokemon[] | HttpErrorResponse) => {
+        if (value instanceof HttpErrorResponse) {
+          console.log(value);
+          return;
+        }
         value.sort((a, b) => a.dex - b.dex);
         this._dataSourceSignal.update(() => value);
       },
@@ -109,6 +113,8 @@ export class DashboardComponent implements OnInit {
         this.loadPokemonTable()
       },
     });
-    console.log("pokemon deleted, " + pokemon.dex)
+    this._snackbarService.message = "Pokemon '" + pokemon.dex + "' deleted";
+    this._snackbarService.colorClass = "snackbar-success"
+    this._snackbarService.show();
   }
 }
