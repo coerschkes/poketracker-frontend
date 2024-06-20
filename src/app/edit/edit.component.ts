@@ -36,7 +36,6 @@ import {SnackbarService} from "../shared/snackbar/snackbar.service";
   encapsulation: ViewEncapsulation.None
 })
 // todo: implement a sort of navigation from the dashboard -> auto load in pokemon name
-// todo: improve styling of the dropdown (autocomplete) -> wrong text color in light mode atm if item is selected
 export class EditComponent {
   protected pokemonNameControl: FormControl<string | null>;
   protected accordion: Signal<MatAccordion> = viewChild.required(MatAccordion);
