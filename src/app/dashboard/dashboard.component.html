@@ -61,7 +61,7 @@
           <button class="action-button" mat-flat-button (click)="onEditPokemon(element)">Edit
             <mat-icon fontIcon="edit"></mat-icon>
           </button>
-          <button class="action-button" style="float: right;" mat-flat-button (click)="onDeletePokemon(element)">Delete
+          <button class="action-button" style="margin-left: 8px" mat-flat-button (click)="onDeletePokemon(element)">Delete
             <mat-icon fontIcon="delete"></mat-icon>
           </button>
         </div>
@@ -77,3 +77,9 @@
   </tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 </table>
+@if (_responsiveConfigurationService.isMobile()) {
+  <button class="mobile-add-fab" mat-fab routerLink="/create">
+    <mat-icon>add</mat-icon>
+  </button>
+}
+

@@ -5,6 +5,12 @@
     </button>
     <h1 class="app-name">{{ appName }}</h1>
     <span class="spacer"></span>
+    @if (!responsive.isMobile()) {
+      <button class="non-mobile-add-fab" mat-fab extended routerLink="/create">
+        Add
+        <mat-icon class="search-button">my_library_add</mat-icon>
+      </button>
+    }
     <button mat-icon-button [matMenuTriggerFor]="menu" class="profile-picture" aria-label="Account settings">
       <mat-menu
         #menu="matMenu">

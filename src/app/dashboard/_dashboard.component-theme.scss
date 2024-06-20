@@ -10,4 +10,9 @@
   tr.element-row:not(.expanded-row):active {
     background: $color;
   }
+
+  .mobile-add-fab {
+    background-color: mat.get-theme-color($theme, primary) !important;
+    color: mat.get-theme-color($theme, on-primary) !important;
+  }
 }

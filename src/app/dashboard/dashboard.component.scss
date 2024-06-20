@@ -31,10 +31,17 @@ tr.detail-row {
   opacity: 0.5;
 }
 
-.pokemon-type{
+.pokemon-type {
   padding-top: 8px !important;
 }
 
-.deleteButton{
+.deleteButton {
   float: right;
+}
+
+.mobile-add-fab {
+  position: fixed;
+  right: 32px;
+  bottom: 32px;
+  z-index: 2;
 }

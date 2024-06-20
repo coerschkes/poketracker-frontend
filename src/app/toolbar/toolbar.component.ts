@@ -1,7 +1,7 @@
 import {Component, effect, ElementRef, Renderer2, ViewChild} from '@angular/core';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from "@angular/material/sidenav";
 import {MatToolbar} from "@angular/material/toolbar";
-import {MatIconButton} from "@angular/material/button";
+import {MatFabButton, MatIconButton} from "@angular/material/button";
 import {MatListItem, MatNavList} from "@angular/material/list";
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {MatIcon} from "@angular/material/icon";
@@ -31,6 +31,7 @@ import {NgStyle} from "@angular/common";
     MatMenuItem,
     MatSlideToggle,
     NgStyle,
+    MatFabButton,
   ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss',

@@ -33,10 +33,15 @@ h1.app-name {
   flex: 1;
 }
 
-.dark-themed{
+.dark-themed {
   color: #abc7ff !important;
 }
 
-.light-themed{
+.light-themed {
   color: #006a6a !important;
+}
+
+.non-mobile-add-fab {
+  margin: 8px;
+  height: 44px;
 }

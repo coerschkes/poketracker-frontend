@@ -9,4 +9,9 @@
   .menu-button {
     color: mat.get-theme-color($theme, primary) !important;
   }
+
+  .non-mobile-add-fab{
+    background-color: mat.get-theme-color($theme, primary) !important;
+    color: mat.get-theme-color($theme, on-primary) !important;
+  }
 }

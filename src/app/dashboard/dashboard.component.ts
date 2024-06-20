@@ -15,7 +15,7 @@ import {ConfirmDialog} from "../shared/confirm-dialog/confirm-dialog.component";
 import {DialogService} from "../shared/dialog.service";
 import {SnackbarService} from "../shared/snackbar/snackbar.service";
 import {EditStateService} from "../edit/edit-state.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -29,7 +29,8 @@ import {Router} from "@angular/router";
     TitleCasePipe,
     PokemonTypeComponent,
     MatChipRow,
-    MatChipRemove
+    MatChipRemove,
+    RouterLink
   ],
   animations: [
     trigger('detailExpand', [
@@ -42,11 +43,9 @@ import {Router} from "@angular/router";
   styleUrl: './dashboard.component.scss'
 })
 //todo: add a search bar to filter the pokemon
-//todo: add buttons for deleting, editing and adding pokemon
 //todo: add statistics? (total pokemon, total shiny, total normal, total universal, total regional), piechart?
 //      -> maybe in another tab?
 //todo: pagination?
-//todo: add snackbar notification if error occurs
 //todo: session timed out notification?
 // todo: stats on another tab? -> especially for mobile
 export class DashboardComponent implements OnInit {
