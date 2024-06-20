@@ -36,7 +36,6 @@ import {SnackbarService} from "../shared/snackbar/snackbar.service";
   encapsulation: ViewEncapsulation.None
 })
 // todo: implement a sort of navigation from the dashboard -> auto load in pokemon name
-// todo: disable button if no pokemon is selected
 // todo: improve styling of the dropdown (autocomplete) -> wrong text color in light mode atm if item is selected
 export class EditComponent {
   protected pokemonNameControl: FormControl<string | null>;
@@ -57,7 +56,7 @@ export class EditComponent {
   }
 
   updatePokemon() {
-    if (this._stateService.selectedPokemon() === undefined) {
+    if (this._stateService.hasSelectedPokemon()) {
       this._snackbarService.message = 'Form is invalid';
       this._snackbarService.colorClass = "snackbar-error";
       this._snackbarService.show();

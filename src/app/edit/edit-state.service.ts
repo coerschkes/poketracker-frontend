@@ -55,7 +55,11 @@ export class EditStateService {
     });
   }
 
-  reset(){
+  reset() {
     this.selectedPokemon.update(() => undefined);
+  }
+
+  hasSelectedPokemon(): boolean {
+    return this.selectedPokemon() !== undefined;
   }
 }

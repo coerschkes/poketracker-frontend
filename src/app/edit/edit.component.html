@@ -17,8 +17,10 @@
     </mat-form-field>
   </form>
 
-  @if (this._stateService.selectedPokemon() !== undefined) {
+  @if (this._stateService.hasSelectedPokemon()) {
     <app-edit-accordion [pokemon]="this._stateService.selectedPokemon"></app-edit-accordion>
   }
-  <button class="action-button" style="float:right;" mat-flat-button (click)="updatePokemon()">Update</button>
+  <button [disabled]="!this._stateService.hasSelectedPokemon()" class="action-button" style="float:right;"
+          mat-flat-button (click)="updatePokemon()">Update
+  </button>
 </div>
