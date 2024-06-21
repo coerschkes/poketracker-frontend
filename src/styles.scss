@@ -199,3 +199,10 @@ html, body {
   border-radius: 50%;
   height: 100%;
 }
+
+.element-detail {
+  justify-content: center;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+}
