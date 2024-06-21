@@ -16,6 +16,7 @@ import {DialogService} from "../shared/dialog.service";
 import {SnackbarService} from "../shared/snackbar/snackbar.service";
 import {EditStateService} from "../edit/edit-state.service";
 import {Router, RouterLink} from "@angular/router";
+import {MatDivider} from "@angular/material/divider";
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +31,8 @@ import {Router, RouterLink} from "@angular/router";
     PokemonTypeComponent,
     MatChipRow,
     MatChipRemove,
-    RouterLink
+    RouterLink,
+    MatDivider
   ],
   animations: [
     trigger('detailExpand', [
@@ -98,6 +100,26 @@ export class DashboardComponent implements OnInit {
     this.dialogService.openDialog<ConfirmDialog>(this.createConfirmDialog(pokemon))
   }
 
+  onEditPokemon(pokemon: Pokemon) {
+    this._editStateService.selectedPokemon.update(() => pokemon);
+    this._router.navigate(['/edit']);
+  }
+
+  mapFormToIcon(form: string): string {
+    switch (form) {
+      case 'shiny':
+        return 'grade';
+      case 'normal':
+        return 'favorite';
+      case 'universal':
+        return 'public';
+      case 'regional':
+        return 'pets';
+      default:
+        return '';
+    }
+  }
+
   private createConfirmDialog(pokemon: Pokemon): ConfirmDialog {
     return new ConfirmDialog(
       'Delete Pokemon',
@@ -119,10 +141,5 @@ export class DashboardComponent implements OnInit {
     this._snackbarService.message = "Pokemon '" + pokemon.dex + "' deleted";
     this._snackbarService.colorClass = "snackbar-success"
     this._snackbarService.show();
-  }
-
-  onEditPokemon(pokemon: Pokemon) {
-    this._editStateService.selectedPokemon.update(() => pokemon);
-    this._router.navigate(['/edit']);
   }
 }
