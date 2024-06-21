@@ -1,8 +1,8 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin pokemon-card-component-theme($theme, $color) {
-  .primary-card {
+@mixin add-component-theme($theme, $color) {
+  .mat-step-icon-state-done{
     color: mat.get-theme-color($theme, primary) !important;
     background-color: $color !important;
   }

@@ -24,4 +24,22 @@ export class LookupTableService {
         })
       );
   }
+
+  public retrievePokemonNames(path: string) {
+    return this._httpClient
+      .get(path, {responseType: "text"})
+      .pipe(
+        map(value => {
+          const lines = value.split("\n");
+          let result: string[] = [];
+          for (let i = 0; i < lines.length; i++) {
+            const columns = lines[i].split(",");
+            if (columns[1] !== undefined && columns[1] !== ""){
+              result.push(columns[1]);
+            }
+          }
+          return result;
+        })
+      );
+  }
 }

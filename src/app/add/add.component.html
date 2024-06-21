@@ -1,0 +1,97 @@
+<div class="container">
+  <form>
+    <mat-form-field class="pokemon-name-form-field">
+      <mat-label>Pokemon</mat-label>
+      <input type="text"
+             placeholder="Name"
+             matInput
+             [formControl]="pokemonNameControl"
+             [matAutocomplete]="auto">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        @for (option of filteredOptions | async; track option) {
+          <mat-option [value]="option">{{ option }}
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>
+
+  @if (this.stateService.loadedPokemon !== undefined) {
+    <div [@flyInOut]>
+      <div class="element-detail">
+        @if (stateService.state().isNormal) {
+          <div style="{{responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
+               class="element-sprites">
+            <img class="rounded-picture" [src]="(this.stateService.loadedPokemon | async)?.spriteUrl"
+                 alt="normal sprite url">
+          </div>
+        }
+        @if (stateService.state().isShiny) {
+          <div style="{{responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
+               class="element-sprites">
+            <img class="rounded-picture" [src]="(this.stateService.loadedPokemon | async)?.spriteShinyUrl"
+                 alt="normal sprite url">
+          </div>
+        }
+      </div>
+      <app-pokemon-type [types]="(stateService.loadedPokemon | async)?.types" [inputLanguage]="'en'"></app-pokemon-type>
+      <mat-stepper class="stepper" [linear]="false" #stepper>
+        <mat-step>
+          <ng-template matStepLabel>Form</ng-template>
+          <div style="margin: 0 16px;">
+            <mat-checkbox class="checkbox" checked="{{stateService.state().isShiny}}"
+                          (click)="stateService.toggleShiny()">
+              Shiny
+            </mat-checkbox>
+            <mat-checkbox style="float: right; margin-right: 12px" class="checkbox"
+                          checked="{{stateService.state().isNormal}}"
+                          (click)="stateService.toggleNormal()">
+              Normal
+            </mat-checkbox>
+          </div>
+          <div style="margin: 0 16px;">
+            <mat-checkbox class="checkbox" checked="{{stateService.state().isRegional}}"
+                          (click)="stateService.toggleRegional()">
+              Regional
+            </mat-checkbox>
+
+            <mat-checkbox style="float: right" class="checkbox" checked="{{stateService.state().isUniversal}}"
+                          (click)="stateService.toggleUniversal()">
+              Universal
+            </mat-checkbox>
+          </div>
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Edition</ng-template>
+          <app-edition-selector (onChange)="stateService.addEdition($event)"></app-edition-selector>
+          @for (edition of stateService.state().editions; track stateService.state().editions) {
+            <mat-chip-row
+              class="pokemon-edition-chip"
+              [editable]="true" title="{{edition}}"
+              (removed)="this.stateService.removeEdition(edition)">
+              {{ edition }}
+              <button matChipRemove [attr.aria-label]="'remove ' + edition">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip-row>
+          }
+        </mat-step>
+        <mat-step>
+          <ng-template matStepLabel>Add</ng-template>
+          <button style="width: 100%" mat-flat-button (click)="addService.addEntry()">
+            Add
+          </button>
+        </mat-step>
+      </mat-stepper>
+    </div>
+    @if (stepper.selectedIndex > 0) {
+      <button style="position: absolute; bottom: 24px; left: 24px;" mat-flat-button (click)="goBack()">Back</button>
+    }
+    @if (stepper.selectedIndex < 2) {
+      <button style="position: absolute; bottom: 24px; right: 24px;" mat-flat-button (click)="goForward()">Next</button>
+    }
+  }
+</div>
+@if (this.stateService.state().loading) {
+  <mat-progress-bar class="progress-bar" mode="query"></mat-progress-bar>
+}

@@ -6,7 +6,7 @@
     <h1 class="app-name">{{ appName }}</h1>
     <span class="spacer"></span>
     @if (!responsive.isMobile()) {
-      <button class="non-mobile-add-fab" mat-fab extended routerLink="/create">
+      <button class="non-mobile-add-fab" mat-fab extended routerLink="/add">
         Add
         <mat-icon class="search-button">my_library_add</mat-icon>
       </button>
@@ -30,7 +30,7 @@
       <mat-nav-list>
         <a class="sidenav-element" mat-list-item routerLink="/dashboard" (click)="sidenav.toggle()">Dashboard</a>
         <a class="sidenav-element" mat-list-item routerLink="/edit" (click)="sidenav.toggle()">Edit</a>
-        <a class="sidenav-element" mat-list-item routerLink="/create" (click)="sidenav.toggle()">Create</a>
+        <a class="sidenav-element" mat-list-item routerLink="/add" (click)="sidenav.toggle()">Add</a>
       </mat-nav-list>
     </mat-sidenav>
 

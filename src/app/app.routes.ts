@@ -17,8 +17,8 @@ export const routes: Routes = [
     canActivate: [LoginGuard.canActivate]
   },
   {
-    path: 'create',
-    loadComponent: () => import('./create-tracker-set/create-tracker-set.component').then(m => m.CreateTrackerSetComponent),
+    path: 'add',
+    loadComponent: () => import('./add/add.component').then(m => m.AddComponent),
     canActivate: [LoginGuard.canActivate]
   },
   {

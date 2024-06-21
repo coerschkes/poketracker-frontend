@@ -12,9 +12,9 @@ import {MatInput} from "@angular/material/input";
 import {Pokemon} from "../../core/external/poketracker/poketracker-api";
 import {ResponsiveConfigurationService} from "../../shared/responsive-configuration.service";
 import {MatCheckbox} from "@angular/material/checkbox";
-import {EditionSelectorComponent} from "../../create-tracker-set/edition-selector/edition-selector.component";
 import {MatChipRemove, MatChipRow} from "@angular/material/chips";
 import {EditStateService} from "../edit-state.service";
+import {EditionSelectorComponent} from "../../shared/edition-selector/edition-selector.component";
 
 @Component({
   selector: 'app-edit-accordion',
@@ -30,9 +30,9 @@ import {EditStateService} from "../edit-state.service";
     MatInput,
     MatLabel,
     MatCheckbox,
-    EditionSelectorComponent,
     MatChipRemove,
-    MatChipRow
+    MatChipRow,
+    EditionSelectorComponent
   ],
   templateUrl: './edit-accordion.component.html',
   styleUrl: './edit-accordion.component.scss'
