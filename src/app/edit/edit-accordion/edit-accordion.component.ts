@@ -2,6 +2,7 @@ import {Component, Input, WritableSignal} from '@angular/core';
 import {
   MatAccordion,
   MatExpansionPanel,
+  MatExpansionPanelContent,
   MatExpansionPanelDescription,
   MatExpansionPanelHeader,
   MatExpansionPanelTitle
@@ -32,7 +33,8 @@ import {EditionSelectorComponent} from "../../shared/edition-selector/edition-se
     MatCheckbox,
     MatChipRemove,
     MatChipRow,
-    EditionSelectorComponent
+    EditionSelectorComponent,
+    MatExpansionPanelContent
   ],
   templateUrl: './edit-accordion.component.html',
   styleUrl: './edit-accordion.component.scss'

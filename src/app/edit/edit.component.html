@@ -17,10 +17,30 @@
     </mat-form-field>
   </form>
 
+
   @if (this._stateService.hasSelectedPokemon()) {
-    <app-edit-accordion [pokemon]="this._stateService.selectedPokemon"></app-edit-accordion>
+    <div [@flyInOut]>
+      <div class="element-detail">
+        @if (_stateService.selectedPokemon()?.normal) {
+          <div style="{{_responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
+               class="element-sprites">
+            <img class="rounded-picture" [src]="_stateService.selectedPokemon()?.normalSpriteUrl"
+                 alt="normal sprite url">
+          </div>
+        }
+        @if (_stateService.selectedPokemon()?.shiny) {
+          <div style="{{_responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
+               class="element-sprites">
+            <img class="rounded-picture" [src]="_stateService.selectedPokemon()?.shinySpriteUrl"
+                 alt="normal sprite url">
+          </div>
+        }
+      </div>
+      <app-pokemon-type [types]="_stateService.selectedPokemon()?.types" [inputLanguage]="'de'"></app-pokemon-type>
+      <app-edit-accordion [pokemon]="this._stateService.selectedPokemon"></app-edit-accordion>
+      <button [disabled]="!this._stateService.hasSelectedPokemon()" class="action-button" style="float:right;"
+              mat-flat-button (click)="updatePokemon()">Update
+      </button>
+    </div>
   }
-  <button [disabled]="!this._stateService.hasSelectedPokemon()" class="action-button" style="float:right;"
-          mat-flat-button (click)="updatePokemon()">Update
-  </button>
 </div>

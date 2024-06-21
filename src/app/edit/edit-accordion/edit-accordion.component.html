@@ -1,54 +1,34 @@
 <mat-accordion multi class="edit-accordion">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
-      <mat-panel-title>Sprites</mat-panel-title>
-      <mat-panel-description>
-      </mat-panel-description>
-    </mat-expansion-panel-header>
-    <div class="element-detail">
-      @if (pokemon()!.normal) {
-        <div style="{{_responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
-             class="element-sprites">
-          <img class="rounded-picture" [src]="pokemon()!.normalSpriteUrl" alt="normal sprite url">
-        </div>
-      }
-      @if (pokemon()!.shiny) {
-        <div style="{{_responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
-             class="element-sprites">
-          <img class="rounded-picture" [src]="pokemon()!.shinySpriteUrl" alt="normal sprite url">
-        </div>
-      }
-    </div>
-  </mat-expansion-panel>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
       <mat-panel-title>Forms</mat-panel-title>
       <mat-panel-description>
         <mat-icon style="margin-left: auto; margin-right: 0">extension</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <p>
-      <mat-checkbox class="checkbox" checked="{{pokemon()!.shiny}}" (click)="_stateService.toggleShiny()">
-        Shiny
-      </mat-checkbox>
-    </p>
-    <p>
-      <mat-checkbox class="checkbox" checked="{{pokemon()!.regional}}" (click)="_stateService.toggleRegional()">
-        Regional
-      </mat-checkbox>
-    </p>
-    <p>
-      <mat-checkbox class="checkbox" checked="{{pokemon()!.normal}}" (click)="_stateService.toggleNormal()">
-        Normal
-      </mat-checkbox>
-    </p>
-    <p>
-      <mat-checkbox class="checkbox" checked="{{pokemon()!.universal}}" (click)="_stateService.toggleUniversal()">
-        Universal
-      </mat-checkbox>
-    </p>
+    <ng-template matExpansionPanelContent>
+      <p>
+        <mat-checkbox class="checkbox" checked="{{pokemon()!.shiny}}" (click)="_stateService.toggleShiny()">
+          Shiny
+        </mat-checkbox>
+      </p>
+      <p>
+        <mat-checkbox class="checkbox" checked="{{pokemon()!.regional}}" (click)="_stateService.toggleRegional()">
+          Regional
+        </mat-checkbox>
+      </p>
+      <p>
+        <mat-checkbox class="checkbox" checked="{{pokemon()!.normal}}" (click)="_stateService.toggleNormal()">
+          Normal
+        </mat-checkbox>
+      </p>
+      <p>
+        <mat-checkbox class="checkbox" checked="{{pokemon()!.universal}}" (click)="_stateService.toggleUniversal()">
+          Universal
+        </mat-checkbox>
+      </p>
+    </ng-template>
   </mat-expansion-panel>
-
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>Editions</mat-panel-title>
@@ -56,17 +36,19 @@
         <mat-icon style="margin-left: auto; margin-right: 0">layers</mat-icon>
       </mat-panel-description>
     </mat-expansion-panel-header>
-    <app-edition-selector (onChange)="_stateService.addEdition($event)"></app-edition-selector>
-    @for (edition of pokemon()!.editions; track pokemon()!.editions) {
-      <mat-chip-row
-        class="pokemon-edition-chip"
-        [editable]="true" title="{{edition}}"
-        (removed)="this._stateService.removeEdition(edition)">
-        {{ edition }}
-        <button matChipRemove [attr.aria-label]="'remove ' + edition">
-          <mat-icon>cancel</mat-icon>
-        </button>
-      </mat-chip-row>
-    }
+    <ng-template matExpansionPanelContent>
+      <app-edition-selector (onChange)="_stateService.addEdition($event)"></app-edition-selector>
+      @for (edition of pokemon()!.editions; track pokemon()!.editions) {
+        <mat-chip-row
+          class="pokemon-edition-chip"
+          [editable]="true" title="{{edition}}"
+          (removed)="this._stateService.removeEdition(edition)">
+          {{ edition }}
+          <button matChipRemove [attr.aria-label]="'remove ' + edition">
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+    </ng-template>
   </mat-expansion-panel>
 </mat-accordion>
