@@ -34,7 +34,7 @@ export class LookupTableService {
           let result: string[] = [];
           for (let i = 0; i < lines.length; i++) {
             const columns = lines[i].split(",");
-            if (columns[1] !== undefined && columns[1] !== ""){
+            if (columns[1] !== undefined && columns[1] !== "") {
               result.push(columns[1]);
             }
           }
