@@ -36,7 +36,6 @@ import {NgStyle} from "@angular/common";
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss',
 })
-// todo: rename to toolbar
 export class ToolbarComponent {
   protected readonly appName = environment.APP_NAME;
   protected readonly environment = environment;

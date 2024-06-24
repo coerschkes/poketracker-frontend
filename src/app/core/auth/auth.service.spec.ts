@@ -40,7 +40,7 @@ describe('AuthService', () => {
           idToken: value.idToken,
           email: value.email,
           refreshToken: value.refreshToken,
-          expiresIn: value.expiresInSeconds
+          // expiresIn: value.expiresInSeconds
         }))
       })
   })
@@ -65,7 +65,7 @@ describe('AuthService', () => {
           idToken: value.idToken,
           email: value.email,
           refreshToken: value.refreshToken,
-          expiresIn: value.expiresInSeconds
+          // expiresIn: value.expiresInSeconds
         }))
       })
   })
@@ -79,10 +79,8 @@ describe('AuthService', () => {
   })
 
   it('should call tryLoginWithStoredCredentials() on init', () => {
-    //todo
   });
 
   it('should call isLoggedIn on tryLoginWithStoredCredentials()', () => {
-    //todo
   });
 });

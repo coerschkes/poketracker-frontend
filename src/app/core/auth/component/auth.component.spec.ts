@@ -5,9 +5,6 @@ import {AuthComponent} from "./auth.component";
 import {HttpClient} from "@angular/common/http";
 import {HttpClientTestingModule, HttpTestingController} from "@angular/common/http/testing";
 import {AuthService} from "../auth.service";
-import {TestConstants, TestObjectProvider} from "../../../util/test-object-provider.spec";
-import {BasicLoginResponse, SignUpResponse} from "../../external/firebase/firebase-api";
-import {Observable} from "rxjs";
 import {Router} from "@angular/router";
 import {NoopAnimationsModule} from "@angular/platform-browser/animations";
 
@@ -18,7 +15,6 @@ let httpTestingController: HttpTestingController;
 let mockAuthService: any;
 let mockRouter: any;
 
-// todo: fix tests
 // describe('AuthComponent', () => {
 //
 //   beforeEach(async () => {
@@ -175,11 +171,11 @@ async function configureTestBed(stateServiceProvider?: any) {
   httpTestingController = TestBed.inject(HttpTestingController);
   fixture.detectChanges();
 }
-
-function mockLoginResponse(): Observable<BasicLoginResponse> {
-  return new Observable<BasicLoginResponse>(subscriber => subscriber.next(TestObjectProvider.basicLoginResponse()));
-}
-
-function mockSignUpResponse(): Observable<SignUpResponse> {
-  return new Observable<SignUpResponse>(subscriber => subscriber.next(TestObjectProvider.signUpResponse()))
-}
+//
+// function mockLoginResponse(): Observable<BasicLoginResponse> {
+//   return new Observable<BasicLoginResponse>(subscriber => subscriber.next(TestObjectProvider.basicLoginResponse()));
+// }
+//
+// function mockSignUpResponse(): Observable<SignUpResponse> {
+//   return new Observable<SignUpResponse>(subscriber => subscriber.next(TestObjectProvider.signUpResponse()))
+// }

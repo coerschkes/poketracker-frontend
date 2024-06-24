@@ -13,7 +13,6 @@ import {ResponsiveConfigurationService} from "./shared/responsive-configuration.
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-// todo: Fix a bug where login doesnt work anymore?
 export class AppComponent implements OnInit{
   private readonly _authState: AuthStateService;
   readonly title = environment.APP_NAME;
