@@ -1,11 +1,14 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {MatChipGrid, MatChipInput, MatChipRemove, MatChipRow} from "@angular/material/chips";
 import {MatFormField, MatLabel} from "@angular/material/form-field";
 import {MatIcon} from "@angular/material/icon";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {AsyncPipe} from "@angular/common";
 import {MatSelect} from "@angular/material/select";
+import {ResponsiveConfigurationService} from "../responsive-configuration.service";
+import {MatInput} from "@angular/material/input";
+import {map, Observable, of, startWith} from "rxjs";
 
 interface Edition {
   name: string;
@@ -29,14 +32,47 @@ interface Edition {
     MatAutocompleteTrigger,
     AsyncPipe,
     MatSelect,
-    FormsModule
+    FormsModule,
+    MatInput
   ],
   templateUrl: './edition-selector.component.html',
-  styleUrl: './edition-selector.component.scss'
+  styleUrl: './edition-selector.component.scss',
 })
-export class EditionSelectorComponent {
+export class EditionSelectorComponent implements OnInit {
   @Output() onChange: EventEmitter<string> = new EventEmitter();
-  selectedValue: string;
+  protected editionControl: FormControl<string | null>;
+  protected filteredEditions: Observable<string[]> = of();
+
+  constructor(protected responsive: ResponsiveConfigurationService) {
+    this.editionControl = new FormControl('', {
+      updateOn: 'change',
+    });
+  }
+
+  ngOnInit(): void {
+    this.filteredEditions = this.editionControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        if (value !== null) {
+          return this._filter(value || '')
+        } else {
+          return []
+        }
+      }),
+    );
+  }
+
+  emitSelection() {
+    if (this.editionControl.value !== undefined) {
+      this.onChange.emit(this.editionControl.value!);
+      this.editionControl.setValue('');
+    }
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.editions.map(ed => ed.name).filter(edition => edition.toLowerCase().startsWith(filterValue));
+  }
 
   editions: Edition[] = [
     {name: 'Rot', generation: 1},

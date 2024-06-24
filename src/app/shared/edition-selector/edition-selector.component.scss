@@ -1,7 +1,18 @@
-.edition-selector{
+.edition-selector {
   margin-top: 16px;
   margin-bottom: 16px;
   width: 100%;
 }
 
+.light-themed {
+  background-color: white !important;
+}
+
+.light-themed .mdc-list-item__primary-text {
+  color: #006a6a;
+}
+
+.light-themed .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
+  color: #006a6a !important;
+}
 

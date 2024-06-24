@@ -1,8 +1,17 @@
-<mat-form-field class="edition-selector" >
+<mat-form-field class="pokemon-name-form-field">
   <mat-label>Edition</mat-label>
-  <mat-select (selectionChange)="this.onChange.emit($event.value)" [(ngModel)]="selectedValue" name="edition">
-    @for (edition of editions; track edition) {
-      <mat-option [value]="edition.name">{{edition.name}}</mat-option>
+  <input type="text"
+         placeholder="Name"
+         matInput
+         [formControl]="editionControl"
+         [matAutocomplete]="auto">
+  <mat-autocomplete (optionSelected)="emitSelection()"
+                    autoActiveFirstOption [class]="responsive.isDarkMode() ? '' : 'light-themed'"
+                    #auto="matAutocomplete">
+    @for (edition of filteredEditions | async; track edition) {
+      <mat-option [class]="responsive.isDarkMode() ? '' : 'light-themed'"
+                  [value]="edition">{{ edition }}
+      </mat-option>
     }
-  </mat-select>
+  </mat-autocomplete>
 </mat-form-field>
