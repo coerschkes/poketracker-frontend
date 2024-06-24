@@ -1,7 +1,7 @@
 @use '../../node_modules/@angular/material/index' as mat;
 @use 'light-theme' as lightTheme;
 @use 'dark-theme' as darkTheme;
-@use '../app/toolbar/toolbar.component-theme' as sidenav-component;
+@use '../app/toolbar/toolbar.component-theme' as toolbar-component;
 @use '../app/core/auth/component/auth.component-theme' as auth-component;
 @use '../app/dashboard/dashboard.component-theme' as dashboard-component;
 @use '../app/edit/edit-accordion/edit-accordion.component-theme' as edit-accordion;
@@ -27,14 +27,14 @@ html {
 }
 
 @mixin create-dark-theme() {
-  @include sidenav-component.sidenav-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
-  @include auth-component.auth-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20), mat.get-theme-color(darkTheme.$dark-theme, secondary, 10));
-  @include dashboard-component.dashboard-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
+  @include toolbar-component.toolbar-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
+  @include auth-component.auth-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
+  @include dashboard-component.dashboard-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 30));
   @include edit-accordion.edit-accordion-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
   @include add-component.add-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 30));
 
   html {
-    background-color: mat.get-theme-color(darkTheme.$dark-theme, secondary, 10);
+    background-color: mat.get-theme-color(darkTheme.$dark-theme, surface);
   }
 
   html, body {
@@ -65,8 +65,8 @@ html {
 
 @mixin create-light-theme() {
   @include mat.all-component-colors(lightTheme.$light-theme);
-  @include sidenav-component.sidenav-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 90));
-  @include auth-component.auth-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100), mat.get-theme-color(lightTheme.$light-theme, secondary, 95));
+  @include toolbar-component.toolbar-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 90));
+  @include auth-component.auth-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100));
   @include dashboard-component.dashboard-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100));
   @include edit-accordion.edit-accordion-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100));
   @include add-component.add-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 90));
@@ -76,7 +76,7 @@ html {
   }
 
   html, body {
-    color: mat.get-theme-color(lightTheme.$light-theme, secondary);
+    color: mat.get-theme-color(lightTheme.$light-theme, surface);
   }
 
   .accent-btn {

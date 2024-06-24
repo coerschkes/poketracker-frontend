@@ -1,7 +1,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin auth-component-theme($theme, $color, $background-color){
+@mixin auth-component-theme($theme, $color){
   .authentication-card {
     color: mat.get-theme-color($theme, primary) !important;
     background-color: $color !important;
@@ -11,6 +11,6 @@
   }
 
   .authentication-div{
-    background-color: $background-color;
+    background-color: mat.get-theme-color($theme, surface);
   }
 }

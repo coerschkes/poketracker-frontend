@@ -1,7 +1,11 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-@mixin sidenav-theme($theme, $color){
+@mixin toolbar-theme($theme, $color){
+  .sidenav-container {
+    background: mat.get-theme-color($theme, surface);
+  }
+
   .toolbar {
     color: mat.get-theme-color($theme, primary) !important;
     background-color: $color !important
