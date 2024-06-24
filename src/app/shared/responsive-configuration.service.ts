@@ -1,12 +1,13 @@
 import {Injectable, Signal, signal, WritableSignal} from "@angular/core";
 import {Router} from "@angular/router";
+import {LocalStorageService} from "./localStorage.service";
 
 @Injectable({providedIn: 'root'})
 export class ResponsiveConfigurationService {
   private _isMobile: WritableSignal<boolean> = signal(false);
   private _isDarkMode: WritableSignal<boolean> = signal(false);
 
-  constructor(private _router: Router) {
+  constructor(private _router: Router, private _localStorage: LocalStorageService) {
   }
 
   updateIsMobile() {
@@ -14,7 +15,10 @@ export class ResponsiveConfigurationService {
   }
 
   toggleDarkMode() {
-    this._isDarkMode.update((isDarkMode) => !isDarkMode)
+    this._isDarkMode.update((isDarkMode) => {
+      this._localStorage.storeUserPreferences({theme: !isDarkMode ? 'dark-theme' : 'light-theme'})
+      return !isDarkMode
+    })
   }
 
   currentRoute() {
