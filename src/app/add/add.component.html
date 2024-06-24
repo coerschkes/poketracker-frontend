@@ -7,9 +7,11 @@
              matInput
              [formControl]="pokemonNameControl"
              [matAutocomplete]="auto">
-      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+      <mat-autocomplete autoActiveFirstOption [class]="responsive.isDarkMode() ? '' : 'light-themed'"
+                        #auto="matAutocomplete">
         @for (option of filteredOptions | async; track option) {
-          <mat-option [value]="option">{{ option }}
+          <mat-option [class]="responsive.isDarkMode() ? '' : 'light-themed'"
+                      [value]="option">{{ option }}
           </mat-option>
         }
       </mat-autocomplete>

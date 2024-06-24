@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {AbstractControl, AsyncValidatorFn, FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {finalize, map, Observable, of, startWith} from "rxjs";
 import {AddStateService} from "./add-state.service";
@@ -48,7 +48,8 @@ import {Animations} from "../shared/animations";
   ],
   animations: Animations.flyInOut,
   templateUrl: './add.component.html',
-  styleUrl: './add.component.scss'
+  styleUrl: './add.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class AddComponent implements OnInit {
   protected pokemonNameControl: FormControl<string | null>;
