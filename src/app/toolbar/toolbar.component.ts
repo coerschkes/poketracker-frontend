@@ -10,7 +10,8 @@ import {MatMenu, MatMenuItem, MatMenuTrigger} from "@angular/material/menu";
 import {AuthStateService} from "../core/auth/auth-state.service";
 import {ResponsiveConfigurationService} from "../shared/responsive-configuration.service";
 import {MatSlideToggle} from "@angular/material/slide-toggle";
-import {NgStyle} from "@angular/common";
+import {NgStyle, TitleCasePipe} from "@angular/common";
+import {CardWrapperComponent} from "../shared/card-wrapper/card-wrapper.component";
 
 @Component({
   selector: 'app-toolbar',
@@ -32,6 +33,8 @@ import {NgStyle} from "@angular/common";
     MatSlideToggle,
     NgStyle,
     MatFabButton,
+    TitleCasePipe,
+    CardWrapperComponent,
   ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss',

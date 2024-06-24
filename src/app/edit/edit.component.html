@@ -7,7 +7,7 @@
              matInput
              [formControl]="pokemonNameControl"
              [matAutocomplete]="auto">
-      <mat-autocomplete [class]="_responsive.isDarkMode() ? '' : 'light-themed'" #auto="matAutocomplete">
+      <mat-autocomplete autoActiveFirstOption [class]="_responsive.isDarkMode() ? '' : 'light-themed'" #auto="matAutocomplete">
         @for (option of filteredOptions | async; track option) {
           <mat-option [class]="_responsive.isDarkMode() ? '' : 'light-themed'"
                       [value]="option">{{ option }}
@@ -19,7 +19,7 @@
 
 
   @if (this._stateService.hasSelectedPokemon()) {
-    <div [@flyInOut]>
+    <div [@flyInOut] [@.disabled]="!_responsive.isMobile()">
       <div class="element-detail">
         @if (_stateService.selectedPokemon()?.normal) {
           <div style="{{_responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"

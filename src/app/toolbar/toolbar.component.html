@@ -3,7 +3,11 @@
     <button mat-icon-button (click)="sidenav.toggle()">
       <mat-icon class="menu-button">menu</mat-icon>
     </button>
-    <h1 class="app-name">{{ appName }}</h1>
+    @if (responsive.currentRoute() !== 'dashboard') {
+      <h1 class="app-name">{{ appName }} - {{ responsive.currentRoute() | titlecase }}</h1>
+    } @else {
+      <h1 class="app-name">{{ appName }}</h1>
+    }
     <span class="spacer"></span>
     @if (!responsive.isMobile()) {
       <button class="non-mobile-add-fab" mat-fab extended routerLink="/add">
@@ -35,7 +39,13 @@
     </mat-sidenav>
 
     <mat-sidenav-content>
-      <router-outlet></router-outlet>
+      @if (responsive.currentRoute() !== 'dashboard') {
+        <app-card-wrapper>
+          <router-outlet></router-outlet>
+        </app-card-wrapper>
+      } @else {
+        <router-outlet></router-outlet>
+      }
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
