@@ -19,7 +19,7 @@
 
 
   @if (this._stateService.hasSelectedPokemon()) {
-    <div [@flyInOut] [@.disabled]="!_responsive.isMobile()">
+    <div [@flyInOut]="_responsive.isMobile() ? {value:'', params:{duration : 200}} : {value:'', params:{duration : 0}}">
       <div class="element-detail">
         @if (_stateService.selectedPokemon()?.normal) {
           <div style="{{_responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"

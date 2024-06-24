@@ -19,7 +19,7 @@
   </form>
 
   @if (this.stateService.loadedPokemon !== undefined) {
-    <div [@flyInOut] [@.disabled]="!responsive.isMobile()">
+    <div [@flyInOut]="responsive.isMobile() ? {value:'', params:{duration : 200}} : {value:'', params:{duration : 0}}">
       <div class="element-detail">
         @if (stateService.state().isNormal) {
           <div style="{{responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
