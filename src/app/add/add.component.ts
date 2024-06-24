@@ -1,8 +1,7 @@
 import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {AbstractControl, AsyncValidatorFn, FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {finalize, map, Observable, of, startWith} from "rxjs";
+import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {finalize, Observable} from "rxjs";
 import {AddStateService} from "./add-state.service";
-import {PokemonService} from "../shared/pokemon.service";
 import {PokeapiService} from "../core/external/pokeapi/pokeapi.service";
 import {ResponsiveConfigurationService} from "../shared/responsive-configuration.service";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
@@ -20,6 +19,8 @@ import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {Animations} from "../shared/animations";
+import {ValidatorsService} from "../shared/validators/validators-service";
+import {PokemonInputFilterService} from '../shared/filter/pokemon-input-filter.service';
 
 @Component({
   selector: 'app-add',
@@ -60,16 +61,17 @@ export class AddComponent implements OnInit {
   constructor(protected stateService: AddStateService,
               protected responsive: ResponsiveConfigurationService,
               protected addService: AddService,
-              private _pokemonService: PokemonService,
-              private _pokeapiService: PokeapiService) {
+              private _pokeapiService: PokeapiService,
+              private _validatorsService: ValidatorsService,
+              private _pokemonInputFilterService: PokemonInputFilterService) {
     this.pokemonNameControl = new FormControl('', {
       updateOn: 'change',
-      asyncValidators: [this.validatePokemonInput()],
+      asyncValidators: [this._validatorsService.validatePokemonInput()],
     });
   }
 
   ngOnInit(): void {
-    this.loadPokemonList()
+    this.filteredOptions = this._pokemonInputFilterService.registerPokemonInputFilter(this.pokemonNameControl.valueChanges)
     this.addService.resetCallback = () => this.pokemonNameControl.reset();
   }
 
@@ -81,43 +83,14 @@ export class AddComponent implements OnInit {
     this.stepper.next();
   }
 
-  private loadPokemonList() {
-    this._pokemonService.lookupPokemonNames().subscribe({
-      next: value => {
-        this.filteredOptions = this.pokemonNameControl.valueChanges.pipe(
-          startWith(''),
-          map(value => {
-            if (value !== null && value.length >= 2) {
-              return this._filter(value || '')
-            } else {
-              return []
-            }
-          }),
+  updatePokemonState() {
+    if (!this.pokemonNameControl.hasError('invalidPokemon')) {
+      this.stateService.loadedPokemon = this._pokeapiService.getPokemon(this.pokemonNameControl.value!.toLowerCase().trim())
+        .pipe(
+          finalize(() => this.stateService.loading = false),
         );
-        this.stateService.pokemonNames = value;
-      },
-    });
-  }
-
-  private validatePokemonInput(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<{ [key: string]: any } | null> => {
-      if (control.dirty) {
-        this.stateService.loading = true;
-        if (this.stateService.state().pokemonNames.indexOf(control.value) === -1) {
-          this.stateService.loadedPokemon = undefined;
-          return of({invalidPokemon: {value: control.value}});
-        }
-        this.stateService.loadedPokemon = this._pokeapiService.getPokemon(control.value.toLowerCase().trim())
-          .pipe(
-            finalize(() => this.stateService.loading = false),
-          );
-      }
-      return of();
+    } else {
+      this.stateService.loadedPokemon = undefined;
     }
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.stateService.state().pokemonNames.filter(pokemon => pokemon.toLowerCase().startsWith(filterValue));
   }
 }

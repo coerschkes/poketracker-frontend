@@ -1,17 +1,25 @@
-import {Injectable} from "@angular/core";
+import {Injectable, Signal, signal, WritableSignal} from "@angular/core";
 import {LookupTableService} from "./lookup-table.service";
-import {Observable} from "rxjs";
+import {PokeapiService} from "../core/external/pokeapi/pokeapi.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PokemonService {
   private readonly pokemonLookupTablePath: string = "assets/pokemon-lookup-table-ger.csv";
+  private readonly _pokemonList: WritableSignal<string[]> = signal([]);
 
-  constructor(private _lookupTableService: LookupTableService) {
+  constructor(private _pokeapiService: PokeapiService, private _lookupTableService: LookupTableService) {
+    if (this._pokemonList().length === 0) {
+      this._lookupTableService.retrievePokemonNames(this.pokemonLookupTablePath).subscribe({
+        next: value => {
+          this._pokemonList.set(value)
+        }
+      })
+    }
   }
 
-  lookupPokemonNames(): Observable<string[]> {
-    return this._lookupTableService.retrievePokemonNames(this.pokemonLookupTablePath)
+  get pokemonList(): Signal<string[]> {
+    return this._pokemonList.asReadonly();
   }
 }
