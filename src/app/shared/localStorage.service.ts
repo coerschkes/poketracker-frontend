@@ -11,7 +11,7 @@ export class LocalStorageService {
     if (userInfo !== undefined) {
       localStorage.setItem(this._userInfoToken, JSON.stringify(userInfo));
     } else {
-      this.clear();
+      this.clearUser();
     }
   }
 
@@ -21,6 +21,10 @@ export class LocalStorageService {
       return JSON.parse(userInfo);
     }
     return undefined;
+  }
+
+  clearUser(){
+    localStorage.removeItem(this._userInfoToken)
   }
 
   clear(): void {

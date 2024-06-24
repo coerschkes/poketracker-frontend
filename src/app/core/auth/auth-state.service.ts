@@ -20,7 +20,7 @@ export class AuthStateService {
   }
 
   public invalidate() {
-    this.localStorageService.clear()
+    this.localStorageService.clearUser()
     this._userInfo.update(() => undefined)
   }
 
