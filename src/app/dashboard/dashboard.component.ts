@@ -132,8 +132,6 @@ export class DashboardComponent implements OnInit {
         this.loadPokemonTable()
       },
     });
-    this._snackbarService.message = "Pokemon '" + pokemon.dex + "' deleted";
-    this._snackbarService.colorClass = "snackbar-success"
-    this._snackbarService.show();
+    this._snackbarService.showSuccess("Pokemon '" + pokemon.name + "' deleted");
   }
 }

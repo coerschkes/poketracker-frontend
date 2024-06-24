@@ -66,22 +66,16 @@ export class EditComponent {
 
   updatePokemon() {
     if (!this._stateService.hasSelectedPokemon()) {
-      this._snackbarService.message = 'Form is invalid';
-      this._snackbarService.colorClass = "snackbar-error";
-      this._snackbarService.show();
+      this._snackbarService.showError('Form is invalid');
     } else {
       this._poketrackerApi.updatePokemon(this._stateService.selectedPokemon()!).subscribe({
         next: (value: Pokemon | HttpErrorResponse) => {
           if (value instanceof HttpErrorResponse) {
-            this._snackbarService.message = 'Unable to update pokemon';
-            this._snackbarService.colorClass = "snackbar-error"
-            this._snackbarService.show();
+            this._snackbarService.showError('Unable to update pokemon');
             console.log(value);
             return;
           } else {
-            this._snackbarService.message = 'Pokemon ' + value.name + ' updated successfully';
-            this._snackbarService.colorClass = "snackbar-success"
-            this._snackbarService.show();
+            this._snackbarService.showSuccess('Pokemon ' + value.name + ' updated successfully');
             this._stateService.reset();
             this.pokemonNameControl.reset();
             this._router.navigate(['/dashboard']);
@@ -108,9 +102,7 @@ export class EditComponent {
     this._poketrackerApi.getAllPokemon().subscribe({
       next: (value: Pokemon[] | HttpErrorResponse) => {
         if (value instanceof HttpErrorResponse) {
-          this._snackbarService.message = 'Unable load autocomplete pokemon list';
-          this._snackbarService.colorClass = "snackbar-error"
-          this._snackbarService.show();
+          this._snackbarService.showError('Unable load autocomplete pokemon list');
           console.log(value);
           return;
         }

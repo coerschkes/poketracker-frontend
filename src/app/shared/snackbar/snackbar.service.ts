@@ -5,24 +5,21 @@ import {MatSnackBar} from "@angular/material/snack-bar";
   providedIn: 'root'
 })
 export class SnackbarService {
-  private _message: string
-  private _colorClass: string
-
   constructor(private _snackbar: MatSnackBar) {
   }
 
-  show() {
-    this._snackbar.open(this._message, 'X', {
+  showSuccess(message: string) {
+    this.show(message, 'snackbar-success')
+  }
+
+  showError(message: string) {
+    this.show(message, 'snackbar-error')
+  }
+
+  private show(message: string, colorClass: string) {
+    this._snackbar.open(message, 'X', {
       duration: 2000,
-      panelClass: [this._colorClass]
+      panelClass: [colorClass]
     });
-  }
-
-  set message(value: string) {
-    this._message = value;
-  }
-
-  set colorClass(value: string) {
-    this._colorClass = value;
   }
 }

@@ -34,18 +34,16 @@ export class AddService {
         next: (value: Pokemon | HttpErrorResponse) => {
           if (value instanceof HttpErrorResponse) {
             console.error(value)
-            this._snackbarService.message = "Pokemon already exists"
-            this._snackbarService.colorClass = "snackbar-error"
+            this._snackbarService.showError("Pokemon already exists")
           } else {
-            this._snackbarService.message = "Pokemon created"
-            this._snackbarService.colorClass = "snackbar-success"
+            this._snackbarService.showSuccess("Pokemon created")
             this._stateService.reset()
             this._router.navigate(["/"])
           }
         },
         complete: () => {
           this._stateService.loading = false
-          this._snackbarService.show()
+
         }
       })
     }
