@@ -1,4 +1,4 @@
-<mat-accordion multi class="edit-accordion">
+<mat-accordion class="edit-accordion">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>Forms</mat-panel-title>
@@ -7,26 +7,28 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
     <ng-template matExpansionPanelContent>
-      <p>
-        <mat-checkbox class="checkbox" checked="{{pokemon()!.shiny}}" (click)="_stateService.toggleShiny()">
-          Shiny
-        </mat-checkbox>
-      </p>
-      <p>
-        <mat-checkbox class="checkbox" checked="{{pokemon()!.regional}}" (click)="_stateService.toggleRegional()">
+      <div style="margin: 0 16px;">
+      <mat-checkbox class="checkbox" checked="{{pokemon()?.shiny}}"
+                    (click)="_stateService.toggleShiny()">
+        Shiny
+      </mat-checkbox>
+      <mat-checkbox style="float: right; margin-right: 12px" class="checkbox"
+                    checked="{{pokemon()?.normal}}"
+                    (click)="_stateService.toggleNormal()">
+        Normal
+      </mat-checkbox>
+    </div>
+      <div style="margin: 0 16px;">
+        <mat-checkbox class="checkbox" checked="{{pokemon()?.regional}}"
+                      (click)="_stateService.toggleRegional()">
           Regional
         </mat-checkbox>
-      </p>
-      <p>
-        <mat-checkbox class="checkbox" checked="{{pokemon()!.normal}}" (click)="_stateService.toggleNormal()">
-          Normal
-        </mat-checkbox>
-      </p>
-      <p>
-        <mat-checkbox class="checkbox" checked="{{pokemon()!.universal}}" (click)="_stateService.toggleUniversal()">
+
+        <mat-checkbox style="float: right" class="checkbox" checked="{{pokemon()?.universal}}"
+                      (click)="_stateService.toggleUniversal()">
           Universal
         </mat-checkbox>
-      </p>
+      </div>
     </ng-template>
   </mat-expansion-panel>
   <mat-expansion-panel>
