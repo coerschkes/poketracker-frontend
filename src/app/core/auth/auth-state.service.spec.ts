@@ -1,7 +1,7 @@
 import {AuthStateService} from "./auth-state.service";
 import {UserInfo} from "./user-info";
 import {TestObjectProvider} from "../../util/test-object-provider.spec";
-import {LocalStorageService} from "./localStorage.service";
+import {LocalStorageService} from "../../shared/localStorage.service";
 
 describe('AuthStateService', () => {
   it('isLoggedIn should return false as initial value', () => {

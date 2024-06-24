@@ -1,6 +1,6 @@
 import {Injectable, Signal, signal, WritableSignal} from "@angular/core";
 import {UserInfo} from "./user-info";
-import {LocalStorageService} from "./localStorage.service";
+import {LocalStorageService} from "../../shared/localStorage.service";
 
 @Injectable({providedIn: "root"})
 export class AuthStateService {
