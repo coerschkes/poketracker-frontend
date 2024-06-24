@@ -18,6 +18,10 @@
     <button mat-icon-button [matMenuTriggerFor]="menu" class="profile-picture" aria-label="Account settings">
       <mat-menu
         #menu="matMenu">
+        <button [class]="theme" mat-menu-item routerLink="/account">
+          Account
+          <mat-icon [class]="theme" fontIcon="settings"></mat-icon>
+        </button>
         <button [class]="theme" mat-menu-item (click)="this.responsive.toggleDarkMode()">
           {{ responsive.isDarkMode() ? 'Light Mode' : 'Dark Mode' }}
           <mat-icon [class]="theme" fontIcon="brightness_medium"></mat-icon>
@@ -35,6 +39,7 @@
         <a class="sidenav-element" mat-list-item routerLink="/dashboard" (click)="sidenav.toggle()">Dashboard</a>
         <a class="sidenav-element" mat-list-item routerLink="/edit" (click)="sidenav.toggle()">Edit</a>
         <a class="sidenav-element" mat-list-item routerLink="/add" (click)="sidenav.toggle()">Add</a>
+        <a class="sidenav-element" mat-list-item routerLink="/account" (click)="sidenav.toggle()">Account</a>
       </mat-nav-list>
     </mat-sidenav>
 

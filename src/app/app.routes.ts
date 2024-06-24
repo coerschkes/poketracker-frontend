@@ -31,6 +31,11 @@ export const routes: Routes = [
     loadComponent: () => import('./edit/edit.component').then(m => m.EditComponent),
     canActivate: [LoginGuard.canActivate]
   },
+  {
+    path: 'account',
+    loadComponent: () => import('./account/account.component').then(m => m.AccountComponent),
+    canActivate: [LoginGuard.canActivate]
+  },
   // todo: redirect to error page here
   {path: '**', redirectTo: 'dashboard'}
 ];
