@@ -6,7 +6,6 @@ import {HttpErrorResponse} from "@angular/common/http";
 import {MatTableModule} from "@angular/material/table";
 import {MatButtonModule} from "@angular/material/button";
 import {MatIconModule} from "@angular/material/icon";
-import {animate, state, style, transition, trigger} from "@angular/animations";
 import {TitleCasePipe, UpperCasePipe} from "@angular/common";
 import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.component";
 import {MatChipRemove, MatChipRow} from "@angular/material/chips";
@@ -17,6 +16,7 @@ import {SnackbarService} from "../shared/snackbar/snackbar.service";
 import {EditStateService} from "../edit/edit-state.service";
 import {Router, RouterLink} from "@angular/router";
 import {MatDivider} from "@angular/material/divider";
+import {Animations} from "../shared/animations";
 
 @Component({
   selector: 'app-dashboard',
@@ -34,13 +34,7 @@ import {MatDivider} from "@angular/material/divider";
     RouterLink,
     MatDivider
   ],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed,void', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+  animations: Animations.detailExpand,
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })

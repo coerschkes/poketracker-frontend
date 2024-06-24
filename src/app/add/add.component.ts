@@ -19,7 +19,7 @@ import {EditionSelectorComponent} from "../shared/edition-selector/edition-selec
 import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {animate, state, style, transition, trigger} from "@angular/animations";
+import {Animations} from "../shared/animations";
 
 @Component({
   selector: 'app-add',
@@ -46,18 +46,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
       useValue: {displayDefaultIndicatorType: false},
     },
   ],
-  animations: [
-    trigger('flyInOut', [
-      state('in', style({opacity: 1, transform: 'translateY(0)'})),
-      transition('void => *', [
-        style({opacity: 0, transform: 'translateY(100%)'}),
-        animate(200)
-      ]),
-      transition('* => void', [
-        animate(200, style({opacity: 0, transform: 'translateY(100%)'}))
-      ])
-    ])
-  ],
+  animations: Animations.flyInOut,
   templateUrl: './add.component.html',
   styleUrl: './add.component.scss'
 })

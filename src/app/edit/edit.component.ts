@@ -15,8 +15,8 @@ import {EditStateService} from "./edit-state.service";
 import {MatButton} from "@angular/material/button";
 import {SnackbarService} from "../shared/snackbar/snackbar.service";
 import {Router} from "@angular/router";
-import {animate, state, style, transition, trigger} from "@angular/animations";
 import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.component";
+import {Animations} from "../shared/animations";
 
 @Component({
   selector: 'app-edit',
@@ -34,18 +34,7 @@ import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.componen
     MatButton,
     PokemonTypeComponent
   ],
-  animations: [
-    trigger('flyInOut', [
-      state('in', style({opacity: 1, transform: 'translateY(0)'})),
-      transition('void => *', [
-        style({opacity: 0, transform: 'translateY(100%)'}),
-        animate(200)
-      ]),
-      transition('* => void', [
-        animate(200, style({opacity: 0, transform: 'translateY(100%)'}))
-      ])
-    ])
-  ],
+  animations: Animations.flyInOut,
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
