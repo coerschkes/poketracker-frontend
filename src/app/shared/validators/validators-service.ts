@@ -19,7 +19,7 @@ export class ValidatorsService {
   }
 
   private searchPokemonNames(pokemonName: string) {
-    if (this._pokemonService.pokemonList().indexOf(pokemonName) === -1) {
+    if (this._pokemonService.pokemonNames().indexOf(pokemonName) === -1) {
       return of({invalidPokemon: {value: pokemonName}});
     } else {
       return of()

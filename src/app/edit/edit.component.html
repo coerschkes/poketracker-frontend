@@ -7,9 +7,9 @@
              matInput
              [formControl]="pokemonNameControl"
              [matAutocomplete]="auto">
-      <mat-autocomplete autoActiveFirstOption [class]="_responsive.isDarkMode() ? '' : 'light-themed'" #auto="matAutocomplete">
+      <mat-autocomplete autoActiveFirstOption (optionSelected)="updatePokemonState()" [class]="responsive.isDarkMode() ? '' : 'light-themed'" #auto="matAutocomplete">
         @for (option of filteredOptions | async; track option) {
-          <mat-option [class]="_responsive.isDarkMode() ? '' : 'light-themed'"
+          <mat-option [class]="responsive.isDarkMode() ? '' : 'light-themed'"
                       [value]="option">{{ option }}
           </mat-option>
         }
@@ -18,27 +18,27 @@
   </form>
 
 
-  @if (this._stateService.hasSelectedPokemon()) {
-    <div [@flyInOut]="_responsive.isMobile() ? {value:'', params:{duration : 200}} : {value:'', params:{duration : 0}}">
+  @if (this.stateService.hasSelectedPokemon()) {
+    <div [@flyInOut]="responsive.isMobile() ? {value:'', params:{duration : 200}} : {value:'', params:{duration : 0}}">
       <div class="element-detail">
-        @if (_stateService.selectedPokemon()?.normal) {
-          <div style="{{_responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
+        @if (stateService.selectedPokemon()?.normal) {
+          <div style="{{responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
                class="element-sprites">
-            <img class="rounded-picture" [src]="_stateService.selectedPokemon()?.normalSpriteUrl"
+            <img class="rounded-picture" [src]="stateService.selectedPokemon()?.normalSpriteUrl"
                  alt="normal sprite url">
           </div>
         }
-        @if (_stateService.selectedPokemon()?.shiny) {
-          <div style="{{_responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
+        @if (stateService.selectedPokemon()?.shiny) {
+          <div style="{{responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
                class="element-sprites">
-            <img class="rounded-picture" [src]="_stateService.selectedPokemon()?.shinySpriteUrl"
+            <img class="rounded-picture" [src]="stateService.selectedPokemon()?.shinySpriteUrl"
                  alt="normal sprite url">
           </div>
         }
       </div>
-      <app-pokemon-type [types]="_stateService.selectedPokemon()?.types" [inputLanguage]="'de'"></app-pokemon-type>
-      <app-edit-accordion [pokemon]="this._stateService.selectedPokemon"></app-edit-accordion>
-      <button [disabled]="!this._stateService.hasSelectedPokemon()" class="action-button" style="float:right;"
+      <app-pokemon-type [types]="stateService.selectedPokemon()?.types" [inputLanguage]="'de'"></app-pokemon-type>
+      <app-edit-accordion [pokemon]="this.stateService.selectedPokemon"></app-edit-accordion>
+      <button [disabled]="!this.stateService.hasSelectedPokemon()" class="action-button" style="float:right;"
               mat-flat-button (click)="updatePokemon()">Update
       </button>
     </div>
