@@ -1,12 +1,10 @@
-import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {FormControl, FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {Component, ViewChild} from '@angular/core';
 import {finalize, Observable} from "rxjs";
 import {AddStateService} from "./add-state.service";
 import {PokeapiService} from "../core/external/pokeapi/pokeapi.service";
 import {ResponsiveConfigurationService} from "../shared/responsive-configuration.service";
 import {STEPPER_GLOBAL_OPTIONS} from "@angular/cdk/stepper";
 import {AddService} from "./add.service";
-import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatStepper, MatStepperModule} from "@angular/material/stepper";
 import {MatButtonModule} from "@angular/material/button";
@@ -19,17 +17,15 @@ import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {Animations} from "../shared/animations";
-import {ValidatorsService} from "../shared/validators/validators-service";
-import {PokemonInputFilterService} from '../shared/filter/pokemon-input-filter.service';
+import {PokemonSelectorValidatorService} from "../shared/pokemon-selector/pokemon-selector-validator.service";
+import {PokemonSelectorComponent,} from "../shared/pokemon-selector/pokemon-selector.component";
+import {PokemonSelectorMode} from "../shared/pokemon-selector/pokemon-selector-mode";
 
 @Component({
   selector: 'app-add',
   standalone: true,
   imports: [
     MatStepperModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
@@ -40,6 +36,7 @@ import {PokemonInputFilterService} from '../shared/filter/pokemon-input-filter.s
     PokemonTypeComponent,
     EditionSelectorComponent,
     MatProgressBar,
+    PokemonSelectorComponent,
   ],
   providers: [
     {
@@ -49,30 +46,18 @@ import {PokemonInputFilterService} from '../shared/filter/pokemon-input-filter.s
   ],
   animations: Animations.flyInOut,
   templateUrl: './add.component.html',
-  styleUrl: './add.component.scss',
-  encapsulation: ViewEncapsulation.None
+  styleUrl: './add.component.scss'
 })
-export class AddComponent implements OnInit {
-  protected pokemonNameControl: FormControl<string | null>;
+export class AddComponent {
+  protected readonly mode = PokemonSelectorMode.ALL;
   protected filteredOptions: Observable<string[]>;
-
   @ViewChild('stepper') private stepper: MatStepper;
 
   constructor(protected stateService: AddStateService,
               protected responsive: ResponsiveConfigurationService,
               protected addService: AddService,
               private _pokeapiService: PokeapiService,
-              private _validatorsService: ValidatorsService,
-              private _pokemonInputFilterService: PokemonInputFilterService) {
-    this.pokemonNameControl = new FormControl('', {
-      updateOn: 'change',
-      asyncValidators: [this._validatorsService.validatePokemonInput()],
-    });
-  }
-
-  ngOnInit(): void {
-    this.filteredOptions = this._pokemonInputFilterService.registerPokemonInputFilter(this.pokemonNameControl.valueChanges)
-    this.addService.resetCallback = () => this.pokemonNameControl.reset();
+              private _validatorsService: PokemonSelectorValidatorService) {
   }
 
   goBack() {
@@ -83,14 +68,19 @@ export class AddComponent implements OnInit {
     this.stepper.next();
   }
 
-  updatePokemonState() {
-    if (!this.pokemonNameControl.hasError('invalidPokemon')) {
-      this.stateService.loadedPokemon = this._pokeapiService.getPokemon(this.pokemonNameControl.value!.toLowerCase().trim())
-        .pipe(
-          finalize(() => this.stateService.loading = false),
-        );
-    } else {
-      this.stateService.loadedPokemon = undefined;
+  updatePokemonState(value: string) {
+    if (this.stepper !== undefined) {
+      this.stateService.reset();
+      this.stepper.reset();
     }
+    this.stateService.loadedPokemon = this._pokeapiService.getPokemon(value)
+      .pipe(
+        finalize(() => this.stateService.loading = false),
+      );
+  }
+
+  onChange() {
+    this.stateService.loadedPokemon = undefined;
+    this.stateService.loading = true;
   }
 }

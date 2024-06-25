@@ -6,7 +6,7 @@ import {Pokemon} from "../../core/external/poketracker/poketracker-api";
 @Injectable({
   providedIn: 'root'
 })
-export class PokemonInputFilterService {
+export class PokemonSelectorInputFilterService {
 
   constructor(private _pokemonService: PokemonService) {
   }

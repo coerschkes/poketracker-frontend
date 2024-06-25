@@ -1,9 +1,16 @@
-import {ChangeDetectionStrategy, Component, OnInit, Signal, viewChild, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  Signal,
+  ViewChild,
+  viewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import {MatFormField, MatLabel} from "@angular/material/form-field";
-import {FormControl, ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 import {MatAutocomplete, MatAutocompleteTrigger, MatOption} from "@angular/material/autocomplete";
 import {AsyncPipe} from "@angular/common";
-import {Observable} from "rxjs";
 import {Pokemon} from "../core/external/poketracker/poketracker-api";
 import {HttpErrorResponse} from "@angular/common/http";
 import {PoketrackerApiService} from "../core/external/poketracker/poketracker-api.service";
@@ -17,9 +24,11 @@ import {SnackbarService} from "../shared/snackbar/snackbar.service";
 import {Router} from "@angular/router";
 import {PokemonTypeComponent} from "../shared/pokemon-type/pokemon-type.component";
 import {Animations} from "../shared/animations";
-import {ValidatorsService} from "../shared/validators/validators-service";
-import {PokemonInputFilterService} from "../shared/filter/pokemon-input-filter.service";
 import {PokemonService} from "../shared/pokemon.service";
+import {PokemonSelectorMode} from "../shared/pokemon-selector/pokemon-selector-mode";
+import {PokemonSelectorComponent} from "../shared/pokemon-selector/pokemon-selector.component";
+import {MatProgressBar} from "@angular/material/progress-bar";
+
 
 @Component({
   selector: 'app-edit',
@@ -35,7 +44,9 @@ import {PokemonService} from "../shared/pokemon.service";
     EditAccordionComponent,
     MatInput,
     MatButton,
-    PokemonTypeComponent
+    PokemonTypeComponent,
+    PokemonSelectorComponent,
+    MatProgressBar
   ],
   animations: Animations.flyInOut,
   templateUrl: './edit.component.html',
@@ -43,55 +54,49 @@ import {PokemonService} from "../shared/pokemon.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None
 })
-export class EditComponent implements OnInit{
-  protected pokemonNameControl: FormControl<string | null>;
+export class EditComponent implements AfterViewInit {
   protected accordion: Signal<MatAccordion> = viewChild.required(MatAccordion);
-  protected filteredOptions: Observable<string[]>;
+  protected readonly mode = PokemonSelectorMode.PERSONALIZED;
+  @ViewChild('selector') private selector: PokemonSelectorComponent;
 
   constructor(private _poketrackerApi: PoketrackerApiService,
               protected responsive: ResponsiveConfigurationService,
               protected stateService: EditStateService,
               private _snackbarService: SnackbarService,
               private _router: Router,
-              private _validatorsService: ValidatorsService,
-              private _pokemonInputFilterService: PokemonInputFilterService,
               private _pokemonService: PokemonService) {
     this._poketrackerApi = _poketrackerApi;
-    this.pokemonNameControl = new FormControl('', {
-      updateOn: 'change',
-      asyncValidators: [_validatorsService.validatePokemonInput()],
-    });
   }
 
-  ngOnInit() {
-    this.filteredOptions = this._pokemonInputFilterService.registerPokemonInputFilterWithPokemonList(this.pokemonNameControl.valueChanges,);
-    if (this.stateService.hasSelectedPokemon()) {
-      this.pokemonNameControl.setValue(this.stateService.selectedPokemon()!.name);
+  ngAfterViewInit() {
+    if (this.stateService.hasSelectedPokemon) {
+      this.selector.value = this.stateService.selectedPokemon()!.name;
     }
   }
 
-  updatePokemonState() {
-    if (!this.pokemonNameControl.hasError('invalidPokemon')) {
-      this.stateService.selectedPokemon.update(() => this._pokemonService.searchPersonalizedPokemon(this.pokemonNameControl.value!))
-    } else {
-      this.stateService.selectedPokemon.update(() => undefined);
-    }
+  updatePokemonState(value: string) {
+    this.stateService.selectedPokemon.update(() => this._pokemonService.searchPersonalizedPokemon(value));
+    this.stateService.loading = false;
+  }
+
+  onChange() {
+    this.stateService.selectedPokemon.update(() => undefined);
+    this.stateService.loading = true;
   }
 
   updatePokemon() {
-    if (!this.stateService.hasSelectedPokemon()) {
+    if (!this.stateService.hasSelectedPokemon) {
       this._snackbarService.showError('Form is invalid');
     } else {
       this._poketrackerApi.updatePokemon(this.stateService.selectedPokemon()!).subscribe({
         next: (value: Pokemon | HttpErrorResponse) => {
           if (value instanceof HttpErrorResponse) {
             this._snackbarService.showError('Unable to update pokemon');
-            console.log(value);
             return;
           } else {
             this._snackbarService.showSuccess('Pokemon ' + value.name + ' updated successfully');
-            this.stateService.reset();
-            this.pokemonNameControl.reset();
+            this.selector.reset()
+            this.stateService.selectedPokemon.update(() => undefined);
             this._router.navigate(['/dashboard']);
           }
         }

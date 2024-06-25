@@ -31,7 +31,7 @@ export class PokemonService {
   }
 
   searchPersonalizedPokemon(pokemonName: string): Pokemon {
-    let result = this._personalizedPokemon().filter(pokemon => pokemon.name === pokemonName);
+    let result = this._personalizedPokemon().filter(pokemon => pokemon.name.toLowerCase() === pokemonName);
     if (result.length > 1) {
       this._snackbarService.showError("Inconsistent state found: Multiple pokemon with the same name found: " + pokemonName)
       return result[0]

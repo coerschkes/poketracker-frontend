@@ -11,17 +11,11 @@ import {Router} from "@angular/router";
 
 @Injectable({providedIn: "root"})
 export class AddService {
-  private _resetCallback: () => void;
-
   constructor(private _stateService: AddStateService,
               private _poketrackerApiService: PoketrackerApiService,
               private _snackbarService: SnackbarService,
               private _pokemonTypeService: PokemonTypeService,
               private _router: Router) {
-  }
-
-  reset() {
-    this._resetCallback();
   }
 
   addEntry() {
@@ -47,10 +41,6 @@ export class AddService {
         }
       })
     }
-  }
-
-  set resetCallback(callback: () => void) {
-    this._resetCallback = callback;
   }
 
   private buildPokemon(pokeapiPokemon: PokeapiPokemon): Observable<Pokemon> {

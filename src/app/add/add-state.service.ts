@@ -85,9 +85,6 @@ export class AddStateService {
   }
 
   set loadedPokemon(pokeapiPokemon: Observable<PokeapiPokemon> | undefined) {
-    // if (pokeapiPokemon === undefined) {
-    //   this.reset();
-    // }
     this._loadedPokemon = pokeapiPokemon;
   }
 

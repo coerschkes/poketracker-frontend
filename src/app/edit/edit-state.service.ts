@@ -1,10 +1,10 @@
-import {Injectable, signal, WritableSignal} from "@angular/core";
+import {Injectable, Signal, signal, WritableSignal} from "@angular/core";
 import {Pokemon} from "../core/external/poketracker/poketracker-api";
 
 @Injectable({providedIn: "root"})
 export class EditStateService {
-  pokemonSignal: WritableSignal<Pokemon[]> = signal([]);
-  selectedPokemon: WritableSignal<Pokemon | undefined> = signal(undefined);
+  private readonly _selectedPokemon: WritableSignal<Pokemon | undefined> = signal(undefined);
+  private readonly _isLoading: WritableSignal<boolean> = signal(false);
 
   removeEdition(edition: string) {
     this.updatePokemon(value => {
@@ -55,11 +55,19 @@ export class EditStateService {
     });
   }
 
-  reset() {
-    this.selectedPokemon.update(() => undefined);
+  set loading(value: boolean) {
+    this._isLoading.update(() => value);
   }
 
-  hasSelectedPokemon(): boolean {
+  get loading(): Signal<boolean> {
+    return this._isLoading;
+  }
+
+  get selectedPokemon(): WritableSignal<Pokemon | undefined> {
+    return this._selectedPokemon;
+  }
+
+  get hasSelectedPokemon(): boolean {
     return this.selectedPokemon() !== undefined;
   }
 }

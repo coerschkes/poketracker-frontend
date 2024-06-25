@@ -2,28 +2,13 @@
   margin: 8px;
 }
 
-.pokemon-name-form-field {
-  width: 100%;
-}
-
 .progress-bar {
-  position: absolute;
-  bottom: 0;
+  position: absolute !important;
+  bottom: 0 !important;
+  left: 0 !important;
 }
 
 .stepper{
   height: 204px;
   margin-bottom: 40px;
-}
-
-.light-themed {
-  background-color: white !important;
-}
-
-.light-themed .mdc-list-item__primary-text {
-  color: #006a6a;
-}
-
-.light-themed .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
-  color: #006a6a !important;
 }

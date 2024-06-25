@@ -1,0 +1,16 @@
+<mat-form-field class="pokemon-name-form-field">
+  <mat-label>Pokemon</mat-label>
+  <input type="text"
+         placeholder="Name"
+         matInput
+         [formControl]="pokemonNameControl"
+         [matAutocomplete]="auto" (input)="onChange.emit()">
+  <mat-autocomplete (optionSelected)="emitSelection()"  autoActiveFirstOption [class]="responsive.isDarkMode() ? '' : 'light-themed'"
+                    #auto="matAutocomplete">
+    @for (option of filteredOptions | async; track option) {
+      <mat-option [class]="responsive.isDarkMode() ? '' : 'light-themed'"
+                  [value]="option">{{ option }}
+      </mat-option>
+    }
+  </mat-autocomplete>
+</mat-form-field>

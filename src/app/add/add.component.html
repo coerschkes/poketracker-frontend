@@ -1,22 +1,6 @@
 <div class="container">
-  <form>
-    <mat-form-field class="pokemon-name-form-field">
-      <mat-label>Pokemon</mat-label>
-      <input type="text"
-             placeholder="Name"
-             matInput
-             [formControl]="pokemonNameControl"
-             [matAutocomplete]="auto">
-      <mat-autocomplete (optionSelected)="updatePokemonState()" autoActiveFirstOption [class]="responsive.isDarkMode() ? '' : 'light-themed'"
-                        #auto="matAutocomplete">
-        @for (option of filteredOptions | async; track option) {
-          <mat-option [class]="responsive.isDarkMode() ? '' : 'light-themed'"
-                      [value]="option">{{ option }}
-          </mat-option>
-        }
-      </mat-autocomplete>
-    </mat-form-field>
-  </form>
+  <app-pokemon-selector [mode]="mode" (onSelect)="updatePokemonState($event)" (onChange)="onChange()">
+  </app-pokemon-selector>
 
   @if (this.stateService.loadedPokemon !== undefined) {
     <div [@flyInOut]="responsive.isMobile() ? {value:'', params:{duration : 200}} : {value:'', params:{duration : 0}}">
