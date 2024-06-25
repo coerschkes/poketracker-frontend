@@ -28,6 +28,7 @@ import {PokemonService} from "../shared/pokemon.service";
 import {PokemonSelectorMode} from "../shared/pokemon-selector/pokemon-selector-mode";
 import {PokemonSelectorComponent} from "../shared/pokemon-selector/pokemon-selector.component";
 import {MatProgressBar} from "@angular/material/progress-bar";
+import {PokemonSpriteComponent} from "../shared/pokemon-sprite/pokemon-sprite.component";
 
 
 @Component({
@@ -46,7 +47,8 @@ import {MatProgressBar} from "@angular/material/progress-bar";
     MatButton,
     PokemonTypeComponent,
     PokemonSelectorComponent,
-    MatProgressBar
+    MatProgressBar,
+    PokemonSpriteComponent
   ],
   animations: Animations.flyInOut,
   templateUrl: './edit.component.html',

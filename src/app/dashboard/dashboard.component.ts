@@ -17,6 +17,7 @@ import {EditStateService} from "../edit/edit-state.service";
 import {Router, RouterLink} from "@angular/router";
 import {MatDivider} from "@angular/material/divider";
 import {Animations} from "../shared/animations";
+import {PokemonSpriteComponent} from "../shared/pokemon-sprite/pokemon-sprite.component";
 
 @Component({
   selector: 'app-dashboard',
@@ -32,7 +33,8 @@ import {Animations} from "../shared/animations";
     MatChipRow,
     MatChipRemove,
     RouterLink,
-    MatDivider
+    MatDivider,
+    PokemonSpriteComponent
   ],
   animations: Animations.detailExpand,
   templateUrl: './dashboard.component.html',

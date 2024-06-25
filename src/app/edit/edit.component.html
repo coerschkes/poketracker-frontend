@@ -9,18 +9,10 @@
       [@flyInOut]="responsive.isMobile() ? {value:'', params:{duration : 200}} : {value:'', params:{duration : 0}}">
       <div class="element-detail">
         @if (stateService.selectedPokemon()?.normal) {
-          <div style="{{responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
-               class="element-sprites">
-            <img class="rounded-picture" [src]="stateService.selectedPokemon()?.normalSpriteUrl"
-                 alt="normal sprite url">
-          </div>
+          <app-pokemon-sprite [spriteUrl]="stateService.selectedPokemon()?.normalSpriteUrl"></app-pokemon-sprite>
         }
         @if (stateService.selectedPokemon()?.shiny) {
-          <div style="{{responsive.isMobile() ? 'height: 134px;' : 'height: 204px'}}"
-               class="element-sprites">
-            <img class="rounded-picture" [src]="stateService.selectedPokemon()?.shinySpriteUrl"
-                 alt="normal sprite url">
-          </div>
+          <app-pokemon-sprite [spriteUrl]="stateService.selectedPokemon()?.shinySpriteUrl"></app-pokemon-sprite>
         }
       </div>
       <app-pokemon-type [types]="stateService.selectedPokemon()?.types" [inputLanguage]="'de'"></app-pokemon-type>

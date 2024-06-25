@@ -18,6 +18,7 @@ import {MatChipsModule} from "@angular/material/chips";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {Animations} from "../shared/animations";
 import {PokemonSelectorComponent,} from "../shared/pokemon-selector/pokemon-selector.component";
+import {PokemonSpriteComponent} from "../shared/pokemon-sprite/pokemon-sprite.component";
 
 @Component({
   selector: 'app-add',
@@ -35,6 +36,7 @@ import {PokemonSelectorComponent,} from "../shared/pokemon-selector/pokemon-sele
     EditionSelectorComponent,
     MatProgressBar,
     PokemonSelectorComponent,
+    PokemonSpriteComponent,
   ],
   providers: [
     {

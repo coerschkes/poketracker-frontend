@@ -42,16 +42,10 @@
       <div class="element-detail"
            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
         @if (element.normal === true) {
-          <div style="{{_responsiveConfigurationService.isMobile() ? 'height: 144px;' : 'height: 204px'}}"
-               class="element-sprites">
-            <img class="rounded-picture" [src]="element.normalSpriteUrl" alt="normal sprite url">
-          </div>
+          <app-pokemon-sprite [spriteUrl]="element.normalSpriteUrl"></app-pokemon-sprite>
         }
         @if (element.shiny === true) {
-          <div style="{{_responsiveConfigurationService.isMobile() ? 'height: 144px;' : 'height: 204px'}}"
-               class="element-sprites">
-            <img class="rounded-picture" [src]="element.shinySpriteUrl" alt="normal sprite url">
-          </div>
+          <app-pokemon-sprite [spriteUrl]="element.shinySpriteUrl"></app-pokemon-sprite>
         }
         @if (element.editions.length > 0) {
           <mat-divider style="width: 100%; margin: 8px 0"></mat-divider>
