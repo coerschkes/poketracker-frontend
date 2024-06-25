@@ -17,19 +17,19 @@ export class PoketrackerApiService {
   }
 
   public getAllPokemon(): Observable<Pokemon[] | HttpErrorResponse> {
-    return this.callApiAuthenticated(this.callGet<Pokemon[]>(this._baseUrl));
+    return this.callApiAuthenticated(() => this.callGet<Pokemon[]>(this._baseUrl));
   }
 
   public createPokemon(pokemon: Pokemon): Observable<Pokemon | HttpErrorResponse> {
-    return this.callApiAuthenticated(this.callPost<Pokemon>(this._baseUrl, pokemon));
+    return this.callApiAuthenticated(() => this.callPost<Pokemon>(this._baseUrl, pokemon));
   }
 
   public updatePokemon(pokemon: Pokemon): Observable<Pokemon | HttpErrorResponse> {
-    return this.callApiAuthenticated(this.callPut<Pokemon>(this._baseUrl, pokemon));
+    return this.callApiAuthenticated(() => this.callPut<Pokemon>(this._baseUrl, pokemon));
   }
 
   public deletePokemon(pokemon: Pokemon): Observable<HttpResponse<any> | HttpErrorResponse> {
-    return this.callApiAuthenticated(this.callDelete<HttpResponse<any>>(this._baseUrl + '/' + pokemon.dex));
+    return this.callApiAuthenticated(() => this.callDelete<HttpResponse<any>>(this._baseUrl + '/' + pokemon.dex));
   }
 
   private callGet<T>(url: string) {
@@ -48,31 +48,27 @@ export class PoketrackerApiService {
     return this.httpClient.delete<T>(url, this.buildOptions())
   }
 
-  private callApiAuthenticated<T>(obs: Observable<T>): Observable<T | HttpErrorResponse> {
-    this.buildOptions()
-    return obs
-      .pipe(
-        catchError((err: HttpErrorResponse) => {
-            console.log(err)
-            return this.authService.refreshToken().pipe(
-              switchMap(() => {
-                console.log(this.buildOptions())
-                return obs
-                  .pipe(
-                    catchError((err: HttpErrorResponse) => {
-                        console.log(err)
-                        if (err.status === 401) {
-                          this.authState.invalidate()
-                        }
-                        return of(err)
+  private callApiAuthenticated<T>(apiCallProvider: () => Observable<T>): Observable<T | HttpErrorResponse> {
+    return apiCallProvider().pipe(
+      catchError(() => {
+          return this.authService.refreshToken().pipe(
+            switchMap(() => {
+              return apiCallProvider()
+                .pipe(
+                  catchError((err: HttpErrorResponse) => {
+                      console.log(err)
+                      if (err.status === 401) {
+                        this.authState.invalidate()
                       }
-                    )
+                      return of(err)
+                    }
                   )
-              })
-            )
-          }
-        )
+                )
+            })
+          )
+        }
       )
+    )
   }
 
   private buildOptions() {
