@@ -17,9 +17,7 @@ import {MatProgressBar} from "@angular/material/progress-bar";
 import {MatChipsModule} from "@angular/material/chips";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {Animations} from "../shared/animations";
-import {PokemonSelectorValidatorService} from "../shared/pokemon-selector/pokemon-selector-validator.service";
 import {PokemonSelectorComponent,} from "../shared/pokemon-selector/pokemon-selector.component";
-import {PokemonSelectorMode} from "../shared/pokemon-selector/pokemon-selector-mode";
 
 @Component({
   selector: 'app-add',
@@ -49,15 +47,13 @@ import {PokemonSelectorMode} from "../shared/pokemon-selector/pokemon-selector-m
   styleUrl: './add.component.scss'
 })
 export class AddComponent {
-  protected readonly mode = PokemonSelectorMode.ALL;
   protected filteredOptions: Observable<string[]>;
   @ViewChild('stepper') private stepper: MatStepper;
 
   constructor(protected stateService: AddStateService,
               protected responsive: ResponsiveConfigurationService,
               protected addService: AddService,
-              private _pokeapiService: PokeapiService,
-              private _validatorsService: PokemonSelectorValidatorService) {
+              private _pokeapiService: PokeapiService) {
   }
 
   goBack() {
