@@ -59,7 +59,7 @@
             }
           </div>
         }
-        @if (_responsiveConfigurationService.isMobile() && (element.normal || element.shiny || element.universal || element.regional)) {
+        @if (responsive.isMobile() && (element.normal || element.shiny || element.universal || element.regional)) {
           <mat-divider style="width: 100%;  margin: 8px 0"></mat-divider>
           <div style="width: 100%; justify-content: space-evenly; display: flex; margin: 8px 0">
             @if (element.normal) {
@@ -76,11 +76,11 @@
             }
           </div>
         }
-        <div style="width: 100%">
-          <button class="action-button" mat-flat-button (click)="onEditPokemon(element)">Edit
+        <div style="width: 100%;" [class]="responsive.isMobile() ? 'flex-evenly' : ''">
+          <button style="{{responsive.isMobile() ? 'width: 100%' : ''}}" class="action-button" mat-flat-button (click)="onEditPokemon(element)">Edit
             <mat-icon fontIcon="edit"></mat-icon>
           </button>
-          <button class="action-button" style="margin-left: 8px" mat-flat-button (click)="onDeletePokemon(element)">
+          <button class="action-button" style="margin-left: 8px; {{responsive.isMobile() ? 'width: 100%' : ''}}" mat-flat-button (click)="onDeletePokemon(element)">
             Delete
             <mat-icon fontIcon="delete"></mat-icon>
           </button>
@@ -97,7 +97,7 @@
   </tr>
   <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
 </table>
-@if (_responsiveConfigurationService.isMobile()) {
+@if (responsive.isMobile()) {
   <button class="mobile-add-fab" mat-fab routerLink="/add">
     <mat-icon>add</mat-icon>
   </button>

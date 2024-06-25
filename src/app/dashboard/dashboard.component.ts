@@ -54,7 +54,7 @@ export class DashboardComponent implements OnInit {
 
   constructor(private _poketrackerApi: PoketrackerApiService,
               private dialogService: DialogService,
-              protected _responsiveConfigurationService: ResponsiveConfigurationService,
+              protected responsive: ResponsiveConfigurationService,
               private _snackbarService: SnackbarService,
               private _editStateService: EditStateService,
               private _router: Router) {
@@ -68,7 +68,7 @@ export class DashboardComponent implements OnInit {
   }
 
   changeDisplayedColumns() {
-    if (this._responsiveConfigurationService.isMobile()) {
+    if (this.responsive.isMobile()) {
       this.columnsToDisplay = ['dex', 'name', 'types'];
     } else {
       this.columnsToDisplay = ['dex', 'name', 'types', 'shiny', 'normal', 'universal', 'regional'];

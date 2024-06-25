@@ -38,3 +38,8 @@ tr.detail-row {
   bottom: 32px;
   z-index: 2;
 }
+
+.flex-evenly{
+  display: flex;
+  justify-content: space-evenly;
+}
