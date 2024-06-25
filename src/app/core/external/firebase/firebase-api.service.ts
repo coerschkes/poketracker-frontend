@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
-import {Observable} from "rxjs";
+import {map, Observable} from "rxjs";
 
 export interface RefreshTokenResponse {
   access_token: string
@@ -28,6 +28,10 @@ export interface SignInResponse {
   expiresIn: string
   localId: string
   registered: boolean
+}
+
+export interface EmailResponse {
+  email: string
 }
 
 @Injectable({providedIn: "root"})
@@ -59,9 +63,10 @@ export class FirebaseApiService {
     return this.postApiRequest<RefreshTokenResponse>(url, `{"grant_type":"refresh_token","refresh_token":"${refreshToken}"}`)
   }
 
-  public lookupUser(idToken: string): Observable<{ email: string }> {
+  public lookupEmail(idToken: string): Observable<EmailResponse> {
     let url: string = this.buildUrlWithApiToken(this.accountsUrl + ":" + this.lookupPath)
-    return this.postApiRequest<{ email: string }>(url, `{"idToken":"${idToken}"}`)
+    return this.postApiRequest<any>(url, `{"idToken":"${idToken}"}`).pipe(map(value => value.users[0]),
+      map(value => value as EmailResponse));
   }
 
   private postApiRequest<T>(url: string, body: string) {
