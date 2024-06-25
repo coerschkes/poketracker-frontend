@@ -56,7 +56,6 @@ export class PoketrackerApiService {
               return apiCallProvider()
                 .pipe(
                   catchError((err: HttpErrorResponse) => {
-                      console.log(err)
                       if (err.status === 401) {
                         this.authState.invalidate()
                       }
