@@ -42,6 +42,7 @@ export class FirebaseApiService {
   private readonly signUpPath: string = "signUp"
   private readonly signInPath: string = "signInWithPassword"
   private readonly lookupPath: string = "lookup"
+  private readonly updatePath: string = "update"
   private readonly _httpClient: HttpClient
 
   constructor(httpClient: HttpClient) {
@@ -68,6 +69,16 @@ export class FirebaseApiService {
     let url: string = this.buildUrlWithApiToken(this.accountsUrl + ":" + this.lookupPath)
     return this.postApiRequest<any>(url, `{"idToken":"${idToken}"}`).pipe(map(value => value.users[0]),
       map(value => value as IdentityResponse));
+  }
+
+  public updateEmail(email: string, idToken: string): Observable<SignUpResponse> {
+    let url: string = this.buildUrlWithApiToken(this.accountsUrl + ":" + this.updatePath)
+    return this.postApiRequest<SignUpResponse>(url, `{"email":"${email}","idToken":"${idToken}","returnSecureToken":true}`)
+  }
+
+  public updatePassword(password: string, idToken: string): Observable<SignUpResponse> {
+    let url: string = this.buildUrlWithApiToken(this.accountsUrl + ":" + this.updatePath)
+    return this.postApiRequest<SignUpResponse>(url, `{"password":"${password}","idToken":"${idToken}","returnSecureToken":true}`)
   }
 
   private postApiRequest<T>(url: string, body: string) {
