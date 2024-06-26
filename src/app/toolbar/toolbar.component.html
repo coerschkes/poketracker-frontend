@@ -4,9 +4,9 @@
       <mat-icon class="menu-button">menu</mat-icon>
     </button>
     @if (responsive.currentRoute() !== 'dashboard') {
-      <h1 class="app-name">{{ appName }} - {{ responsive.currentRoute() | titlecase }}</h1>
+      <h1 class="app-name" routerLink="/">{{ appName }} - {{ responsive.currentRoute() | titlecase }}</h1>
     } @else {
-      <h1 class="app-name">{{ appName }}</h1>
+      <h1 class="app-name" routerLink="/">{{ appName }}</h1>
     }
     <span class="spacer"></span>
     @if (!responsive.isMobile()) {
