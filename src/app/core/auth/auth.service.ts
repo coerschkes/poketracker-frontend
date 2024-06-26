@@ -1,4 +1,4 @@
-import {Injectable, OnInit} from "@angular/core";
+import {Injectable} from "@angular/core";
 import {
   FirebaseApiService,
   RefreshTokenResponse,
@@ -13,19 +13,12 @@ import {PoketrackerApiService} from "../external/poketracker/poketracker-api.ser
 import {SnackbarService} from "../../shared/snackbar/snackbar.service";
 
 @Injectable({providedIn: "root"})
-export class AuthService implements OnInit {
-  private readonly _firebaseApiService: FirebaseApiService;
-  private readonly _authStateService: AuthStateService;
+export class AuthService {
 
-  constructor(private firebaseApiService: FirebaseApiService,
-              private authStateService: AuthStateService,
+  constructor(private _firebaseApiService: FirebaseApiService,
+              private _authStateService: AuthStateService,
               private _poketrackerApi: PoketrackerApiService,
               private _snackbarService: SnackbarService) {
-    this._firebaseApiService = firebaseApiService;
-    this._authStateService = authStateService;
-  }
-
-  ngOnInit(): void {
     this._poketrackerApi.registerRefreshCallback(() => this.refreshToken())
   }
 
@@ -88,7 +81,7 @@ export class AuthService implements OnInit {
             this._snackbarService.showError("Unable to retrieve user information")
             console.log(user)
           } else {
-            this.authStateService.userInfo.update(value => {
+            this._authStateService.userInfo.update(value => {
               if (value === undefined) {
                 return value
               } else {
@@ -103,8 +96,23 @@ export class AuthService implements OnInit {
       )
   }
 
+  updateUserInfo(idToken: string, refreshToken: string, expiresInSeconds: string) {
+    this._authStateService.authenticate(this.buildUserInfo(idToken, refreshToken, expiresInSeconds))
+    this.refreshUserInformation().subscribe()
+  }
+
+  private buildUserInfo(idToken: string, refreshToken: string, expiresInSeconds: string): UserInfo {
+    return {
+      idToken: idToken,
+      refreshToken: refreshToken,
+      expiresIn: expiresInSeconds,
+      createdAt: String(new Date().getTime() / 1000),
+      avatarUrl: ""
+    }
+  }
+
   private createUserInformation() {
-    return this.firebaseApiService.lookupIdentity(this.authStateService.userInfo()?.idToken || "")
+    return this._firebaseApiService.lookupIdentity(this._authStateService.userInfo()?.idToken || "")
       .pipe(
         switchMap(value => {
           return this._poketrackerApi.createUser({
@@ -116,15 +124,5 @@ export class AuthService implements OnInit {
             return this.refreshUserInformation();
           }
         ))
-  }
-
-  private buildUserInfo(idToken: string, refreshToken: string, expiresInSeconds: string): UserInfo {
-    return {
-      idToken: idToken,
-      refreshToken: refreshToken,
-      expiresIn: expiresInSeconds,
-      createdAt: String(new Date().getTime() / 1000),
-      avatarUrl: ""
-    }
   }
 }
