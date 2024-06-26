@@ -6,4 +6,10 @@ export class AccountStateService {
   identity: WritableSignal<IdentityResponse | undefined> = signal(undefined)
   errorMessage = signal('');
   selectedAvatar: WritableSignal<string> = signal('');
+
+  init() {
+    this.identity.update(() => undefined)
+    this.errorMessage.update(() => '')
+    this.selectedAvatar.update(() => '')
+  }
 }

@@ -5,7 +5,7 @@ import {MatIcon} from "@angular/material/icon";
 import {AuthStateService} from "../core/auth/auth-state.service";
 import {FirebaseApiService, SignUpResponse} from "../core/external/firebase/firebase-api.service";
 import {AsyncPipe} from "@angular/common";
-import {merge, Observable, tap} from "rxjs";
+import {catchError, merge, Observable, of, switchMap, tap} from "rxjs";
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {MatError} from "@angular/material/form-field";
@@ -24,6 +24,8 @@ import {PoketrackerApiService} from "../core/external/poketracker/poketracker-ap
 import {SnackbarService} from "../shared/snackbar/snackbar.service";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AuthService} from "../core/auth/auth.service";
+import {ConfirmDialog} from "../shared/confirm-dialog/confirm-dialog.component";
+import {DialogService} from "../shared/dialog.service";
 
 @Component({
   selector: 'app-account',
@@ -48,6 +50,7 @@ import {AuthService} from "../core/auth/auth.service";
   templateUrl: './account.component.html',
   styleUrl: './account.component.scss'
 })
+// todo: bulk mode? -> do not redirect to dashboard after edit/add
 export class AccountComponent implements OnInit {
   protected readonly emailForm = new FormControl('', [Validators.required, Validators.email]);
   protected readonly passwordForm = new FormControl('', [Validators.required, Validators.minLength(6)]);
@@ -63,7 +66,8 @@ export class AccountComponent implements OnInit {
               private _pokeapiService: PokeapiService,
               protected _poketrackerService: PoketrackerApiService,
               private _snackbarService: SnackbarService,
-              private _authService: AuthService) {
+              private _authService: AuthService,
+              private dialogService: DialogService) {
     merge(this.emailForm.statusChanges, this.emailForm.valueChanges)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.updateErrorMessage());
@@ -74,6 +78,7 @@ export class AccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.stateService.init();
     this.refreshIdentity();
     this.filteredOptions = this._filterService.registerPokemonInputFilter(this.pokemonNameControl.valueChanges)
   }
@@ -109,6 +114,7 @@ export class AccountComponent implements OnInit {
           console.log(value)
         } else {
           this._snackbarService.showSuccess('Avatar updated')
+          this.stateService.selectedAvatar.update(() => '')
           this._authService.refreshUserInformation().subscribe()
         }
       }
@@ -164,6 +170,42 @@ export class AccountComponent implements OnInit {
     }
   }
 
+  onDeleteAccount() {
+    this.dialogService.openDialog<ConfirmDialog>(this.createConfirmDialog())
+  }
+
+  private createConfirmDialog(): ConfirmDialog {
+    return new ConfirmDialog(
+      'Delete Account',
+      'Are you sure you want to delete your account? This action cannot be undone.',
+      (confirmation: boolean) => {
+        if (confirmation) {
+          this.deleteAccount();
+        }
+      }
+    );
+  }
+
+  private updateEmailFormValue() {
+    this.emailForm.setValue(this.stateService.identity()!.email)
+  }
+
+  private refreshIdentity() {
+    this.firebase.lookupIdentity(this.authState.userInfo()!.idToken).pipe(
+      tap(value => {
+        this.stateService.identity.update(() => value)
+      })
+    ).subscribe({
+      next: () => {
+        this.updateEmailFormValue()
+      },
+      error: error => {
+        console.log(error)
+      }
+    })
+  }
+
+
   private retryUpdatingEmail() {
     this._authService.refreshToken().subscribe(
       {
@@ -214,12 +256,24 @@ export class AccountComponent implements OnInit {
     return false
   }
 
-  private refreshIdentity() {
-    this.firebase.lookupIdentity(this.authState.userInfo()!.idToken).pipe(
-      tap(value => {
-        this.stateService.identity.update(() => value)
-        this.emailForm.setValue(value.email);
+  private deleteAccount() {
+    this._poketrackerService.deleteAllPokemon().pipe(
+      switchMap(() => {
+        return this._poketrackerService.deleteUser()
+      }),
+      switchMap(() => {
+        return this.firebase.deleteAccount(this.authState.userInfo()!.idToken)
+      }),
+      catchError((err) => {
+        console.log(err)
+        this._snackbarService.showError('Failed to delete account. Please contact the administrator for further help.')
+        return of(err)
       })
-    ).subscribe()
+    ).subscribe({
+      next: () => {
+        this._snackbarService.showSuccess('Account deleted')
+        this.authState.invalidate()
+      }
+    })
   }
 }

@@ -49,6 +49,10 @@ export class PoketrackerApiService {
     return this.callApiAuthenticated(() => this.callPut<User>(this._baseUrl + this._userPath, user))
   }
 
+  public deleteAllPokemon() {
+    return this.callApiAuthenticated(() => this.callDelete<HttpResponse<any>>(this._baseUrl + this._pokemonPath))
+  }
+
   public deleteUser() {
     return this.callApiAuthenticated(() => this.callDelete<HttpResponse<any>>(this._baseUrl + this._userPath))
   }

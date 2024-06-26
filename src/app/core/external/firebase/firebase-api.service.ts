@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpResponse} from "@angular/common/http";
 import {environment} from "../../../../environments/environment";
 import {map, Observable} from "rxjs";
 
@@ -43,6 +43,7 @@ export class FirebaseApiService {
   private readonly signInPath: string = "signInWithPassword"
   private readonly lookupPath: string = "lookup"
   private readonly updatePath: string = "update"
+  private readonly deletePath: string = "delete"
   private readonly _httpClient: HttpClient
 
   constructor(httpClient: HttpClient) {
@@ -79,6 +80,11 @@ export class FirebaseApiService {
   public updatePassword(password: string, idToken: string): Observable<SignUpResponse> {
     let url: string = this.buildUrlWithApiToken(this.accountsUrl + ":" + this.updatePath)
     return this.postApiRequest<SignUpResponse>(url, `{"password":"${password}","idToken":"${idToken}","returnSecureToken":true}`)
+  }
+
+  public deleteAccount(idToken: string): Observable<HttpResponse<any>> {
+    let url: string = this.buildUrlWithApiToken(this.accountsUrl + ":" + this.deletePath)
+    return this.postApiRequest<any>(url, `{"idToken":"${idToken}"}`)
   }
 
   private postApiRequest<T>(url: string, body: string) {
