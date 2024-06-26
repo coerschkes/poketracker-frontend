@@ -4,6 +4,14 @@
   width: 100%;
 }
 
+.dark-themed .mdc-list-item__primary-text {
+  color: #abc7ff;
+}
+
+.dark-themed .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled) .mdc-list-item__primary-text {
+  color: #abc7ff !important;
+}
+
 .light-themed {
   background-color: white !important;
 }
