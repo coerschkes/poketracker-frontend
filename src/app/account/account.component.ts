@@ -3,7 +3,7 @@ import {MatFormField, MatInput, MatLabel} from "@angular/material/input";
 import {MatAccordion, MatExpansionModule} from "@angular/material/expansion";
 import {MatIcon} from "@angular/material/icon";
 import {AuthStateService} from "../core/auth/auth-state.service";
-import {FirebaseApiService} from "../core/external/firebase/firebase-api.service";
+import {FirebaseApiService, SignUpResponse} from "../core/external/firebase/firebase-api.service";
 import {AsyncPipe} from "@angular/common";
 import {merge, Observable, tap} from "rxjs";
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -74,12 +74,7 @@ export class AccountComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.firebase.lookupIdentity(this.authState.userInfo()!.idToken).pipe(
-      tap(value => {
-        this.stateService.identity.update(() => value)
-        this.emailForm.setValue(value.email);
-      })
-    ).subscribe()
+    this.refreshIdentity();
     this.filteredOptions = this._filterService.registerPokemonInputFilter(this.pokemonNameControl.valueChanges)
   }
 
@@ -88,20 +83,12 @@ export class AccountComponent implements OnInit {
       this.stateService.errorMessage.set('You must enter a value');
     } else if (this.emailForm.hasError('email')) {
       this.stateService.errorMessage.set('Not a valid email');
+    } else if (this.emailForm.hasError('emailExists')) {
+      this.stateService.errorMessage.set('Email already exists');
     } else {
       this.stateService.errorMessage.set('');
     }
   }
-
-  test() {
-    this._poketrackerService.getUser().subscribe({
-      next: value => {
-        console.log(value)
-      }
-    })
-  }
-
-//   theme -> backend endpoint and table needed (or local storage? -> not needed since account is needed to access the app)
 
   updatePokemonState($event: string) {
     this._pokeapiService.getPokemon($event).subscribe({
@@ -126,5 +113,113 @@ export class AccountComponent implements OnInit {
         }
       }
     })
+  }
+
+  updatePassword(isRetry: boolean = false) {
+    if (this.passwordForm.valid) {
+      this.firebase.updatePassword(this.passwordForm.value!, this.authState.userInfo()?.idToken!).subscribe({
+        next: value => {
+          this.updateUserInfo(value)
+          this.refreshIdentity()
+        },
+        error: error => {
+          if (this.mapFirebaseHttpErrorResponse(error)) {
+            if (isRetry) {
+              this.invalidate()
+            } else {
+              this.retryUpdatingPassword()
+            }
+          } else {
+            this._snackbarService.showError('Failed to update password')
+          }
+        }
+      })
+    } else {
+      this._snackbarService.showError('Password is not valid')
+    }
+  }
+
+  updateEmail(isRetry: boolean = false) {
+    console.log(this.authState.userInfo())
+    if (this.stateService.identity() !== undefined && this.emailForm.valid && this.stateService.identity()!.email !== this.emailForm.value!) {
+      this.firebase.updateEmail(this.emailForm.value!, this.authState.userInfo()?.idToken!).subscribe({
+        next: value => {
+          this.updateUserInfo(value)
+          this.refreshIdentity()
+        },
+        error: error => {
+          if (this.mapFirebaseHttpErrorResponse(error)) {
+            if (isRetry) {
+              this.invalidate()
+            } else {
+              this.retryUpdatingEmail()
+            }
+          } else {
+            this._snackbarService.showError('Failed to update email')
+          }
+        }
+      })
+    } else {
+      this._snackbarService.showError('Email is not valid or unchanged')
+    }
+  }
+
+  private retryUpdatingEmail() {
+    this._authService.refreshToken().subscribe(
+      {
+        next: value => {
+          console.log(value)
+          this.updateEmail(true)
+        },
+        error: () => {
+          this.invalidate()
+        }
+      }
+    )
+  }
+
+  private retryUpdatingPassword() {
+    this._authService.refreshToken().subscribe(
+      {
+        next: value => {
+          console.log(value)
+          this.updatePassword(true)
+        },
+        error: () => {
+          this.invalidate()
+        }
+      }
+    )
+  }
+
+  private invalidate() {
+    this._snackbarService.showError('Failed to refresh login information. Please log in again.')
+    this.authState.invalidate()
+  }
+
+  private updateUserInfo(value: SignUpResponse) {
+    this._authService.updateUserInfo(value.idToken, value.refreshToken, value.expiresIn)
+    this._snackbarService.showSuccess('Update successful')
+  }
+
+  private mapFirebaseHttpErrorResponse(error: any): boolean {
+    console.log(error)
+    if (error instanceof HttpErrorResponse && error.error.error.message === 'EMAIL_EXISTS') {
+      this.emailForm.setErrors({'emailExists': true})
+      this._snackbarService.showError('Email already exists')
+      return false
+    } else if (error instanceof HttpErrorResponse && error.error.error.message === 'CREDENTIAL_TOO_OLD_LOGIN_AGAIN') {
+      return true
+    }
+    return false
+  }
+
+  private refreshIdentity() {
+    this.firebase.lookupIdentity(this.authState.userInfo()!.idToken).pipe(
+      tap(value => {
+        this.stateService.identity.update(() => value)
+        this.emailForm.setValue(value.email);
+      })
+    ).subscribe()
   }
 }

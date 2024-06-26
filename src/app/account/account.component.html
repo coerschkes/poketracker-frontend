@@ -18,7 +18,9 @@
           <mat-error>{{ stateService.errorMessage() }}</mat-error>
         }
       </mat-form-field>
-      <button [disabled]="emailForm.invalid || !emailForm.dirty" style="float: right;" mat-flat-button>Update</button>
+      <button [disabled]="emailForm.invalid || !emailForm.dirty || emailForm.value! === stateService.identity()!.email" style="float: right;" mat-flat-button
+              (click)="updateEmail()">Update
+      </button>
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
@@ -37,7 +39,7 @@
           <mat-error>Password too short</mat-error>
         }
       </mat-form-field>
-      <button [disabled]="passwordForm.invalid || !passwordForm.dirty" style="float: right;" mat-flat-button>Update
+      <button [disabled]="passwordForm.invalid || !passwordForm.dirty" style="float: right;" mat-flat-button (click)="updatePassword()">Update
       </button>
     </mat-expansion-panel>
     <mat-expansion-panel>
@@ -51,11 +53,12 @@
       </div>
       <app-pokemon-selector (onSelect)="updatePokemonState($event)">
       </app-pokemon-selector>
-      <button [disabled]="stateService.selectedAvatar() === ''" style="float: right;" mat-flat-button (click)="updateAvatar()">Update
+      <button [disabled]="stateService.selectedAvatar() === ''" style="float: right;" mat-flat-button
+              (click)="updateAvatar()">Update
       </button>
     </mat-expansion-panel>
   </mat-accordion>
   <!--  todo: confirm dialog-->
-  <button class="delete-button" mat-flat-button (click)="test()">Delete Account
+  <button class="delete-button" mat-flat-button >Delete Account
   </button>
 </div>
