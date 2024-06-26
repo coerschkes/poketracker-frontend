@@ -10,3 +10,8 @@ export interface Pokemon {
   normalSpriteUrl: string
   shinySpriteUrl: string
 }
+
+export interface User {
+  userId: string
+  avatarUrl: string
+}

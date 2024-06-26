@@ -30,7 +30,8 @@ export interface SignInResponse {
   registered: boolean
 }
 
-export interface EmailResponse {
+export interface IdentityResponse {
+  localId: string
   email: string
 }
 
@@ -63,10 +64,10 @@ export class FirebaseApiService {
     return this.postApiRequest<RefreshTokenResponse>(url, `{"grant_type":"refresh_token","refresh_token":"${refreshToken}"}`)
   }
 
-  public lookupEmail(idToken: string): Observable<EmailResponse> {
+  public lookupIdentity(idToken: string): Observable<IdentityResponse> {
     let url: string = this.buildUrlWithApiToken(this.accountsUrl + ":" + this.lookupPath)
     return this.postApiRequest<any>(url, `{"idToken":"${idToken}"}`).pipe(map(value => value.users[0]),
-      map(value => value as EmailResponse));
+      map(value => value as IdentityResponse));
   }
 
   private postApiRequest<T>(url: string, body: string) {

@@ -3,4 +3,5 @@ export interface UserInfo {
   refreshToken: string
   createdAt: string
   expiresIn: string
+  avatarUrl: string
 }

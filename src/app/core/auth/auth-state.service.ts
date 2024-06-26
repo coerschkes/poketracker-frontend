@@ -1,4 +1,4 @@
-import {Injectable, Signal, signal, WritableSignal} from "@angular/core";
+import {Injectable, signal, WritableSignal} from "@angular/core";
 import {UserInfo} from "./user-info";
 import {LocalStorageService} from "../../shared/localStorage.service";
 
@@ -28,8 +28,8 @@ export class AuthStateService {
     return this.userInfo() !== undefined;
   }
 
-  get userInfo(): Signal<UserInfo | undefined> {
-    return this._userInfo.asReadonly()
+  get userInfo(): WritableSignal<UserInfo | undefined> {
+    return this._userInfo
   }
 
   tryLoginWithStoredCredentials(): void {
