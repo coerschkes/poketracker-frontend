@@ -1,0 +1,8 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin account-component-theme($theme, $color) {
+  .settings-card{
+    background-color: $color;
+  }
+}

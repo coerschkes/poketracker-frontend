@@ -1,1 +1,61 @@
-<p>account works!</p>
+<div class="container">
+  <h3>Your Account</h3>
+  <mat-accordion>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>E-Mail</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-form-field class="account-input">
+        <mat-label>Enter your email</mat-label>
+        <input
+          matInput
+          placeholder="pat@example.com"
+          [formControl]="emailForm"
+          (blur)="updateErrorMessage()"
+          required
+        />
+        @if (emailForm.invalid) {
+          <mat-error>{{ stateService.errorMessage() }}</mat-error>
+        }
+      </mat-form-field>
+      <button [disabled]="emailForm.invalid || !emailForm.dirty" style="float: right;" mat-flat-button>Update</button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Password</mat-panel-title>
+      </mat-expansion-panel-header>
+      <mat-form-field class="account-input">
+        <mat-label>New Password</mat-label>
+        <input
+          matInput
+          [formControl]="passwordForm"
+          type="password"
+          [minLength]="6"
+          required
+        />
+        @if (passwordForm.invalid) {
+          <mat-error>Password too short</mat-error>
+        }
+      </mat-form-field>
+      <button [disabled]="passwordForm.invalid || !passwordForm.dirty" style="float: right;" mat-flat-button>Update
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Avatar</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="element-detail">
+        @if (stateService.selectedAvatar() !== '') {
+          <app-pokemon-sprite [spriteUrl]="stateService.selectedAvatar()"></app-pokemon-sprite>
+        }
+      </div>
+      <app-pokemon-selector (onSelect)="updatePokemonState($event)">
+      </app-pokemon-selector>
+      <button [disabled]="stateService.selectedAvatar() === ''" style="float: right;" mat-flat-button (click)="updateAvatar()">Update
+      </button>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <!--  todo: confirm dialog-->
+  <button class="delete-button" mat-flat-button (click)="test()">Delete Account
+  </button>
+</div>

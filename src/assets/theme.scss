@@ -6,6 +6,7 @@
 @use '../app/dashboard/dashboard.component-theme' as dashboard-component;
 @use '../app/edit/edit-accordion/edit-accordion.component-theme' as edit-accordion;
 @use '../app/add/add.component-theme' as add-component;
+@use '../app/account/account.component-theme' as account-component;
 
 @include mat.core();
 
@@ -32,6 +33,7 @@ html {
   @include dashboard-component.dashboard-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 30));
   @include edit-accordion.edit-accordion-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
   @include add-component.add-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 30));
+  @include account-component.account-component-theme(darkTheme.$dark-theme, mat.get-theme-color(darkTheme.$dark-theme, secondary, 20));
 
   html {
     background-color: mat.get-theme-color(darkTheme.$dark-theme, surface);
@@ -70,6 +72,7 @@ html {
   @include dashboard-component.dashboard-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100));
   @include edit-accordion.edit-accordion-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100));
   @include add-component.add-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 90));
+  @include account-component.account-component-theme(lightTheme.$light-theme, mat.get-theme-color(lightTheme.$light-theme, secondary, 100));
 
   html {
     background-color: mat.get-theme-color(lightTheme.$light-theme, secondary, 95);
