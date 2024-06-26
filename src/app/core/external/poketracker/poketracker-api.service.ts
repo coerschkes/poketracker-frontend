@@ -71,9 +71,8 @@ export class PoketrackerApiService {
 
   private callApiAuthenticated<T>(apiCallProvider: () => Observable<T>): Observable<T | HttpErrorResponse> {
     return apiCallProvider().pipe(
-      catchError((err) => {
-        console.log(err)
-        return this.refreshCallback().pipe(
+      catchError(() => {
+          return this.refreshCallback().pipe(
             switchMap(() => {
               return apiCallProvider()
                 .pipe(
