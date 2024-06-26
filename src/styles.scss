@@ -5,6 +5,10 @@
 
 @include mat.core();
 
+*{
+  font-family: 'Roboto Mono', sans-serif;
+}
+
 .dark-theme {
   @include theme.create-dark-theme();
 }
