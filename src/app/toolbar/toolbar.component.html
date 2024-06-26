@@ -16,7 +16,7 @@
       </button>
     }
     <button [style]="'background-image: url('+avatarUrl()+')'" mat-icon-button
-            [matMenuTriggerFor]="menu" class="profile-picture" aria-label="Account settings">
+            [matMenuTriggerFor]="menu" class="profile-picture {{responsive.isDarkMode() ? '' : 'light-themed'}}" aria-label="Account settings">
       <mat-menu
         #menu="matMenu">
         <button [class]="theme" mat-menu-item routerLink="/account">
