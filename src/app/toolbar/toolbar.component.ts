@@ -1,4 +1,4 @@
-import {Component, effect, ElementRef, Renderer2, ViewChild} from '@angular/core';
+import {Component, effect, ElementRef, Renderer2, signal, ViewChild, WritableSignal} from '@angular/core';
 import {MatSidenav, MatSidenavContainer, MatSidenavContent} from "@angular/material/sidenav";
 import {MatToolbar} from "@angular/material/toolbar";
 import {MatFabButton, MatIconButton} from "@angular/material/button";
@@ -38,19 +38,22 @@ import {CardWrapperComponent} from "../shared/card-wrapper/card-wrapper.componen
   ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss',
+
 })
 export class ToolbarComponent {
   protected readonly appName = environment.APP_NAME;
   protected readonly environment = environment;
+  protected readonly avatarUrl: WritableSignal<string | undefined> = signal(undefined);
 
   @ViewChild("container", {read: ElementRef}) private container: ElementRef;
 
-  constructor(private authState: AuthStateService,
+  constructor(protected authState: AuthStateService,
               protected responsive: ResponsiveConfigurationService,
               private renderer: Renderer2) {
     effect(() => {
       this.updateMenuStyling()
-    });
+      this.avatarUrl.update(() => this.authState.userInfo()?.avatarUrl);
+    }, {allowSignalWrites: true});
   }
 
   get theme(): string {

@@ -23,9 +23,9 @@ h1.app-name {
 }
 
 .profile-picture {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
   background-size: cover;
   border-radius: 50%;
+  border: 0.5px solid; 
 }
 
 

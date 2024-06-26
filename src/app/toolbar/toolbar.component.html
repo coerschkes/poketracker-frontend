@@ -15,7 +15,8 @@
         <mat-icon class="search-button">my_library_add</mat-icon>
       </button>
     }
-    <button mat-icon-button [matMenuTriggerFor]="menu" class="profile-picture" aria-label="Account settings">
+    <button [style]="'background-image: url('+avatarUrl()+')'" mat-icon-button
+            [matMenuTriggerFor]="menu" class="profile-picture" aria-label="Account settings">
       <mat-menu
         #menu="matMenu">
         <button [class]="theme" mat-menu-item routerLink="/account">
