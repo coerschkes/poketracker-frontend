@@ -1,5 +1,5 @@
 <form [formGroup]="this.loginForm.internalForm" name="loginForm">
-  <mat-form-field class="input">
+  <mat-form-field class="input" appearance="outline">
     <mat-label>email</mat-label>
     <input type="email" name="email" matInput formControlName="email" [errorStateMatcher]="this.ERROR_STATE_MATCHER"
            placeholder="Ex. pat@example.com"
@@ -11,7 +11,7 @@
       <mat-error>Email is <strong>required</strong></mat-error>
     }
   </mat-form-field>
-  <mat-form-field class="input">
+  <mat-form-field class="input" appearance="outline">
     <mat-label>password</mat-label>
     <input type="password" name="password" matInput formControlName="password" (keydown.enter)="submit()" required>
     @if (this.loginForm.hasMissingPassword()) {
