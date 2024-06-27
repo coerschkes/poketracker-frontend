@@ -8,14 +8,18 @@ import {SnackbarService} from "../shared/snackbar/snackbar.service";
 import {PoketrackerApiService} from "../core/external/poketracker/poketracker-api.service";
 import {AddStateService} from "./add-state.service";
 import {Router} from "@angular/router";
+import {AuthStateService} from "../core/auth/auth-state.service";
 
 @Injectable({providedIn: "root"})
 export class AddService {
+  entryAddedCallback: () => void;
+
   constructor(private _stateService: AddStateService,
               private _poketrackerApiService: PoketrackerApiService,
               private _snackbarService: SnackbarService,
               private _pokemonTypeService: PokemonTypeService,
-              private _router: Router) {
+              private _router: Router,
+              private _authState: AuthStateService) {
   }
 
   addEntry() {
@@ -32,7 +36,10 @@ export class AddService {
           } else {
             this._snackbarService.showSuccess("Pokemon created")
             this._stateService.reset()
-            this._router.navigate(["/"])
+            this.entryAddedCallback()
+            if (!this._authState.userInfo()?.bulkMode) {
+              this._router.navigate(["/"])
+            }
           }
         },
         complete: () => {

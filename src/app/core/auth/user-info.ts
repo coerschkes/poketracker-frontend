@@ -4,4 +4,5 @@ export interface UserInfo {
   createdAt: string
   expiresIn: string
   avatarUrl: string
+  bulkMode: boolean
 }

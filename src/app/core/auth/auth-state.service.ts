@@ -4,12 +4,10 @@ import {LocalStorageService} from "../../shared/localStorage.service";
 
 @Injectable({providedIn: "root"})
 export class AuthStateService {
-  private readonly _localStorageService: LocalStorageService;
   private readonly _userInfo: WritableSignal<UserInfo | undefined>;
 
   constructor(private localStorageService: LocalStorageService) {
     this._userInfo = signal<UserInfo | undefined>(undefined);
-    this._localStorageService = localStorageService;
   }
 
   public authenticate(userInfo: UserInfo) {
@@ -34,7 +32,7 @@ export class AuthStateService {
 
   tryLoginWithStoredCredentials(): void {
     if (this.userInfo() === undefined) {
-      this._userInfo.update(() => this._localStorageService.retrieveUserInfo());
+      this._userInfo.update(() => this.localStorageService.retrieveUserInfo());
     }
   }
 }

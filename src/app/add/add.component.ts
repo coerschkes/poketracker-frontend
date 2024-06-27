@@ -51,11 +51,13 @@ import {PokemonSpriteComponent} from "../shared/pokemon-sprite/pokemon-sprite.co
 export class AddComponent {
   protected filteredOptions: Observable<string[]>;
   @ViewChild('stepper') private stepper: MatStepper;
+  @ViewChild('pokemonSelector') private pokemonSelector: PokemonSelectorComponent;
 
   constructor(protected stateService: AddStateService,
               protected responsive: ResponsiveConfigurationService,
               protected addService: AddService,
               private _pokeapiService: PokeapiService) {
+    addService.entryAddedCallback = () => this.pokemonSelector.reset()
   }
 
   goBack() {

@@ -1,5 +1,5 @@
 <div class="container">
-  <app-pokemon-selector (onSelect)="updatePokemonState($event)" (onChange)="onChange()">
+  <app-pokemon-selector #pokemonSelector (onSelect)="updatePokemonState($event)" (onChange)="onChange()">
   </app-pokemon-selector>
 
   @if (this.stateService.loadedPokemon !== undefined) {

@@ -87,7 +87,8 @@ export class AuthService {
               } else {
                 return {
                   ...value,
-                  avatarUrl: user.avatarUrl
+                  avatarUrl: user.avatarUrl,
+                  bulkMode: user.bulkMode
                 }
               }
             })
@@ -107,7 +108,8 @@ export class AuthService {
       refreshToken: refreshToken,
       expiresIn: expiresInSeconds,
       createdAt: String(new Date().getTime() / 1000),
-      avatarUrl: ""
+      avatarUrl: "",
+      bulkMode: false
     }
   }
 
@@ -117,7 +119,8 @@ export class AuthService {
         switchMap(value => {
           return this._poketrackerApi.createUser({
             userId: value.localId,
-            avatarUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png"
+            avatarUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png",
+            bulkMode: false
           })
         }),
         switchMap(() => {
