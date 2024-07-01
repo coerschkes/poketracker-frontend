@@ -12,7 +12,6 @@ export interface Pokemon {
 }
 
 export interface User {
-  userId: string
   avatarUrl: string
   bulkMode: boolean
 }

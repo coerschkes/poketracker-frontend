@@ -116,9 +116,8 @@ export class AuthService {
   private createUserInformation() {
     return this._firebaseApiService.lookupIdentity(this._authStateService.userInfo()?.idToken || "")
       .pipe(
-        switchMap(value => {
+        switchMap(() => {
           return this._poketrackerApi.createUser({
-            userId: value.localId,
             avatarUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png",
             bulkMode: false
           })
