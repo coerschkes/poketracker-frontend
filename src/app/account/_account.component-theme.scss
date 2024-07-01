@@ -2,7 +2,7 @@
 @use '@angular/material' as mat;
 
 @mixin account-component-theme($theme, $color) {
-  .settings-card{
+  .settings-card {
     background-color: $color;
   }
 }

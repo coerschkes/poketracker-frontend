@@ -10,16 +10,17 @@
         <input
           matInput
           placeholder="pat@example.com"
-          [formControl]="emailForm"
-          (blur)="updateErrorMessage()"
+          [formControl]="stateService.emailForm"
           required
         />
-        @if (emailForm.invalid) {
+        @if (stateService.emailForm.invalid) {
           <mat-error>{{ stateService.errorMessage() }}</mat-error>
         }
       </mat-form-field>
-      <button [disabled]="emailForm.invalid || !emailForm.dirty || emailForm.value! === stateService.identity()!.email" style="float: right;" mat-flat-button
-              (click)="updateEmail()">Update
+      <button
+        [disabled]="stateService.emailFormDisabled()"
+        style="float: right;" mat-flat-button
+        (click)="onUpdateEmail()">Update
       </button>
     </mat-expansion-panel>
     <mat-expansion-panel>
@@ -30,16 +31,18 @@
         <mat-label>New Password</mat-label>
         <input
           matInput
-          [formControl]="passwordForm"
+          [formControl]="stateService.passwordForm"
           type="password"
           [minLength]="6"
           required
         />
-        @if (passwordForm.invalid) {
+        @if (stateService.passwordForm.invalid) {
           <mat-error>Password too short</mat-error>
         }
       </mat-form-field>
-      <button [disabled]="passwordForm.invalid || !passwordForm.dirty" style="float: right;" mat-flat-button (click)="updatePassword()">Update
+      <button [disabled]="stateService.passwordFormDisabled()" style="float: right;"
+              mat-flat-button
+              (click)="onUpdatePassword()">Update
       </button>
     </mat-expansion-panel>
     <mat-expansion-panel>
@@ -51,10 +54,22 @@
           <app-pokemon-sprite [spriteUrl]="stateService.selectedAvatar()"></app-pokemon-sprite>
         }
       </div>
-      <app-pokemon-selector (onSelect)="updatePokemonState($event)">
+      <app-pokemon-selector (onSelect)="stateService.updatePokemonState($event)">
       </app-pokemon-selector>
       <button [disabled]="stateService.selectedAvatar() === ''" style="float: right;" mat-flat-button
-              (click)="updateAvatar()">Update
+              (click)="accountService.updateAvatar()">Update
+      </button>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Additional Settings</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div style="margin-bottom: 16px">
+        Bulk Mode
+        <mat-slide-toggle color="primary" class="toggle" [checked]="stateService.bulkMode()"
+                          (toggleChange)="stateService.toggleBulkMode()"></mat-slide-toggle>
+      </div>
+      <button style="float: right;" mat-flat-button (click)="accountService.updateBulkMode()">Update
       </button>
     </mat-expansion-panel>
   </mat-accordion>

@@ -28,3 +28,8 @@
   text-align: center;
   margin: 16px;
 }
+
+.toggle {
+  --mdc-switch-handle-width: 0;
+  float: right;
+}
