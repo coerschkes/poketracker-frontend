@@ -9,6 +9,7 @@ import {PoketrackerApiService} from "../core/external/poketracker/poketracker-ap
 import {AddStateService} from "./add-state.service";
 import {Router} from "@angular/router";
 import {AuthStateService} from "../core/auth/auth-state.service";
+import {PokemonService} from "../shared/pokemon.service";
 
 @Injectable({providedIn: "root"})
 export class AddService {
@@ -19,7 +20,8 @@ export class AddService {
               private _snackbarService: SnackbarService,
               private _pokemonTypeService: PokemonTypeService,
               private _router: Router,
-              private _authState: AuthStateService) {
+              private _authState: AuthStateService,
+              private _pokemonService: PokemonService) {
   }
 
   addEntry() {
@@ -37,6 +39,7 @@ export class AddService {
             this._snackbarService.showSuccess("Pokemon created")
             this._stateService.reset()
             this.entryAddedCallback()
+            this._pokemonService.refresh()
             if (!this._authState.userInfo()?.bulkMode) {
               this._router.navigate(["/"])
             }

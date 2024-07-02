@@ -18,6 +18,10 @@ export class PokemonService {
               private _lookupTableService: LookupTableService,
               private _poketrackerApiService: PoketrackerApiService,
               private _snackbarService: SnackbarService) {
+    this.refresh()
+  }
+
+  refresh(){
     this.loadPokemonNames()
     this.loadPersonalizedPokemon()
   }
